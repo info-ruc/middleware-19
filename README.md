@@ -1,19 +1,23 @@
-# middleware-19
+# middleware-19 
+- (reports for middleware class project @2019)
 
-# reports for middleware class project @2019
 
 ## Report Naming Convension
 ```
-student_id（folder）  
+middleware-19
   ┃
-  ┗ student_id.md / student_id.docx / ...  
+  ┗ README.md
   ┃
-  ┗ src (folder)
-  ┃  ┃
-  ┃  ┗ scripts (folder) for codes.
-  ┃  ┗ dataset (folder) for datasets > 100M, please use pan.baidu.com, and leave url here.
-  ┃
-  ┗ extra (folder) copy selected bonus documents here, edit and save it as $DOCUMENT-NAME$-student_id.docx
+  ┗ student_id（folder）  
+      ┃
+      ┗ student_id.md / student_id.docx / ...  
+      ┃
+      ┗ src (folder)
+      ┃  ┃
+      ┃  ┗ scripts (folder) for codes.
+      ┃  ┗ dataset (folder) for datasets > 100M, please use pan.baidu.com, and leave url here.
+      ┃
+      ┗ extra (folder) copy selected bonus documents here, edit and save it as $DOCUMENT-NAME$-student_id.docx
 ```
 
 ## Submission Steps
