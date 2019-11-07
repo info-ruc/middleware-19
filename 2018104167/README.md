@@ -56,7 +56,7 @@ public class LessonRecord {
 	}
 }
 ```
-定义了ID，学生姓名，课程名，课程成绩这4个属性，以及对应的set()和get()方法，对应数据库中的4列：
+- 定义了ID，学生姓名，课程名，课程成绩这4个属性，以及对应的set()和get()方法，对应数据库中的4列：
 ![数据库列名](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%97%E5%90%8D.jpg)
 #### login.jsp 登录页面
 ```
@@ -66,7 +66,7 @@ public class LessonRecord {
     		 <input type="submit" value="登录并查看课程成绩" style="width: 140px; color: Black"/>
 </form>		
 ```
-使用表单，参数action定义了提交表单后的跳转地址，将user和passwd的值传递到loginServlet中
+- 使用表单，参数action定义了提交表单后的跳转地址，将user和passwd的值传递到loginServlet中
 #### loginServlet.java 核对用户名和密码，查找并返回全部记录
 ```
 String usr = request.getParameter("user");
@@ -159,7 +159,7 @@ if(usr.equals("123") && pw.equals("123")){
 		LESSON:<input type="text" name="less_name" style="width: 106px; "/>
     </form>
 ```
-以table的形式展示所有课程成绩记录和增删改查操作
+- 以table的形式展示所有课程成绩记录和增删改查操作
 ![lesson.jsp页面](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/lesson0.jpg)
 	
 - 在table中接收loginServlet传来的LessonList参数，在for循环中获取id/name/less_name/grade并展示出来。
@@ -205,13 +205,26 @@ String sql = "select * from lesson where less_name = '" + less_name + "'";
   </servlet-mapping>
 ```
 ## 实验结果
-原有的数据库记录
+#### 原有的数据库记录
 ![数据库](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E6%95%B0%E6%8D%AE%E5%BA%93.jpg)
-在浏览器中登录 **http://qufang-pc:8080/Students/login.jsp** 用户名和密码为*123*
+- 在浏览器中登录 **http://qufang-pc:8080/Students/login.jsp** 用户名和密码为*123*<br>
 ![登录](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E7%99%BB%E5%BD%95.jpg)
-课程成绩记录与操作页面
+#### 课程成绩记录与操作页面
 ![lessons.jsp](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/lesson0.jpg)
 #### 增加
-![add0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add0.jpg) ==> ![add1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add1.jpg)
+![add0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add0.jpg)
+- 结果
+![add1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add1.jpg)
 #### 修改
-
+![modify0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/modify0.jpg)
+- 结果
+![modify1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/modify1.jpg)
+#### 删除
+![delete0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/delete0.jpg)
+- 结果
+![delete1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/delete1.jpg)
+#### 查询
+![search0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/search0.jpg)
+- 结果
+![search1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/search1.jpg)
+- Trick：在查找时，若LESSON中不输入任何值，即不指定LESSON，可以查找全部记录
