@@ -11,7 +11,7 @@
         项目名为Student，简化了MVC的开发框架，在utils包中定义了数据库连接方法，在entity包中定义了课程记录的属性，controller中的Servlet执行对数据库的增删改查以及与jsp的数据传输
 ![代码框架](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E4%BB%A3%E7%A0%81myeclipse.jpg)
 #### DBConnection.java 数据库连接
-```java
+```
 try{
 	Class.forName("com.mysql.jdbc.Driver");
 	this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student?characterEncoding=gbk", "root", "root");
@@ -56,7 +56,7 @@ public class LessonRecord {
 	}
 }
 ```
-	定义了ID，学生姓名，课程名，课程成绩这4个属性，以及对应的set()和get()方法，对应数据库中的4列：
+定义了ID，学生姓名，课程名，课程成绩这4个属性，以及对应的set()和get()方法，对应数据库中的4列：
 ![数据库列名](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%97%E5%90%8D.jpg)
 #### login.jsp 登录页面
 ```
@@ -64,9 +64,9 @@ public class LessonRecord {
 	账号：<input type="text" name="user" style="width: 106px; "><br>
     	密码：<input type="password" name="passwd" style="width: 106px; "/><br>
     		 <input type="submit" value="登录并查看课程成绩" style="width: 140px; color: Black"/>
-    </form>		
+</form>		
 ```
-	使用表单，参数action定义了提交表单后的跳转地址，将user和passwd的值传递到loginServlet中
+使用表单，参数action定义了提交表单后的跳转地址，将user和passwd的值传递到loginServlet中
 #### loginServlet.java 核对用户名和密码，查找并返回全部记录
 ```
 String usr = request.getParameter("user");
@@ -107,8 +107,9 @@ if(usr.equals("123") && pw.equals("123")){
 	request.getRequestDispatcher("/login.jsp").forward(request,response);
 }
 ```
-	接收login.jsp传来的user和passwd，当用户名和密码都为123（这里只是简单的字符串匹配）时，连接数据库，执行select * from lesson查询操作，
-	并将查询结果以list的形式返回给lessons.jsp；否则跳转回login.jsp页面，重新输入用户名和密码
+- 接收login.jsp传来的user和passwd，当用户名和密码都为123（这里只是简单的字符串匹配）时，连接数据库，执行select * from lesson查询操作
+- 将查询结果以list的形式返回给lessons.jsp
+- 否则跳转回login.jsp页面，重新输入用户名和密码
 #### lessons.jsp 课程成绩展示与操作
 ```
 <table border="1" charset="UTF-8">
@@ -158,11 +159,11 @@ if(usr.equals("123") && pw.equals("123")){
 		LESSON:<input type="text" name="less_name" style="width: 106px; "/>
     </form>
 ```
-	以table的形式展示所有课程成绩记录和增删改查操作
+以table的形式展示所有课程成绩记录和增删改查操作
 ![lesson.jsp页面](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/lesson0.jpg)
 	
-	在table中接收loginServlet传来的LessonList参数，在for循环中获取id/name/less_name/grade并展示出来。
-	在table下方，增加了ADD/MODIFY/DELETE/SEARCH增删改查4个表单，对应了addServlet/modifyServlet/deleteServlet/searchServlet操作。
+- 在table中接收loginServlet传来的LessonList参数，在for循环中获取id/name/less_name/grade并展示出来。
+- 在table下方，增加了ADD/MODIFY/DELETE/SEARCH增删改查4个表单，对应了addServlet/modifyServlet/deleteServlet/searchServlet操作。
 #### addServlet/modifyServlet/deleteServlet/searchServlet.java 增删改查
 	接收参数，转换成sql
 		add: insert into lesson values(?,?,?,?)
@@ -204,8 +205,13 @@ String sql = "select * from lesson where less_name = '" + less_name + "'";
   </servlet-mapping>
 ```
 ## 实验结果
-	原有的数据库记录
+原有的数据库记录
 ![数据库](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E6%95%B0%E6%8D%AE%E5%BA%93.jpg)
-	
-	在浏览器中登录 **http://qufang-pc:8080/Students/login.jsp** 用户名和密码为*123*
+在浏览器中登录 **http://qufang-pc:8080/Students/login.jsp** 用户名和密码为*123*
+![登录](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/%E7%99%BB%E5%BD%95.jpg)
+课程成绩记录与操作页面
+![lessons.jsp](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/lesson0.jpg)
+#### 增加
+![add0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add0.jpg) ==> ![add1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add1.jpg)
+#### 修改
 
