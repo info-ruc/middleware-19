@@ -213,18 +213,18 @@ String sql = "select * from lesson where less_name = '" + less_name + "'";
 ![lessons.jsp](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/lesson0.jpg)
 #### 增加
 ![add0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add0.jpg)
-- 结果
+- 结果<br>
 ![add1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/add1.jpg)
 #### 修改
 ![modify0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/modify0.jpg)
-- 结果
+- 结果<br>
 ![modify1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/modify1.jpg)
 #### 删除
 ![delete0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/delete0.jpg)
-- 结果
+- 结果<br>
 ![delete1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/delete1.jpg)
 #### 查询
 ![search0](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/search0.jpg)
-- 结果
+- 结果<br>
 ![search1](https://github.com/ElsaQf/middleware-19/blob/master/2018104167/pic/search1.jpg)
 - Trick：在查找时，若LESSON中不输入任何值，即不指定LESSON，可以查找全部记录
