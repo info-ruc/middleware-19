@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="StatisticMapper.xml">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		r_sys_order
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		ORDERID,	
+		USERID,	
+		ROBOTID,	
+		CONTENT,	
+		THIRDNO,	
+		OURNO,	
+		CREATETIME,	
+		STARTTIME,	
+		ENDTTIME,	
+		GRADEFROM,	
+		LASTORDERID,	
+		COST,	
+		LASTCOST,
+		PAYMETHOD,	
+		STRATEGYID,	
+		STATUS,	
+		ISPAY,	
+		REMAIN1,	
+		REMAIN2,	
+		REMAIN3
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{ORDERID},	
+		#{USERID},	
+		#{ROBOTID},	
+		#{CONTENT},	
+		#{THIRDNO},	
+		#{OURNO},	
+		#{CREATETIME},	
+		#{STARTTIME},	
+		#{ENDTTIME},	
+		#{GRADEFROM},	
+		#{LASTORDERID},	
+		#{COST},	
+		#{LASTCOST},
+		#{PAYMETHOD},	
+		#{STRATEGYID},	
+		#{STATUS},	
+		#{ISPAY},	
+		#{REMAIN1},	
+		#{REMAIN2},	
+		#{REMAIN3}
+	</sql>
+	
+	<!-- 插入退款记录-->
+	<insert id="save" parameterType="pd">
+		insert into 
+	<include refid="tableName"></include>
+		(	
+		USERID,	
+		ROBOTID,	
+		CONTENT,	
+		THIRDNO,	
+		OURNO,	
+		CREATETIME,	
+		STARTTIME,	
+		ENDTTIME,	
+		GRADEFROM,	
+		LASTORDERID,	
+		COST,	
+		PAYMETHOD,	
+		STRATEGYID,	
+		STATUS,	
+		ISPAY,	
+		REMAIN1,	
+		REMAIN2,	
+		REMAIN3
+		) values (
+		#{USERID},	
+		#{ROBOTID},	
+		'退款',	
+		#{THIRDNO},	
+		#{OURNO},	
+		NOW(),	
+		NOW(),	
+		#{ENDTTIME},	
+		#{GRADEFROM},	
+		#{LASTORDERID},	
+		#{COST},	
+		#{PAYMETHOD},	
+		#{STRATEGYID},	
+		#{STATUS},	
+		#{ISPAY},	
+		#{REMAIN1},	
+		#{REMAIN2},	
+		#{REMAIN3}
+		)
+	</insert>
+	
+
+	<!-- 通过ID获取数据 -->
+	<select id="findById" parameterType="pd" resultType="pd">
+		select 
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 
+			ORDERID = #{ORDERID}
+	</select>
+	
+	<!-- 列表 -->
+	<select id="datalistPage" parameterType="page" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
+			and
+				ORDERID = ${pd.keywords}
+		</if>
+		<if test="pd.USERID!= null and pd.USERID != ''"><!-- 关键词检索 -->
+			and
+				USERID = ${pd.USERID}
+		</if>
+		<if test="pd.STARTTIME!= null and pd.STARTTIME!= ''"><!-- 关键词检索 -->
+			and
+				STARTTIME >=  '${pd.STARTTIME}'
+		</if>
+		<if test="pd.ENDTIME!= null and pd.ENDTIME != ''"><!-- 关键词检索 -->
+			and
+				ENDTIME = '${pd.ENDTIME}'
+		</if>
+	</select>
+	
+	<!-- 列表(全部) -->
+	<select id="listAll" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	
+	<!-- fh313596790qq(青苔) -->
+	
+	<!-- 昨日销售总额 -->
+	<select id="daysum" parameterType="pd" resultType="pd">
+		select
+		sum(cost) AS daysum
+		from 
+		r_sys_order
+		WHERE TO_DAYS(NOW())-TO_DAYS(CREATETIME)=1
+	</select>
+	
+	<!-- 昨日订单总数 -->
+	<select id="daycount" parameterType="pd" resultType="pd">
+		select
+		count(id) AS daycount
+		from 
+		r_sys_order
+		WHERE TO_DAYS(NOW())-TO_DAYS(CREATETIME)=1
+	</select>
+	
+	<!-- 本月销售总额 -->
+	<select id="monthsum" parameterType="pd" resultType="pd">
+		select
+		sum(cost) AS monthsum
+		from 
+		r_sys_order
+		WHERE DATE_FORMAT( CREATETIME, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+	</select>
+	
+	<!-- 本月订单总数 -->
+	<select id="monthcount" parameterType="pd" resultType="pd">
+		select
+		count(id) AS monthcount
+		from 
+		r_sys_order
+		WHERE DATE_FORMAT( CREATETIME, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+	</select>
+	
+	
+</mapper>

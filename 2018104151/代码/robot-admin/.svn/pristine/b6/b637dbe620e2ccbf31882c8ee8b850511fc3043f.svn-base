@@ -1,0 +1,430 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<base href="<%=basePath%>">
+	<!-- 下拉框 -->
+	<link rel="stylesheet" href="static/ace/css/chosen.css" />
+	<!-- jsp文件头和头部 -->
+	<%@ include file="../../system/index/top.jsp"%>
+	<!-- 日期框 -->
+	<link rel="stylesheet" href="static/ace/css/datepicker.css" />
+</head>
+<body class="no-skin">
+<!-- /section:basics/navbar.layout -->
+<div class="main-container" id="main-container">
+	<!-- /section:basics/sidebar -->
+	<div class="main-content">
+		<div class="main-content-inner">
+			<div class="page-content">
+				<div class="row">
+					<div class="col-xs-12">
+					
+					<form action="robot/${msg }.do" name="Form" id="Form" method="post">
+						<input type="hidden" name="ROBOT_ID" id="ROBOT_ID" value="${pd.ROBOT_ID}"/>
+						<div id="zhongxin" style="padding-top: 13px;">
+						<table id="table_report" class="table table-striped table-bordered table-hover">
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">id:</td>
+								<td><input type="number" name="ID" id="ID" value="${pd.ID}" maxlength="32" placeholder="这里输入id" title="id" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">用户id:</td>
+								<td><input type="number" name="USERID" id="USERID" value="${pd.USERID}" maxlength="32" placeholder="这里输入用户id" title="用户id" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">用户登录名:</td>
+								<td><input type="text" name="NICKNAME" id="NICKNAME" value="${pd.NICKNAME}" maxlength="20" placeholder="这里输入用户登录名" title="用户登录名" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">年龄:</td>
+								<td><input type="number" name="AGE" id="AGE" value="${pd.AGE}" maxlength="32" placeholder="这里输入年龄" title="年龄" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">性别:</td>
+								<td><input type="number" name="SEX" id="SEX" value="${pd.SEX}" maxlength="32" placeholder="这里输入性别" title="性别" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">母亲:</td>
+								<td><input type="text" name="MOTHER" id="MOTHER" value="${pd.MOTHER}" maxlength="30" placeholder="这里输入母亲" title="母亲" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">父亲:</td>
+								<td><input type="text" name="FATHER" id="FATHER" value="${pd.FATHER}" maxlength="30" placeholder="这里输入父亲" title="父亲" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">等级:</td>
+								<td><input type="number" name="GRADE" id="GRADE" value="${pd.GRADE}" maxlength="32" placeholder="这里输入等级" title="等级" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">创建时间:</td>
+								<td><input class="span10 date-picker" name="CREATETIME" id="CREATETIME" value="${pd.CREATETIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="创建时间" title="创建时间" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">下线时间:</td>
+								<td><input class="span10 date-picker" name="DEADTIME" id="DEADTIME" value="${pd.DEADTIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="下线时间" title="下线时间" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">升级时间:</td>
+								<td><input class="span10 date-picker" name="UPDATETIME" id="UPDATETIME" value="${pd.UPDATETIME}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="升级时间" title="升级时间" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">APIKEY:</td>
+								<td><input type="text" name="APIKEY" id="APIKEY" value="${pd.APIKEY}" maxlength="60" placeholder="这里输入APIKEY" title="APIKEY" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">APIADDRESS:</td>
+								<td><input type="text" name="APIADDRESS" id="APIADDRESS" value="${pd.APIADDRESS}" maxlength="60" placeholder="这里输入APIADDRESS" title="APIADDRESS" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">每天聊天上限:</td>
+								<td><input type="number" name="STREAM" id="STREAM" value="${pd.STREAM}" maxlength="32" placeholder="这里输入每天聊天上限" title="每天聊天上限" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">每天存储上限:</td>
+								<td><input type="number" name="STORAGE" id="STORAGE" value="${pd.STORAGE}" maxlength="32" placeholder="这里输入每天存储上限" title="每天存储上限" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">纯净模式:</td>
+								<td><input type="number" name="PURE" id="PURE" value="${pd.PURE}" maxlength="32" placeholder="这里输入纯净模式" title="纯净模式" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注17:</td>
+								<td><input type="number" name="FILTER" id="FILTER" value="${pd.FILTER}" maxlength="32" placeholder="这里输入备注17" title="备注17" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">小尾巴:</td>
+								<td><input type="number" name="TAIL" id="TAIL" value="${pd.TAIL}" maxlength="32" placeholder="这里输入小尾巴" title="小尾巴" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注19:</td>
+								<td><input type="number" name="REMAIN1" id="REMAIN1" value="${pd.REMAIN1}" maxlength="32" placeholder="这里输入备注19" title="备注19" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注20:</td>
+								<td><input type="text" name="REMAIN2" id="REMAIN2" value="${pd.REMAIN2}" maxlength="11" placeholder="这里输入备注20" title="备注20" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">备注21:</td>
+								<td><input type="text" name="REMAIN3" id="REMAIN3" value="${pd.REMAIN3}" maxlength="11" placeholder="这里输入备注21" title="备注21" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">星座:</td>
+								<td><input type="text" name="STAR" id="STAR" value="${pd.STAR}" maxlength="5" placeholder="这里输入星座" title="星座" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">今日聊天数:</td>
+								<td><input type="number" name="USECOUNT" id="USECOUNT" value="${pd.USECOUNT}" maxlength="32" placeholder="这里输入今日聊天数" title="今日聊天数" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">今日存储数:</td>
+								<td><input type="number" name="STORAGECOUNT" id="STORAGECOUNT" value="${pd.STORAGECOUNT}" maxlength="32" placeholder="这里输入今日存储数" title="今日存储数" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="width:75px;text-align: right;padding-top: 13px;">图标:</td>
+								<td><input type="text" name="ICON" id="ICON" value="${pd.ICON}" maxlength="40" placeholder="这里输入图标" title="图标" style="width:98%;"/></td>
+							</tr>
+							<tr>
+								<td style="text-align: center;" colspan="10">
+									<a class="btn btn-mini btn-primary" onclick="save();">保存</a>
+									<a class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
+								</td>
+							</tr>
+						</table>
+						</div>
+						<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><br/><br/><img src="static/images/jiazai.gif" /><br/><h4 class="lighter block green">提交中...</h4></div>
+					</form>
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.page-content -->
+		</div>
+	</div>
+	<!-- /.main-content -->
+</div>
+<!-- /.main-container -->
+
+
+	<!-- 页面底部js¨ -->
+	<%@ include file="../../system/index/foot.jsp"%>
+	<!-- 下拉框 -->
+	<script src="static/ace/js/chosen.jquery.js"></script>
+	<!-- 日期框 -->
+	<script src="static/ace/js/date-time/bootstrap-datepicker.js"></script>
+	<!--提示框-->
+	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+		<script type="text/javascript">
+		$(top.hangge());
+		//保存
+		function save(){
+			if($("#ID").val()==""){
+				$("#ID").tips({
+					side:3,
+		            msg:'请输入id',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#ID").focus();
+			return false;
+			}
+			if($("#USERID").val()==""){
+				$("#USERID").tips({
+					side:3,
+		            msg:'请输入用户id',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#USERID").focus();
+			return false;
+			}
+			if($("#NICKNAME").val()==""){
+				$("#NICKNAME").tips({
+					side:3,
+		            msg:'请输入用户登录名',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#NICKNAME").focus();
+			return false;
+			}
+			if($("#AGE").val()==""){
+				$("#AGE").tips({
+					side:3,
+		            msg:'请输入年龄',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#AGE").focus();
+			return false;
+			}
+			if($("#SEX").val()==""){
+				$("#SEX").tips({
+					side:3,
+		            msg:'请输入性别',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#SEX").focus();
+			return false;
+			}
+			if($("#MOTHER").val()==""){
+				$("#MOTHER").tips({
+					side:3,
+		            msg:'请输入母亲',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#MOTHER").focus();
+			return false;
+			}
+			if($("#FATHER").val()==""){
+				$("#FATHER").tips({
+					side:3,
+		            msg:'请输入父亲',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#FATHER").focus();
+			return false;
+			}
+			if($("#GRADE").val()==""){
+				$("#GRADE").tips({
+					side:3,
+		            msg:'请输入等级',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#GRADE").focus();
+			return false;
+			}
+			if($("#CREATETIME").val()==""){
+				$("#CREATETIME").tips({
+					side:3,
+		            msg:'请输入创建时间',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#CREATETIME").focus();
+			return false;
+			}
+			if($("#DEADTIME").val()==""){
+				$("#DEADTIME").tips({
+					side:3,
+		            msg:'请输入下线时间',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#DEADTIME").focus();
+			return false;
+			}
+			if($("#UPDATETIME").val()==""){
+				$("#UPDATETIME").tips({
+					side:3,
+		            msg:'请输入升级时间',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#UPDATETIME").focus();
+			return false;
+			}
+			if($("#APIKEY").val()==""){
+				$("#APIKEY").tips({
+					side:3,
+		            msg:'请输入APIKEY',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#APIKEY").focus();
+			return false;
+			}
+			if($("#APIADDRESS").val()==""){
+				$("#APIADDRESS").tips({
+					side:3,
+		            msg:'请输入APIADDRESS',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#APIADDRESS").focus();
+			return false;
+			}
+			if($("#STREAM").val()==""){
+				$("#STREAM").tips({
+					side:3,
+		            msg:'请输入每天聊天上限',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#STREAM").focus();
+			return false;
+			}
+			if($("#STORAGE").val()==""){
+				$("#STORAGE").tips({
+					side:3,
+		            msg:'请输入每天存储上限',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#STORAGE").focus();
+			return false;
+			}
+			if($("#PURE").val()==""){
+				$("#PURE").tips({
+					side:3,
+		            msg:'请输入纯净模式',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#PURE").focus();
+			return false;
+			}
+			if($("#FILTER").val()==""){
+				$("#FILTER").tips({
+					side:3,
+		            msg:'请输入备注17',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#FILTER").focus();
+			return false;
+			}
+			if($("#TAIL").val()==""){
+				$("#TAIL").tips({
+					side:3,
+		            msg:'请输入小尾巴',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#TAIL").focus();
+			return false;
+			}
+			if($("#REMAIN1").val()==""){
+				$("#REMAIN1").tips({
+					side:3,
+		            msg:'请输入备注19',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#REMAIN1").focus();
+			return false;
+			}
+			if($("#REMAIN2").val()==""){
+				$("#REMAIN2").tips({
+					side:3,
+		            msg:'请输入备注20',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#REMAIN2").focus();
+			return false;
+			}
+			if($("#REMAIN3").val()==""){
+				$("#REMAIN3").tips({
+					side:3,
+		            msg:'请输入备注21',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#REMAIN3").focus();
+			return false;
+			}
+			if($("#STAR").val()==""){
+				$("#STAR").tips({
+					side:3,
+		            msg:'请输入星座',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#STAR").focus();
+			return false;
+			}
+			if($("#USECOUNT").val()==""){
+				$("#USECOUNT").tips({
+					side:3,
+		            msg:'请输入今日聊天数',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#USECOUNT").focus();
+			return false;
+			}
+			if($("#STORAGECOUNT").val()==""){
+				$("#STORAGECOUNT").tips({
+					side:3,
+		            msg:'请输入今日存储数',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#STORAGECOUNT").focus();
+			return false;
+			}
+			if($("#ICON").val()==""){
+				$("#ICON").tips({
+					side:3,
+		            msg:'请输入图标',
+		            bg:'#AE81FF',
+		            time:2
+		        });
+				$("#ICON").focus();
+			return false;
+			}
+			$("#Form").submit();
+			$("#zhongxin").hide();
+			$("#zhongxin2").show();
+		}
+		
+		$(function() {
+			//日期框
+			$('.date-picker').datepicker({autoclose: true,todayHighlight: true});
+		});
+		</script>
+</body>
+</html>

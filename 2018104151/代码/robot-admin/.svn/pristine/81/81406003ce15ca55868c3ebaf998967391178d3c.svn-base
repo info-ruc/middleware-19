@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AppuserMapper">
+	
+	<!--表名 -->
+	<sql id="tableName">
+		SYS_APP_USER
+	</sql>
+	<sql id="userTableName">
+		R_SYS_USER
+	</sql>
+	<sql id="robotTableName">
+		R_SYS_ROBOT
+	</sql>
+	<sql id="orderTableName">
+		R_SYS_ORDER
+	</sql>
+	<sql id="noticeTableName">
+		R_SYS_NOTICE
+	</sql>
+	<sql id="robotVersionTableName">
+		R_SYS_ROBOT_VERSION
+	</sql>
+	<sql id="adminTableName">
+		SYS_USER
+	</sql>
+	
+	<!-- 字段 -->
+	<sql id="Field">
+		USER_ID,
+		USERNAME,
+		PASSWORD,
+		NAME,
+		RIGHTS,
+		ROLE_ID,
+		LAST_LOGIN,
+		IP,
+		STATUS,
+		BZ,
+		PHONE,
+		SFID,
+		START_TIME,
+		END_TIME,
+		YEARS,
+		EMAIL,
+		NUMBER
+	</sql>
+	
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{USER_ID},
+		#{USERNAME},
+		#{PASSWORD},
+		#{NAME},
+		#{RIGHTS},
+		#{ROLE_ID},
+		#{LAST_LOGIN},
+		#{IP},
+		#{STATUS},
+		#{BZ},
+		#{PHONE},
+		#{SFID},
+		#{START_TIME},
+		#{END_TIME},
+		#{YEARS},
+		#{EMAIL},
+		#{NUMBER}	
+	</sql>
+	
+	<!-- 角色表 -->
+	<sql id="roleTableName">
+		SYS_ROLE
+	</sql>
+	
+	<!-- 列出某角色下的所有会员 -->
+	<select id="listAllAppuserByRorlid"  parameterType="pd" resultType="pd" >
+		select 
+			USER_ID
+		from 
+		<include refid="tableName"></include>
+		where 
+			ROLE_ID = #{ROLE_ID}
+	</select>
+	
+	<!-- 会员列表 -->
+	<select id="userlistPage" parameterType="page" resultType="pd">
+		select  u.nickname,
+				rv.name,
+				r.deadtime,
+				u.createTime,
+				u.lastLoginTime,
+				u.phone,
+				u.email,
+				u.status
+		from <include refid="userTableName"></include> u, <include refid="robotTableName"></include> r, <include refid="robotVersionTableName"></include> rv 
+		where u.id = r.userid 
+		and r.grade = rv.grade
+		and u.finish = 0
+		<if test="pd.userNickname != null and pd.userNickname != ''"><!-- 用户ID检索 -->
+			and u.nickname=#{pd.userNickname} 
+		</if>
+		<if test="pd.userPhone != null and pd.userPhone != ''"><!-- 用户手机检索 -->
+			and u.phone=#{pd.userPhone} 
+		</if>
+		<if test="pd.createStart!=null and pd.createStart!=''"><!-- 注册时间检索 -->
+			and u.createTime &gt;= #{pd.createStart} 
+		</if>
+		<if test="pd.createEnd!=null and pd.createEnd!=''"><!-- 注册时间检索 -->
+			and u.createTime &lt;= #{pd.createEnd} 
+		</if>
+		order by u.lastLoginTime desc
+	</select>
+	
+	<!-- 消息列表 -->
+	<select id="noticelistPage" parameterType="page" resultType="pd">
+		select  n.noticeid,
+				n.title,
+				n.inuse,
+				n.titletype,
+				n.onlinetime,
+				n.offlinetime,
+				a.USERNAME,
+				n.addtime,
+				n.usernickname
+		from <include refid="noticeTableName"></include> n,<include refid="adminTableName"></include> a
+		where n.isdelete = 0
+		and a.USER_ID = n.managerid
+		<if test="pd.title != null and pd.title != ''"><!-- 用户ID检索 -->
+			and n.title LIKE CONCAT(CONCAT('%', #{pd.title}),'%')
+		</if>
+		<if test="pd.titleType != null and pd.titleType != ''"><!-- 用户手机检索 -->
+			and n.titletype=#{pd.titleType} 
+		</if>
+		<if test="pd.createStart!=null and pd.createStart!=''"><!-- 注册时间检索 -->
+			and n.addtime &gt;= #{pd.createStart} 
+		</if>
+		<if test="pd.createEnd!=null and pd.createEnd!=''"><!-- 注册时间检索 -->
+			and n.addtime &lt;= #{pd.createEnd} 
+		</if>
+		order by n.addtime desc
+	</select>
+	
+	<!-- 通过nickname查找订单 -->
+	<select id="listOrdersByUserNickname" parameterType="page" resultType="pd">
+		select  o.cost,
+				o.orderid,
+				o.createtime,
+				o.endttime
+		from <include refid="userTableName"></include> u, <include refid="orderTableName"></include> o
+		where o.userid = u.id 
+		and u.nickname = #{userNickname}
+		order by o.createtime desc
+	</select>
+	
+	<!-- 新增个人消息 -->
+	<insert id="saveNotice" parameterType="pd">
+		insert into <include refid="noticeTableName"></include> (
+			title, content, managerid,titletype, usernickname, addtime, inuse, status, isdelete
+		) values (
+			#{title}, #{CONTENT}, #{managerid},'私信', #{userNickName2}, NOW(), #{inuse}, 0,0
+		)
+	</insert>
+	
+	<!-- 改变状态 -->
+	<update id="changeStatus" parameterType="pd">
+		update  <include refid="userTableName"></include> u
+		set u.status				= #{status}
+		where 
+			u.nickname = #{nickname}
+	</update>
+	
+	
+	<!-- 消息上线 -->
+	<update id="setNoticeStatus" parameterType="pd">
+		update  <include refid="noticeTableName"></include> n
+		set n.inuse				= #{status},
+			n.onlinetime = NOW()
+		where 
+			n.noticeid = #{noticeid}
+	</update>
+	
+	<!-- 消息下线 -->
+	<update id="setNoticeStatus2" parameterType="pd">
+		update  <include refid="noticeTableName"></include> n
+		set n.inuse				= #{status},
+			n.offlinetime = NOW()
+		where 
+			n.noticeid = #{noticeid}
+	</update>
+	
+	<!-- 批量删除消息 -->
+	<update id="deleteAllNotice" parameterType="String">
+		update  <include refid="noticeTableName"></include> n
+		set n.isdelete				= 1
+		where 
+			n.noticeid in
+  			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                  #{item}
+             </foreach>
+	</update>
+	
+	<!-- 通过USERNAME获取数据 -->
+	<select id="findByUsername" parameterType="pd" resultType="pd">
+		select 
+			<include refid="Field"></include>
+		from 
+			<include refid="tableName"></include>
+		where 
+			USERNAME = #{USERNAME}
+	</select>
+	
+	<!-- 通过邮箱获取数据 -->
+	<select id="findByEmail" parameterType="pd" resultType="pd">
+		select 
+			<include refid="Field"></include>
+		from 
+			<include refid="tableName"></include>
+		where 
+			EMAIL = #{EMAIL}
+		<if test="USERNAME != null and USERNAME != ''">
+			and USERNAME != #{USERNAME} 
+		</if>
+	</select>
+	
+	<!-- 通过编号获取数据 -->
+	<select id="findByNumber" parameterType="pd" resultType="pd">
+		select 
+			<include refid="Field"></include>
+		from 
+			<include refid="tableName"></include>
+		where 
+			NUMBER = #{NUMBER}
+		<if test="USERNAME != null and USERNAME != ''">
+			and USERNAME != #{USERNAME} 
+		</if>
+	</select>
+	
+	<!-- 新增会员 -->
+	<insert id="saveU" parameterType="pd">
+		insert into <include refid="tableName"></include> (
+			<include refid="Field"></include>
+		) values (
+			<include refid="FieldValue"></include>
+		)
+	</insert>
+	
+	<!-- 删除用户 -->
+	<update id="deleteU" parameterType="pd">
+		update  <include refid="userTableName"></include> u
+		set u.finish				= 1
+		where 
+			u.nickname = #{userNickName}
+	</update>
+	
+	<!-- 删除消息-->
+	<update id="deleteNotice" parameterType="pd">
+		update  <include refid="noticeTableName"></include> n
+		set n.isdelete				= 1
+		where 
+			n.noticeid = #{noticeid}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editU" parameterType="pd">
+		update  <include refid="userTableName"></include> u, <include refid="robotTableName"></include> r
+		set r.nickname				= #{nickname},
+			r.age					= #{age},
+			r.sex 				= #{robotSex},
+			r.star						= #{star}
+		where 
+			r.userid = u.id
+			and u.nickname = #{userNickName}
+	</update>
+	
+	<!-- 通过ID获取数据 -->
+	<select id="findByUiId" parameterType="pd" resultType="pd">
+		select 
+			<include refid="Field"></include>
+		from 
+			<include refid="tableName"></include>
+		where 
+			USER_ID = #{USER_ID}
+	</select>
+	
+	<!-- 全部会员 -->
+	<select id="listAllUser" parameterType="pd" resultType="pd">
+		select  u.USER_ID,
+				u.USERNAME,
+				u.PASSWORD,
+				u.LAST_LOGIN,
+				u.NAME,
+				u.IP,
+				u.END_TIME,
+				u.YEARS,
+				u.STATUS,
+				u.EMAIL,
+				u.PHONE,
+				u.SFID,
+				u.NUMBER,
+				r.ROLE_ID,
+				r.ROLE_NAME
+		from <include refid="tableName"></include> u, <include refid="roleTableName"></include> r 
+		where u.ROLE_ID = r.ROLE_ID 
+		and r.PARENT_ID = '2'
+		<if test="keywords != null and keywords!= ''"><!-- 关键词检索 -->
+			and (
+				u.USERNAME LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				or
+				u.EMAIL LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				or
+				u.NUMBER LIKE CONCAT(CONCAT('%', #{keywords}),'%')
+				)
+		</if>
+		<if test="ROLE_ID != null and ROLE_ID != ''"><!-- 角色检索 -->
+			and u.ROLE_ID=#{ROLE_ID} 
+		</if>
+		<if test="lastLoginStart!=null and lastLoginStart!=''"><!-- 到期时间检索 -->
+			and u.END_TIME &gt;= #{lastLoginStart} 
+		</if>
+		<if test="lastLoginEnd!=null and lastLoginEnd!=''"><!-- 到期时间检索 -->
+			and u.END_TIME &lt;= #{lastLoginEnd} 
+		</if>
+		<if test="STATUS != null and STATUS != ''"><!-- 状态检索 -->
+			and u.STATUS=#{STATUS} 
+		</if>
+		order by u.NAME
+	</select>
+	
+	<!-- 批量删除用户 -->
+	<delete id="deleteAllU" parameterType="String">
+		delete from <include refid="tableName"></include>
+		where 
+			USER_ID in
+  			 <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                  #{item}
+             </foreach>
+	</delete>
+	
+	<!-- 获取总数 -->
+	<select id="getAppUserCount" parameterType="String" resultType="pd">
+		select 
+			count(USER_ID) appUserCount
+		from 
+		<include refid="tableName"></include>
+	</select>
+	
+	<!-- FH QQ313596790(青苔) -->
+	
+	<!-- 通过Nickname获取数据 -->
+	<select id="findByNickname" parameterType="pd" resultType="pd">
+		select  r.icon,
+				u.nickname as userID,
+				r.nickname,
+				r.age,
+				r.sex,
+				r.star,
+				rv.name,
+				r.deadtime,
+				u.createTime,
+				u.lastLoginTime,
+				u.phone,
+				u.email
+		from <include refid="userTableName"></include> u, <include refid="robotTableName"></include> r, <include refid="robotVersionTableName"></include> rv 
+		where u.id = r.userid 
+		and r.grade = rv.grade
+		and	u.nickname = #{userNickName}
+	</select>
+	
+	<!-- 通过title获取消息上线和下线时间 -->
+	<select id="findOnlineTime" parameterType="pd" resultType="pd">
+		select  n.onlinetime,
+				n.offlinetime
+		from <include refid="noticeTableName"></include> n
+		where n.noticeid = #{noticeid}
+	</select>
+	
+	<insert id="insertNotice" parameterType="pd" >
+    insert into R_SYS_NOTICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        title,
+        content,
+        managerid,
+        publishtype,
+        titletype,
+        usernickname,
+      <if test="publishtime == 1" >
+        onlinetime,
+      </if>
+        addtime,
+        inuse,
+        status,
+        isdelete,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        #{title},
+        #{ueditorContext},
+        #{managerid},
+        #{form-field},
+        #{titleType},
+        '系统',
+      <if test="publishtime == 1" >
+        NOW(),
+      </if>
+      	NOW(),
+      	#{publishtime},
+      	0,
+      	0,
+    </trim>
+  </insert>
+</mapper>
