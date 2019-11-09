@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student</title>
+    <script src="~/jQuery easyUI/jquery.min.js"></script>
+    <script src="~/jQuery content custom scroller/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="~/jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link rel="stylesheet" href="~/jQuery easyUI/themes/material-teal/easyui.css">
+    <link rel="stylesheet" href="~/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="~/CSS/s_layout.css">
+    <script>
+        $.getJSON("/Student/Practice_info", function (result) {
+            $("li ul:first").html("");
+            $("li ul:last").html("");
+            $.each(result.pracinfo, function (i, field) {
+                var str = '<li iconCls="fa fa-file-text-o"><span><a href="/Stuhome/Practice/' + field.exam_id + '">' + field.name + '</a></span></li>';
+                $("li ul:first").append(str);
+            });
+            $.each(result.examinfo, function (i, field) {
+                var str = '<li iconCls="fa fa-file-text-o"><span><a href="/Stuhome/Exam/' + field.exam_id + '">' + field.name + '</a></span></li>';
+                $("li ul:last").append(str);
+            })
+            $.parser.parse($("li"));
+        })
+    </script>
+    <style>
+        body{
+            font-family: 黑体,Arial;
+        }
+        #title{
+            font-size: 29px;
+        }
+        #exit{
+            right:40px;
+            top: 37px;
+        }
+        #treeMenu a{
+            font-size: 17px;
+        }
+    </style>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:80px;padding:10px;background-color: #011935">
+        <div style="width: 350px;margin-top: 10px">
+            <!--<img id="schoolbadge" src="IMG/校徽（白）.png" height="30" width="30">-->
+            <a id="title" href="#" >数据库系统概论实验平台</a>
+        </div>
+        <a id="exit" href="s_login.html" target="_self"><i class="fa fa-sign-out fa-2x"></i></a>
+    </div>
+    <div data-options="region:'south',border:false" style="height:30px;">
+        <div id="copyRight">
+            版权信息
+        </div>
+    </div>
+    <div data-options="region:'west',split:true" title="<center>admin</center>" style="width:235px;height:80%;">
+        <ul id="treeMenu" class="easyui-tree" data-options="state:'close'">
+            <li iconCls="fa fa-user"><span><a href="/Stuhome/Account">个人信息</a></span></li>
+            <li iconCls="fa fa-key"><span><a href="s_retrievepwd.html">修改密码</a></span></li>
+            <li iconCls="fa fa-comments"><span><a href="s_notice.html">通知公告</a></span></li>
+            <li iconCls="fa fa-pencil">
+                <span><a href="#" style="margin: 0 5px">课后练习</a></span>
+                <ul>
+                    <li>x</li>
+                </ul>
+            </li>
+            <li iconCls="fa fa-graduation-cap">
+                <span><a href="#" style="margin: 0 5px">测评考试</a></span>
+                <ul>
+                    <li>x</li>
+                </ul>
+            </li>
+            <li iconCls="fa fa-bullhorn"><span><a href="s_feedback.html" target="myFrame">答疑解惑</a></span></li>
+        </ul>
+    </div>
+    <div id="center" data-options="region:'center'" style="background-color:#f2f2f2;width:auto;height:80%;padding: 10px;">
+        @RenderBody()
+    </div>
+</body>
+</html>

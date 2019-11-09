@@ -1,0 +1,83 @@
+﻿@model moocweb.Models.stu_class
+@{
+    ViewBag.Title = "StuClass";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_class1.css">
+<script>
+        function formatDelete(val,row,index){
+            return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="">删除</a>';
+        }
+    function addstus() {
+        var nums = $("#stunums").val;
+        $.ajax({
+            url: '/Teacher/Add_stu',
+            type: 'post',
+            datatype: "json",
+            data: {
+                stunum: nums,
+                id: '@ViewBag.id'
+            },
+            success: function (res) {
+                $("#append_stu").hide();
+                alert("成功导入" + res.result + "人");
+                $("#tb").datagrid("reload");
+            }
+        })
+    }
+</script>
+<style>
+    #stunums{
+        border: 1px solid groove;
+        border-radius: 8px;
+        resize: none;
+        font-size: 17px;
+        line-height: 1.5;
+        width:100%;
+        height:100px;
+    }
+</style>
+<div style="width: 100%;height: 100%;">
+        <table id="tb" class="easyui-datagrid" title="<center>@ViewBag.classname</center>"
+               data-options="
+                pagination:true,
+                fit:true,
+                rownumbers:true,
+                striped:true,
+                singleSelect:true,
+                url:'/Teacher/StuClass_info/@ViewBag.id',
+                method:'post',
+                toolbar: '#tb_tb'">
+            <thead>
+            <th data-options="field:'stu_num'" width="18%">学生学号</th>
+            <th data-options="field:'name'" width="18%">真实姓名</th>
+            <th data-options="field:'gender'" width="18%">性别</th>
+            <th data-options="field:'lastTime'" width="18%">最后登录时间</th>
+            <th data-options="field:'lastIP'" width="18%">最后登录IP</th>
+            <th data-options="field:'delete',formatter:formatDelete,align:'center'" width="10%">操作</th>
+            </thead>
+        </table>
+        <div id="tb_tb">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append_stu').window('open')">添加</a>
+        </div>
+    </div>
+    <div id="append_stu" class="easyui-window" title="<center>添加学生</center>" style="width: 450px;height: 300px;"
+         data-options="
+                draggable:false,
+                modal:true,
+                closed:true,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+        <table cellpadding="12px">
+            <tr>
+                <td>请输入学生学号</td>
+            </tr>
+            <tr>
+                <td><textarea id="stunums"></textarea></td>
+            </tr>
+        </table>
+        <div id="append_stu_btn" style="margin-top:10px;">
+            <a class="easyui-linkbutton" onclick="addstus()">提交</a>
+        </div>
+    </div>

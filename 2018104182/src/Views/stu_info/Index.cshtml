@@ -1,0 +1,89 @@
+﻿@model IEnumerable<moocweb.Models.stu_info>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.stu_num)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonenum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.emailaddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.college_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.major)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isdelete)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.stu_num)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phonenum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.emailaddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.college_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.major)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isdelete)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

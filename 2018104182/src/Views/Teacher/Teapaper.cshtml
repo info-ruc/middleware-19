@@ -1,0 +1,87 @@
+﻿@model moocweb.Models.paper
+@{
+    ViewBag.Title = "Teapaper";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_exam_paper_management1.css">
+<script>
+    function tname(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/PaperDetail/'+row.id + '">' + row.paper_name + '</a>';
+    }
+    function pp(val, row, index) {
+        var inpt;
+        if (row.isopen == 0) {
+            inpt = "否";
+        } else if (row.isopen == 1) {
+            inpt = "是";
+        }
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="">' + inpt + '</a>';
+    }
+    function onSuccess(data, statux, xhr) {
+        if (data == "") {
+            alert("添加成功");
+            $(".easyui-datagrid").datagrid('reload');
+        } else {
+            alert(data);
+        }
+    }
+</script>
+<table class="easyui-datagrid" title="<center>@ViewBag.name 试卷管理</center>"
+       data-options="
+                rownumbers:true,
+                fit:true,
+                pagination:true,
+                singleSelect:true,
+                striped:true,
+                url:'/Teacher/Tea_paper_detail/@ViewBag.id',
+                method:'post',
+                toolbar: '#epm_btn'">
+    <thead>
+        <tr>
+            <th data-options="field:'paper_name', formatter:tname, width:'25%', align:'center'">试卷名称</th>
+            <th data-options="field:'create_time',width:'25%', align:'right'">创建时间</th>
+            <th data-options="field:'qcount',width:'25%', align:'right'">题目数量</th>
+            <th data-options="field:'isopen', formatter:pp, width:'25%', align:'center'">是否公开</th>
+        </tr>
+    </thead>
+</table>
+<div id="epm_btn" style="text-align: right">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_epm').window('open')">添加试卷</a>
+</div>
+<div id="apd_epm" class="easyui-window" title="<center>添加试卷</center>" style="width: 600px;height: 200px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:false,
+                resizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("Add_Paper", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "onSuccess"
+    })) {
+        <table cellpadding="5px">
+            <tbody>
+                <tr>
+                    <td>试卷名称：</td>
+                    <td>@Html.TextBoxFor(m => m.paper_name, new { @class = "easyui-textbox", @required = "required", @style = "width:90%;" })</td>
+                </tr>
+                <tr>
+                    <td>是否公开：</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.isopen, true, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "是" })
+                        @Html.RadioButtonFor(m => m.isopen, false, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "否" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>@Html.HiddenFor(m => m.teacher_info.id, new { @Value = ViewBag.id })</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="apd_epm_btn" style="text-align: center">
+            <button class="easyui-linkbutton" type="submit">添加试卷</button>
+        </div>
+    }
+</div>

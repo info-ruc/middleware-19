@@ -1,0 +1,83 @@
+﻿@model moocweb.Models.teacher_info
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>teacher_info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_user)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_user)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_level)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isdelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isdelete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.college_info.college_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.college_info.college_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

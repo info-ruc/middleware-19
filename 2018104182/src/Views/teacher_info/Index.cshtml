@@ -1,0 +1,76 @@
+﻿@model IEnumerable<moocweb.Models.teacher_info>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tea_user)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tea_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tea_level)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isdelete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastIP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.college_info.college_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tea_user)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tea_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tea_level)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.isdelete)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lastIP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.college_info.college_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,89 @@
+﻿@model moocweb.Models.teacher_info
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>teacher_info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_user)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_user)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tea_level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tea_level)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.isdelete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.isdelete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.college_info.college_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.college_info.college_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

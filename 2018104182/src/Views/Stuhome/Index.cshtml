@@ -1,0 +1,78 @@
+﻿@model moocweb.Models.ques
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/s_practice1.css">
+<script>
+    function submitsql() {
+        var ans = $('#ta').val();
+    $.ajax({
+        url: "/Stuhome/Judge_sql",
+        type: 'post',
+        dataType: "json",
+        data: {
+            id: '@ViewBag.id',
+            ans: ans
+        },
+        success: function (r) {
+            if (r.exc == null) {
+                $('#correct').window('open');
+            } else {
+                $("#message").html("错误提示: " + r.exc + " 得分:" + r.score);
+                $('#false').window('open');
+            }
+        }
+    })
+    }
+</script>
+<div id="panel" class="easyui-panel" title="<center>课后练习</center>" style="width:100%;height:490px;">
+    <div id="ques">
+        @ViewBag.title
+    </div>
+    <form method="post">
+        <textarea id="ta"></textarea>
+    </form>
+    <div>
+        <a id="submit1" class="easyui-linkbutton" onclick="$('#correct').window('open')">提交1</a>
+        <a id="submit2" class="easyui-linkbutton" onclick="$('#false').window('open')">提交2</a>
+    </div>
+</div>
+<div id="correct" class="easyui-window" title="<center>课后练习</center>">
+    <h2 style="margin-bottom: 30px"><i class="fa fa-check"></i>回答正确</h2>
+    <p style="margin-bottom: 20px">题目：@ViewBag.title</p>
+    <p style="margin-bottom: 20px">标准答案：@ViewBag.ans</p>
+    <a id="next" class="easyui-linkbutton" href="s_practice2.html">下一题</a>
+</div>
+<div id="false" class="easyui-window" title="<center>课后练习</center>">
+    <h2 style="margin-bottom: 30px"><i class="fa fa-times"></i>回答错误</h2>
+    <p id ="message" style="margin-bottom: 20px;color: red;">错误提示：-2146824547 (0x800A0E9D) 属性值无效。 请确保键入正确值。 </p>
+    <a id="repeat" class="easyui-linkbutton" onclick="$('#false').window('close')">重做</a>
+</div>
+<script>
+        $('#correct').window({
+            top: 100,
+            left: 250,
+            shadow: false,
+            modal: true,
+            closed: true,
+            minimizable: false,
+            maximizable: false,
+            collapsible: false,
+            draggable:false,
+            resizable:false
+        });
+        $('#false').window({
+            top: 100,
+            left: 250,
+            shadow: false,
+            modal: true,
+            closed: true,
+            minimizable: false,
+            maximizable: false,
+            collapsible: false,
+            draggable:false,
+            resizable:false
+        });
+</script>
+

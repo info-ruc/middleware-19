@@ -1,0 +1,224 @@
+﻿@model IEnumerable<moocweb.Models.quesanswer>
+@{
+    ViewBag.Title = "PaperDetail";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_exam_paper.css" />
+<style>
+    .ques .answer{
+        height: 80px;
+        font-size: 15px;
+        box-shadow: 0 0 10px #C0C0C0;
+    }
+</style>
+<div class="easyui-panel" title="<center>@ViewBag.name</center>" style="width: 100%;height: 100%;">
+    <div id="apd_btn">
+        <a href="#" class="easyui-linkbutton"
+           data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_ques').window('open')">添加试题</a>
+    </div>
+    <div id="questions" style="width: 90%;height: 85%;">
+        <div class="easyui-panel" data-options="fit:true,border:false">
+            <form>
+                @{  int i = 0;
+                        foreach (var item in Model) {
+                            i++;
+                    <div class="ques">
+                        <h4 style="width: 85%;">@i. @item.title</h4>
+                        <textarea class="answer" readonly="readonly">@item.right_answer</textarea>
+                        <a href="#" class="easyui-linkbutton score_btn" data-options="iconCls:'fa fa-cog',plain:true" onclick="$('#score').window('open')"></a>
+                        <a href="#" class="easyui-linkbutton delete_btn" data-options="iconCls:'fa fa-trash-o',plain:true" onclick="adelete(@item.pqid)"></a>
+                    </div>
+                        }
+                    }
+            </form>
+        </div>
+    </div>
+    <div id="save_btn">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o',plain:true" onclick=" ">保存</a>
+    </div>
+</div>
+<div id="apd_ques" class="easyui-window" title="<center>添加试题</center>" style="width: 900px;height: 600px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:true,
+                resizable:false,
+                collapsible:false">
+    <form method="post">
+        <table id="apd_ques_top" cellpadding="8px">
+            <tr>
+                <td>题库集</td>
+                <td>@Html.DropDownList("q_chap", ViewBag.qbaselist as SelectList, new { @class = "easyui-combobox", @id = "qbselect",@style = "width:80%;"})
+                </td>
+                <td>题库</td>
+                <td>
+                    <select id ="qchselect" class="easyui-combobox" style="width: 80%;" data-options="valueField:'id',textField:'text'">
+                    </select>
+                </td>
+                <td>题型</td>
+                <td>
+                    <select class="easyui-combobox" style="width: 80%;" data-options="editable:false">
+                        <option value="none"></option>
+                        <option value="sql">SQL语句</option>
+                        <option value="sc">单选题</option>
+                        <option value="mc">多选题</option>
+                        <option value="tf">判断题</option>
+                        <option value="fitb">填空题</option>
+                        <option value="sa">简答题</option>
+                        <option value="la">综合题</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        function adelete(pqid) {
+            $.ajax({
+                url: '/Teacher/Del_Paperques',
+                type: 'post',
+                data: {
+                    id: pqid
+                },
+                success: function (r) {
+                    if (r == "") {
+                        alert('删除成功');
+                    } else {
+                        alert('删除失败\n'+ r);
+                    }
+                    window.location.reload();
+                }
+            })
+        }
+        function append_ques() {
+            var idlist = [];
+            $("input[type='checkbox']").each(function (index, el) {
+                if (el.disabled == false && el.checked == true) {
+                    idlist.push($(this).parent().parent().parent().children("td").eq(1).text());
+                }
+            });
+            $.ajax({
+                url: '/Teacher/Make_Paper',
+                type: 'post',
+                data: {
+                    idlist,
+                    pid: @ViewBag.id
+                },
+                success: function (r) {
+                    if (parseInt(r) > 0) {
+                        alert('成功添加' + r + '道题');
+                    } else {
+                        alert('添加失败');
+                    }
+                    window.location.reload();
+                }
+            })
+        }
+        $('#qchselect').combobox({
+            onChange: function () {
+                var qbid = $('#qbselect').combobox('getValue');
+                var qcid = $(this).combobox('getValue');
+                $('#quesans').datagrid('options').url = '/Teacher/Quesans_info_qbase?pid=@ViewBag.id&qbid=' + qbid + '&&qcid=' + qcid;
+                $('#quesans').datagrid('reload');
+            }
+        });
+        $('#qbselect').combobox({
+            onChange: function () {
+                var qbid = $(this).combobox('getValue');
+                if (parseInt(qbid) == 0) {
+                    $('#quesans').datagrid('options').url = '/Teacher/Quesans_info/@ViewBag.id';
+                    $('#quesans').datagrid('reload');
+                } else {
+                    $('#qchselect').combobox('reload', '/Teacher/QchapSelectItem/' + qbid);
+                    $('#quesans').datagrid('options').url = '/Teacher/Quesans_info_qbase?pid=@ViewBag.id&qbid=' + qbid + '&&qcid=0';
+                    $('#quesans').datagrid('reload');
+                }
+            }
+        });
+        $(function () {
+            $('#quesans').datagrid({
+                columns: [[
+                    { field: 'ck', checkbox: "true", width: "5%" },
+                    { field: 'id', title: "题目ID", width: "10%" },
+                    { field: 'title', align: 'center', width: '55%', title: "题目内容" },
+                    {
+                        field: 'type', formatter: function(val, row, index) {
+                            switch (row.q_type) {
+                                case 1: return "SQL语句";
+                                case 2: return "单选题";
+                                case 3: return "多选题";
+                                case 4: return "判断题";
+                                case 5: return "填空题";
+                                case 6: return "简答题";
+                                case 7: return "综合题";
+                            }
+                            return " ";
+                        }, width: '10%', title: '题型' },
+                    { field: 'chap_name', align: 'center', width: '10%', title: '章节' },
+                    { field: 'hard_level', align: 'center', width: '10%', title: '难度' }
+                ]],
+                rownumbers: true,
+                fit: true,
+                pagination: true,
+                singleSelect: false,
+                checkOnSelect: true,
+                selectOnCheck: true,
+                url: '/Teacher/Quesans_info/@ViewBag.id',
+                method: 'post',
+                striped: true,
+                onLoadSuccess: function (data) {
+                    if (data) {
+                        $.each(data.rows, function (index, item) {
+                            if (item.iselect == 1) {
+                                $('#quesans').datagrid('checkRow', index);
+                                $("input[type='checkbox']")[index + 1].disabled = true;
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+    <div id="apd_ques_dtgd">
+        <table id ="quesans">
+        </table>
+    </div>
+    <form method="post">
+        <table id="apd_ques_btm" cellpadding="8px">
+            <tr>
+                <td class="ques_btm_td">已添加试题数目：</td>
+                <td>@Model.Count()</td>
+            </tr>
+            <tr>
+                <td class="ques_btm_td">推荐作答时间(分钟)：</td>
+                <td><input type="text" class="easyui-textbox" required="required" data-options="prompt:'60'"></td>
+            </tr>
+        </table>
+    </form>
+    <div id="apd_sql">
+        <button class="easyui-linkbutton" onclick="append_ques()">添加</button>
+    </div>
+</div>
+<div id="score" class="easyui-window" title="<center>修改分数</center>" style="width: 600px;height: 200px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:true,
+                resizable:false,
+                collapsible:false">
+    <form method="post">
+        <table id="score_tb" cellpadding="5px">
+            <tr>
+                <td>修改分数：</td>
+                <td><input type="text" class="easyui-textbox" required="required" value="10" style="width: 90%;"></td>
+            </tr>
+        </table>
+    </form>
+    <div id="score_tb_btn">
+        <button class="easyui-linkbutton" onclick="$('#score').window('close')">修改</button>
+    </div>
+</div>
+
