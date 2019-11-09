@@ -1,0 +1,3504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="moocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="background">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sql" Type="varchar(max)" Nullable="false" />
+          <Property Name="describe" Type="nvarchar" MaxLength="50" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="db" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" />
+          <Property Name="describe" Type="varchar" MaxLength="200" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="tea_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="college_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="college_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="exam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="type" Type="bit" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+          <Property Name="test_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="details" Type="varchar(max)" />
+          <Property Name="attention" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="exam_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="exam_paper">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="paper_id" Type="bigint" Nullable="false" />
+          <Property Name="israndom" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NOTICE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tea_id" Type="bigint" Nullable="false" />
+          <Property Name="content" Type="nvarchar" MaxLength="200" />
+          <Property Name="type" Type="smallint" Nullable="false" />
+          <Property Name="ntime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="notice_stu_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="notice_id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="isread" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="admin_tea" Type="bigint" Nullable="false" />
+          <Property Name="paper_name" Type="varchar" MaxLength="20" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="isopen" Type="bit" Nullable="false" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="type" Type="smallint" />
+        </EntityType>
+        <EntityType Name="paper_ques">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paper_id" Type="bigint" Nullable="false" />
+          <Property Name="ques_id" Type="bigint" Nullable="false" />
+          <Property Name="nowvalue" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="qbase_chapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="setid" Type="bigint" />
+          <Property Name="chap_name" Type="varchar" MaxLength="50" />
+          <Property Name="describe" Type="varchar" MaxLength="200" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="back_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="qbase_set">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="set_name" Type="varchar" MaxLength="50" />
+          <Property Name="admin_id" Type="bigint" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="isopen" Type="bit" Nullable="false" />
+          <Property Name="describe" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ques_judge">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ques_id" Type="bigint" Nullable="false" />
+          <Property Name="judge_sentence" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="value" Type="numeric" Precision="4" Scale="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="chap_id" Type="bigint" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar(max)" />
+          <Property Name="right_answer" Type="varchar(max)" />
+          <Property Name="ans1" Type="varchar" MaxLength="50" />
+          <Property Name="ans2" Type="varchar" MaxLength="50" />
+          <Property Name="ans3" Type="varchar" MaxLength="50" />
+          <Property Name="ans4" Type="varchar" MaxLength="50" />
+          <Property Name="ans5" Type="varchar" MaxLength="50" />
+          <Property Name="ans6" Type="varchar" MaxLength="50" />
+          <Property Name="hard_level" Type="smallint" />
+          <Property Name="check_sentence" Type="varchar(max)" />
+          <Property Name="output" Type="varchar(max)" />
+          <Property Name="totvalue" Type="smallint" Nullable="false" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stu_ans_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="ans" Type="varchar(max)" />
+          <Property Name="score" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="wronginfo" Type="nvarchar(max)" />
+          <Property Name="cost" Type="time" Precision="7" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stu_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stu_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="stu_num" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="phonenum" Type="varchar" MaxLength="12" />
+          <Property Name="emailaddress" Type="varchar" MaxLength="40" />
+          <Property Name="college_id" Type="bigint" />
+          <Property Name="major" Type="varchar" MaxLength="20" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastIP" Type="varchar" MaxLength="50" />
+          <Property Name="lastTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="stu_paperques">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="ans" Type="varchar(max)" />
+          <Property Name="cost" Type="int" />
+          <Property Name="score" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="wrongtype" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teacher_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tea_id" Type="bigint" />
+          <Property Name="class_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="teacher_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="tea_user" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+          <Property Name="college_id" Type="bigint" />
+          <Property Name="tea_level" Type="smallint" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="lastTime" Type="datetime" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastIP" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="timeless">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userapply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account" Type="varchar" MaxLength="20" />
+          <Property Name="tname" Type="varchar" MaxLength="20" />
+          <Property Name="email" Type="char" MaxLength="100" />
+          <Property Name="cname" Type="nchar" MaxLength="50" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="isagree" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.classinfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="classinfo">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" />
+          <Property Name="describe" Type="varchar" MaxLength="200" />
+          <Property Name="isdelete" Type="bit" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="tea_id" Type="bigint" />
+          <Property Name="s_count" Type="int" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.examclass”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="examclass">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="exam_id" />
+            
+            
+            
+            
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="tea_id" Type="bigint" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="college_id" Type="bigint" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+          <Property Name="test_time" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.examfeedback”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="examfeedback">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="score" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="cost" Type="time" Precision="7" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.exampaper”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="exampaper">
+          <Key>
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="paper_id" />
+            <PropertyRef Name="israndom" />
+            <PropertyRef Name="admin_tea" />
+            <PropertyRef Name="isopen" />
+            <PropertyRef Name="qcount" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="paper_id" Type="bigint" Nullable="false" />
+          <Property Name="israndom" Type="bit" Nullable="false" />
+          <Property Name="admin_tea" Type="bigint" Nullable="false" />
+          <Property Name="paper_name" Type="varchar" MaxLength="20" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="isopen" Type="bit" Nullable="false" />
+          <Property Name="qcount" Type="int" Nullable="false" />
+          <Property Name="Id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.feedback”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="feedback">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="anscount" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.paper_ques_count”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="paper_ques_count">
+          <Key>
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="anscount" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.paperquestion”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="paperquestion">
+          <Key>
+            <PropertyRef Name="id" />
+            
+            
+            
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="admin_tea" Type="bigint" Nullable="false" />
+          <Property Name="paper_name" Type="varchar" MaxLength="20" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="isopen" Type="bit" Nullable="false" />
+          <Property Name="qcount" Type="int" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.practiceclass”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="practiceclass">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_time" />
+            <PropertyRef Name="end_time" />
+            <PropertyRef Name="test_time" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="tea_id" Type="bigint" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="college_id" Type="bigint" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+          <Property Name="test_time" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.qbasechapter”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="qbasechapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="setid" Type="bigint" />
+          <Property Name="back_id" Type="bigint" />
+          <Property Name="set_name" Type="varchar" MaxLength="50" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="back_describe" Type="nvarchar" MaxLength="50" />
+          <Property Name="chap_name" Type="varchar" MaxLength="50" />
+          <Property Name="q_count" Type="int" />
+          <Property Name="describe" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.qbaseset”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="qbaseset">
+          <Key>
+            <PropertyRef Name="id" />
+            
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="set_name" Type="varchar" MaxLength="50" />
+          <Property Name="admin_id" Type="bigint" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="qbase_count" Type="int" />
+          <Property Name="isopen" Type="bit" Nullable="false" />
+          <Property Name="describe" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.ques”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="ques">
+          <Key>
+            <PropertyRef Name="id" />
+            
+            
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="chap_id" Type="bigint" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="right_answer" Type="varchar" MaxLength="100" />
+          <Property Name="ans1" Type="varchar" MaxLength="50" />
+          <Property Name="ans2" Type="varchar" MaxLength="50" />
+          <Property Name="ans3" Type="varchar" MaxLength="50" />
+          <Property Name="ans4" Type="varchar" MaxLength="50" />
+          <Property Name="ans5" Type="varchar" MaxLength="50" />
+          <Property Name="ans6" Type="varchar" MaxLength="50" />
+          <Property Name="hard_level" Type="smallint" />
+          <Property Name="check_sentence" Type="varchar" MaxLength="100" />
+          <Property Name="output" Type="varchar" MaxLength="100" />
+          <Property Name="totvalue" Type="smallint" Nullable="false" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="back_describe" Type="nvarchar" MaxLength="50" />
+          <Property Name="chap_name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.quesanswer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="quesanswer">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="totvalue" />
+            <PropertyRef Name="isdelete" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="paper_id" />
+            <PropertyRef Name="nowvalue" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="chap_id" Type="bigint" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="right_answer" Type="varchar" MaxLength="100" />
+          <Property Name="ans1" Type="varchar" MaxLength="50" />
+          <Property Name="ans2" Type="varchar" MaxLength="50" />
+          <Property Name="ans3" Type="varchar" MaxLength="50" />
+          <Property Name="ans4" Type="varchar" MaxLength="50" />
+          <Property Name="ans5" Type="varchar" MaxLength="50" />
+          <Property Name="ans6" Type="varchar" MaxLength="50" />
+          <Property Name="hard_level" Type="smallint" />
+          <Property Name="check_sentence" Type="varchar" MaxLength="100" />
+          <Property Name="output" Type="varchar" MaxLength="100" />
+          <Property Name="totvalue" Type="smallint" Nullable="false" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="back_describe" Type="nvarchar" MaxLength="50" />
+          <Property Name="chap_name" Type="varchar" MaxLength="50" />
+          <Property Name="pqid" Type="bigint" Nullable="false" />
+          <Property Name="paper_id" Type="bigint" Nullable="false" />
+          <Property Name="nowvalue" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stu_ans_count”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stu_ans_count">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="anscount" Type="int" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stu_ans_score”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stu_ans_score">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="score" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="cost" Type="time" Precision="7" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stu_exam_right_answer”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stu_exam_right_answer">
+          <Key>
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="wronginfo" Type="nvarchar(max)" />
+          <Property Name="cost" Type="time" Precision="7" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+          <Property Name="score" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ans" Type="varchar(max)" />
+          <Property Name="pq_id" Type="bigint" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="right_answer" Type="varchar(max)" />
+          <Property Name="title" Type="varchar(max)" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="ans1" Type="varchar" MaxLength="50" />
+          <Property Name="ans2" Type="varchar" MaxLength="50" />
+          <Property Name="ans3" Type="varchar" MaxLength="50" />
+          <Property Name="ans4" Type="varchar" MaxLength="50" />
+          <Property Name="ans5" Type="varchar" MaxLength="50" />
+          <Property Name="ans6" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.StuClass”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="StuClass">
+          <Key>
+            <PropertyRef Name="id" />
+            
+            
+            
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="stu_num" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="lastIP" Type="varchar" MaxLength="50" />
+          <Property Name="lastTime" Type="datetime" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stuexam”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stuexam">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="start_time" />
+            <PropertyRef Name="end_time" />
+            <PropertyRef Name="test_time" />
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="type" Type="bit" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+          <Property Name="test_time" Type="time" Precision="7" Nullable="false" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="class_id" Type="bigint" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="ec_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stuinfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stuinfo">
+          <Key>
+            
+            
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="stu_num" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="10" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+          <Property Name="gender" Type="bit" />
+          <Property Name="phonenum" Type="varchar" MaxLength="12" />
+          <Property Name="emailaddress" Type="varchar" MaxLength="40" />
+          <Property Name="college_id" Type="bigint" />
+          <Property Name="major" Type="varchar" MaxLength="20" />
+          <Property Name="isdelete" Type="bit" Nullable="false" />
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastIP" Type="varchar" MaxLength="50" />
+          <Property Name="lastTime" Type="datetime" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stupaperques”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stupaperques">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pqid" Type="bigint" Nullable="false" />
+          <Property Name="eid" Type="bigint" Nullable="false" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar(max)" />
+          <Property Name="right_answer" Type="varchar(max)" />
+          <Property Name="output" Type="varchar(max)" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="cost" Type="int" />
+          <Property Name="state" Type="bit" />
+          <Property Name="wrongtype" Type="varchar" MaxLength="50" />
+          <Property Name="stu_ans" Type="varchar(max)" />
+          <Property Name="ans1" Type="varchar" MaxLength="50" />
+          <Property Name="ans4" Type="varchar" MaxLength="50" />
+          <Property Name="ans3" Type="varchar" MaxLength="50" />
+          <Property Name="ans2" Type="varchar" MaxLength="50" />
+          <Property Name="ans5" Type="varchar" MaxLength="50" />
+          <Property Name="ans6" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stupaperques_exam”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stupaperques_exam">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pqid" Type="bigint" Nullable="false" />
+          <Property Name="eid" Type="bigint" Nullable="false" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="right_answer" Type="varchar" MaxLength="100" />
+          <Property Name="output" Type="varchar" MaxLength="100" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="cost" Type="int" />
+          <Property Name="state" Type="bit" />
+          <Property Name="wrongtype" Type="varchar" MaxLength="50" />
+          <Property Name="stu_ans" Type="varchar(max)" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.stupaperques_prac”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="stupaperques_prac">
+          <Key>
+            <PropertyRef Name="type" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="type" Type="bit" Nullable="false" />
+          <Property Name="stu_id" Type="bigint" Nullable="false" />
+          <Property Name="pqid" Type="bigint" Nullable="false" />
+          <Property Name="eid" Type="bigint" Nullable="false" />
+          <Property Name="q_type" Type="smallint" />
+          <Property Name="title" Type="varchar" MaxLength="50" />
+          <Property Name="right_answer" Type="varchar" MaxLength="100" />
+          <Property Name="output" Type="varchar" MaxLength="100" />
+          <Property Name="detail" Type="nvarchar" MaxLength="500" />
+          <Property Name="cost" Type="int" />
+          <Property Name="state" Type="bit" />
+          <Property Name="wrongtype" Type="varchar" MaxLength="50" />
+          <Property Name="stu_ans" Type="varchar(max)" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.teainfo”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="teainfo">
+          <Key>
+            <PropertyRef Name="id" />
+            
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+          <Property Name="tea_user" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="tea_level" Type="smallint" />
+          <Property Name="college_name" Type="varchar" MaxLength="40" />
+          <Property Name="lastTime" Type="datetime" />
+          <Property Name="lastIP" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.teapaper”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="teapaper">
+          <Key>
+            <PropertyRef Name="admin_tea" />
+          </Key>
+          <Property Name="pcount" Type="int" />
+          <Property Name="admin_tea" Type="bigint" Nullable="false" />
+          <Property Name="tea_name" Type="varchar" MaxLength="10" />
+          <Property Name="tea_level" Type="smallint" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“MOOC.dbo.user_account”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="user_account">
+          <Key>
+            
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="account" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="cname" Type="varchar" MaxLength="40" />
+          <Property Name="pass" Type="varchar" MaxLength="64" />
+          <Property Name="level" Type="int" />
+        </EntityType>
+        <Association Name="class_id_nsc">
+          <End Role="class" Type="Self.class" Multiplicity="1" />
+          <End Role="notice_stu_class" Type="Self.notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paper_que__paper__53D770D6">
+          <End Role="paper" Type="Self.paper" Multiplicity="1" />
+          <End Role="paper_ques" Type="Self.paper_ques" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paper_ques">
+              <PropertyRef Name="paper_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__paper_que__ques___6F4A8121">
+          <End Role="question" Type="Self.question" Multiplicity="1" />
+          <End Role="paper_ques" Type="Self.paper_ques" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paper_ques">
+              <PropertyRef Name="ques_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__qbase_cha__back___17036CC0">
+          <End Role="background" Type="Self.background" Multiplicity="0..1" />
+          <End Role="qbase_chapter" Type="Self.qbase_chapter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="background">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="qbase_chapter">
+              <PropertyRef Name="back_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__qbase_cha__setid__04E4BC85">
+          <End Role="qbase_set" Type="Self.qbase_set" Multiplicity="0..1" />
+          <End Role="qbase_chapter" Type="Self.qbase_chapter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="qbase_set">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="qbase_chapter">
+              <PropertyRef Name="setid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__chap_i__703EA55A">
+          <End Role="qbase_chapter" Type="Self.qbase_chapter" Multiplicity="0..1" />
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="qbase_chapter">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="chap_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__stu_class__class__4316F928">
+          <End Role="class" Type="Self.class" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="stu_class" Type="Self.stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="stu_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__stu_class__stu_i__440B1D61">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="stu_class" Type="Self.stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_class">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__stu_info__colleg__44FF419A">
+          <End Role="college_info" Type="Self.college_info" Multiplicity="0..1" />
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="college_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_info">
+              <PropertyRef Name="college_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_c__class__47DBAE45">
+          <End Role="class" Type="Self.class" Multiplicity="0..1" />
+          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="teacher_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_c__tea_i__48CFD27E">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="0..1" />
+          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_class">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_i__colle__49C3F6B7">
+          <End Role="college_info" Type="Self.college_info" Multiplicity="0..1" />
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="college_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_info">
+              <PropertyRef Name="college_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_class_ToTable_1">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="0..1" />
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exam_class_Toclass">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="exam_class" Type="Self.exam_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="exam_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exam_class_Toexam">
+          <End Role="exam" Type="Self.exam" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="exam_class" Type="Self.exam_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="exam_class">
+              <PropertyRef Name="exam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exam_paper_Toexam">
+          <End Role="exam" Type="Self.exam" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="exam_paper" Type="Self.exam_paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="exam_paper">
+              <PropertyRef Name="exam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_exam_paper_Topaper">
+          <End Role="paper" Type="Self.paper" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="exam_paper" Type="Self.exam_paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="exam_paper">
+              <PropertyRef Name="paper_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_paper_ToTable">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="1" />
+          <End Role="paper" Type="Self.paper" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="paper">
+              <PropertyRef Name="admin_tea" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_qbase_set_ToTable">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="0..1" />
+          <End Role="qbase_set" Type="Self.qbase_set" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="qbase_set">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_qpe_to_pq">
+          <End Role="paper_ques" Type="Self.paper_ques" Multiplicity="1" />
+          <End Role="stu_paperques" Type="Self.stu_paperques" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper_ques">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_paperques">
+              <PropertyRef Name="pq_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ques_judge_ToTable">
+          <End Role="question" Type="Self.question" Multiplicity="1" />
+          <End Role="ques_judge" Type="Self.ques_judge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="question">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ques_judge">
+              <PropertyRef Name="ques_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spq_to_stu_info">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="stu_paperques" Type="Self.stu_paperques" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_paperques">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stu_ans_log_Toexam_class">
+          <End Role="exam_class" Type="Self.exam_class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="stu_ans_log" Type="Self.stu_ans_log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam_class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="stu_ans_log">
+              <PropertyRef Name="ec_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stu_ans_log_Topaper_ques">
+          <End Role="paper_ques" Type="Self.paper_ques" Multiplicity="1" />
+          <End Role="stu_ans_log" Type="Self.stu_ans_log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paper_ques">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_ans_log">
+              <PropertyRef Name="pq_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stu_ans_log_Tostu_info">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="stu_ans_log" Type="Self.stu_ans_log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_ans_log">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_time_exam_class">
+          <End Role="exam_class" Type="Self.exam_class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="timeless" Type="Self.timeless" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam_class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="timeless">
+              <PropertyRef Name="ec_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_time_stu_info">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1" />
+          <End Role="timeless" Type="Self.timeless" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="timeless">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notice_id_nsc">
+          <End Role="NOTICE" Type="Self.NOTICE" Multiplicity="1" />
+          <End Role="notice_stu_class" Type="Self.notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NOTICE">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="notice_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notice_tea_id">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="1" />
+          <End Role="NOTICE" Type="Self.NOTICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NOTICE">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="stu_id_nsc">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1" />
+          <End Role="notice_stu_class" Type="Self.notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Fun_String2ToStringArray" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="str" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="split" Type="nvarchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="item" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="MakeNotice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tea_id" Type="int" Mode="In" />
+          <Parameter Name="content" Type="nvarchar" Mode="In" />
+          <Parameter Name="class_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MassInsertStu" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stunums" Type="varchar(max)" Mode="In" />
+          <Parameter Name="class_id" Type="bigint" Mode="In" />
+          <Parameter Name="college_id" Type="bigint" Mode="In" />
+        </Function>
+        <EntityContainer Name="moocModelStoreContainer">
+          <EntitySet Name="background" EntityType="Self.background" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="class" EntityType="Self.class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="college_info" EntityType="Self.college_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exam" EntityType="Self.exam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exam_class" EntityType="Self.exam_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exam_paper" EntityType="Self.exam_paper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NOTICE" EntityType="Self.NOTICE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notice_stu_class" EntityType="Self.notice_stu_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paper" EntityType="Self.paper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="paper_ques" EntityType="Self.paper_ques" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="qbase_chapter" EntityType="Self.qbase_chapter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="qbase_set" EntityType="Self.qbase_set" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ques_judge" EntityType="Self.ques_judge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="question" EntityType="Self.question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stu_ans_log" EntityType="Self.stu_ans_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stu_class" EntityType="Self.stu_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stu_info" EntityType="Self.stu_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="stu_paperques" EntityType="Self.stu_paperques" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teacher_class" EntityType="Self.teacher_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teacher_info" EntityType="Self.teacher_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="timeless" EntityType="Self.timeless" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userapply" EntityType="Self.userapply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="classinfo" EntityType="Self.classinfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [classinfo].[class_id] AS [class_id], 
+    [classinfo].[class_name] AS [class_name], 
+    [classinfo].[describe] AS [describe], 
+    [classinfo].[isdelete] AS [isdelete], 
+    [classinfo].[create_time] AS [create_time], 
+    [classinfo].[tea_id] AS [tea_id], 
+    [classinfo].[s_count] AS [s_count], 
+    [classinfo].[tea_name] AS [tea_name]
+    FROM [dbo].[classinfo] AS [classinfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="examclass" EntityType="Self.examclass" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [examclass].[Id] AS [Id], 
+    [examclass].[class_id] AS [class_id], 
+    [examclass].[exam_id] AS [exam_id], 
+    [examclass].[tea_id] AS [tea_id], 
+    [examclass].[tea_name] AS [tea_name], 
+    [examclass].[college_id] AS [college_id], 
+    [examclass].[class_name] AS [class_name], 
+    [examclass].[name] AS [name], 
+    [examclass].[start_time] AS [start_time], 
+    [examclass].[end_time] AS [end_time], 
+    [examclass].[test_time] AS [test_time]
+    FROM [dbo].[examclass] AS [examclass]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="examfeedback" EntityType="Self.examfeedback" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [examfeedback].[name] AS [name], 
+    [examfeedback].[stu_id] AS [stu_id], 
+    [examfeedback].[ec_id] AS [ec_id], 
+    [examfeedback].[pq_id] AS [pq_id], 
+    [examfeedback].[score] AS [score], 
+    [examfeedback].[cost] AS [cost]
+    FROM [dbo].[examfeedback] AS [examfeedback]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="exampaper" EntityType="Self.exampaper" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [exampaper].[exam_id] AS [exam_id], 
+    [exampaper].[paper_id] AS [paper_id], 
+    [exampaper].[israndom] AS [israndom], 
+    [exampaper].[admin_tea] AS [admin_tea], 
+    [exampaper].[paper_name] AS [paper_name], 
+    [exampaper].[create_time] AS [create_time], 
+    [exampaper].[isopen] AS [isopen], 
+    [exampaper].[qcount] AS [qcount], 
+    [exampaper].[Id] AS [Id]
+    FROM [dbo].[exampaper] AS [exampaper]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="feedback" EntityType="Self.feedback" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [feedback].[name] AS [name], 
+    [feedback].[stu_id] AS [stu_id], 
+    [feedback].[ec_id] AS [ec_id], 
+    [feedback].[pq_id] AS [pq_id], 
+    [feedback].[anscount] AS [anscount]
+    FROM [dbo].[feedback] AS [feedback]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="paper_ques_count" EntityType="Self.paper_ques_count" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [paper_ques_count].[ec_id] AS [ec_id], 
+    [paper_ques_count].[pq_id] AS [pq_id], 
+    [paper_ques_count].[anscount] AS [anscount]
+    FROM [dbo].[paper_ques_count] AS [paper_ques_count]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="paperquestion" EntityType="Self.paperquestion" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [paperquestion].[id] AS [id], 
+    [paperquestion].[admin_tea] AS [admin_tea], 
+    [paperquestion].[paper_name] AS [paper_name], 
+    [paperquestion].[create_time] AS [create_time], 
+    [paperquestion].[isopen] AS [isopen], 
+    [paperquestion].[qcount] AS [qcount]
+    FROM [dbo].[paperquestion] AS [paperquestion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="practiceclass" EntityType="Self.practiceclass" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [practiceclass].[Id] AS [Id], 
+    [practiceclass].[class_id] AS [class_id], 
+    [practiceclass].[exam_id] AS [exam_id], 
+    [practiceclass].[tea_id] AS [tea_id], 
+    [practiceclass].[tea_name] AS [tea_name], 
+    [practiceclass].[college_id] AS [college_id], 
+    [practiceclass].[class_name] AS [class_name], 
+    [practiceclass].[name] AS [name], 
+    [practiceclass].[start_time] AS [start_time], 
+    [practiceclass].[end_time] AS [end_time], 
+    [practiceclass].[test_time] AS [test_time]
+    FROM [dbo].[practiceclass] AS [practiceclass]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="qbasechapter" EntityType="Self.qbasechapter" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [qbasechapter].[id] AS [id], 
+    [qbasechapter].[setid] AS [setid], 
+    [qbasechapter].[back_id] AS [back_id], 
+    [qbasechapter].[set_name] AS [set_name], 
+    [qbasechapter].[detail] AS [detail], 
+    [qbasechapter].[back_describe] AS [back_describe], 
+    [qbasechapter].[chap_name] AS [chap_name], 
+    [qbasechapter].[q_count] AS [q_count], 
+    [qbasechapter].[describe] AS [describe]
+    FROM [dbo].[qbasechapter] AS [qbasechapter]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="qbaseset" EntityType="Self.qbaseset" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [qbaseset].[id] AS [id], 
+    [qbaseset].[set_name] AS [set_name], 
+    [qbaseset].[admin_id] AS [admin_id], 
+    [qbaseset].[tea_name] AS [tea_name], 
+    [qbaseset].[qbase_count] AS [qbase_count], 
+    [qbaseset].[isopen] AS [isopen], 
+    [qbaseset].[describe] AS [describe]
+    FROM [dbo].[qbaseset] AS [qbaseset]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ques" EntityType="Self.ques" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ques].[id] AS [id], 
+    [ques].[chap_id] AS [chap_id], 
+    [ques].[q_type] AS [q_type], 
+    [ques].[title] AS [title], 
+    [ques].[right_answer] AS [right_answer], 
+    [ques].[ans1] AS [ans1], 
+    [ques].[ans2] AS [ans2], 
+    [ques].[ans3] AS [ans3], 
+    [ques].[ans4] AS [ans4], 
+    [ques].[ans5] AS [ans5], 
+    [ques].[ans6] AS [ans6], 
+    [ques].[hard_level] AS [hard_level], 
+    [ques].[check_sentence] AS [check_sentence], 
+    [ques].[output] AS [output], 
+    [ques].[totvalue] AS [totvalue], 
+    [ques].[isdelete] AS [isdelete], 
+    [ques].[detail] AS [detail], 
+    [ques].[back_describe] AS [back_describe], 
+    [ques].[chap_name] AS [chap_name]
+    FROM [dbo].[ques] AS [ques]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="quesanswer" EntityType="Self.quesanswer" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [quesanswer].[id] AS [id], 
+    [quesanswer].[chap_id] AS [chap_id], 
+    [quesanswer].[q_type] AS [q_type], 
+    [quesanswer].[title] AS [title], 
+    [quesanswer].[right_answer] AS [right_answer], 
+    [quesanswer].[ans1] AS [ans1], 
+    [quesanswer].[ans2] AS [ans2], 
+    [quesanswer].[ans3] AS [ans3], 
+    [quesanswer].[ans4] AS [ans4], 
+    [quesanswer].[ans5] AS [ans5], 
+    [quesanswer].[ans6] AS [ans6], 
+    [quesanswer].[hard_level] AS [hard_level], 
+    [quesanswer].[check_sentence] AS [check_sentence], 
+    [quesanswer].[output] AS [output], 
+    [quesanswer].[totvalue] AS [totvalue], 
+    [quesanswer].[isdelete] AS [isdelete], 
+    [quesanswer].[detail] AS [detail], 
+    [quesanswer].[back_describe] AS [back_describe], 
+    [quesanswer].[chap_name] AS [chap_name], 
+    [quesanswer].[pqid] AS [pqid], 
+    [quesanswer].[paper_id] AS [paper_id], 
+    [quesanswer].[nowvalue] AS [nowvalue]
+    FROM [dbo].[quesanswer] AS [quesanswer]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stu_ans_count" EntityType="Self.stu_ans_count" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stu_ans_count].[stu_id] AS [stu_id], 
+    [stu_ans_count].[pq_id] AS [pq_id], 
+    [stu_ans_count].[ec_id] AS [ec_id], 
+    [stu_ans_count].[anscount] AS [anscount]
+    FROM [dbo].[stu_ans_count] AS [stu_ans_count]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stu_ans_score" EntityType="Self.stu_ans_score" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stu_ans_score].[stu_id] AS [stu_id], 
+    [stu_ans_score].[pq_id] AS [pq_id], 
+    [stu_ans_score].[ec_id] AS [ec_id], 
+    [stu_ans_score].[score] AS [score], 
+    [stu_ans_score].[cost] AS [cost]
+    FROM [dbo].[stu_ans_score] AS [stu_ans_score]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stu_exam_right_answer" EntityType="Self.stu_exam_right_answer" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stu_exam_right_answer].[wronginfo] AS [wronginfo], 
+    [stu_exam_right_answer].[cost] AS [cost], 
+    [stu_exam_right_answer].[ec_id] AS [ec_id], 
+    [stu_exam_right_answer].[score] AS [score], 
+    [stu_exam_right_answer].[ans] AS [ans], 
+    [stu_exam_right_answer].[pq_id] AS [pq_id], 
+    [stu_exam_right_answer].[stu_id] AS [stu_id], 
+    [stu_exam_right_answer].[id] AS [id], 
+    [stu_exam_right_answer].[right_answer] AS [right_answer], 
+    [stu_exam_right_answer].[title] AS [title], 
+    [stu_exam_right_answer].[q_type] AS [q_type], 
+    [stu_exam_right_answer].[ans1] AS [ans1], 
+    [stu_exam_right_answer].[ans2] AS [ans2], 
+    [stu_exam_right_answer].[ans3] AS [ans3], 
+    [stu_exam_right_answer].[ans4] AS [ans4], 
+    [stu_exam_right_answer].[ans5] AS [ans5], 
+    [stu_exam_right_answer].[ans6] AS [ans6]
+    FROM [dbo].[stu_exam_right_answer] AS [stu_exam_right_answer]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StuClass" EntityType="Self.StuClass" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StuClass].[id] AS [id], 
+    [StuClass].[stu_id] AS [stu_id], 
+    [StuClass].[class_id] AS [class_id], 
+    [StuClass].[isdelete] AS [isdelete], 
+    [StuClass].[name] AS [name], 
+    [StuClass].[stu_num] AS [stu_num], 
+    [StuClass].[gender] AS [gender], 
+    [StuClass].[lastIP] AS [lastIP], 
+    [StuClass].[lastTime] AS [lastTime], 
+    [StuClass].[pass] AS [pass]
+    FROM [dbo].[StuClass] AS [StuClass]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stuexam" EntityType="Self.stuexam" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stuexam].[name] AS [name], 
+    [stuexam].[type] AS [type], 
+    [stuexam].[start_time] AS [start_time], 
+    [stuexam].[end_time] AS [end_time], 
+    [stuexam].[test_time] AS [test_time], 
+    [stuexam].[exam_id] AS [exam_id], 
+    [stuexam].[class_id] AS [class_id], 
+    [stuexam].[stu_id] AS [stu_id], 
+    [stuexam].[ec_id] AS [ec_id]
+    FROM [dbo].[stuexam] AS [stuexam]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stuinfo" EntityType="Self.stuinfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stuinfo].[stu_num] AS [stu_num], 
+    [stuinfo].[name] AS [name], 
+    [stuinfo].[pass] AS [pass], 
+    [stuinfo].[gender] AS [gender], 
+    [stuinfo].[phonenum] AS [phonenum], 
+    [stuinfo].[emailaddress] AS [emailaddress], 
+    [stuinfo].[college_id] AS [college_id], 
+    [stuinfo].[major] AS [major], 
+    [stuinfo].[isdelete] AS [isdelete], 
+    [stuinfo].[id] AS [id], 
+    [stuinfo].[lastIP] AS [lastIP], 
+    [stuinfo].[lastTime] AS [lastTime]
+    FROM [dbo].[stuinfo] AS [stuinfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stupaperques" EntityType="Self.stupaperques" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stupaperques].[stu_id] AS [stu_id], 
+    [stupaperques].[pqid] AS [pqid], 
+    [stupaperques].[eid] AS [eid], 
+    [stupaperques].[q_type] AS [q_type], 
+    [stupaperques].[title] AS [title], 
+    [stupaperques].[right_answer] AS [right_answer], 
+    [stupaperques].[output] AS [output], 
+    [stupaperques].[detail] AS [detail], 
+    [stupaperques].[cost] AS [cost], 
+    [stupaperques].[state] AS [state], 
+    [stupaperques].[wrongtype] AS [wrongtype], 
+    [stupaperques].[stu_ans] AS [stu_ans], 
+    [stupaperques].[ans1] AS [ans1], 
+    [stupaperques].[ans4] AS [ans4], 
+    [stupaperques].[ans3] AS [ans3], 
+    [stupaperques].[ans2] AS [ans2], 
+    [stupaperques].[ans5] AS [ans5], 
+    [stupaperques].[ans6] AS [ans6]
+    FROM [dbo].[stupaperques] AS [stupaperques]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stupaperques_exam" EntityType="Self.stupaperques_exam" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stupaperques_exam].[stu_id] AS [stu_id], 
+    [stupaperques_exam].[pqid] AS [pqid], 
+    [stupaperques_exam].[eid] AS [eid], 
+    [stupaperques_exam].[q_type] AS [q_type], 
+    [stupaperques_exam].[title] AS [title], 
+    [stupaperques_exam].[right_answer] AS [right_answer], 
+    [stupaperques_exam].[output] AS [output], 
+    [stupaperques_exam].[detail] AS [detail], 
+    [stupaperques_exam].[cost] AS [cost], 
+    [stupaperques_exam].[state] AS [state], 
+    [stupaperques_exam].[wrongtype] AS [wrongtype], 
+    [stupaperques_exam].[stu_ans] AS [stu_ans]
+    FROM [dbo].[stupaperques_exam] AS [stupaperques_exam]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="stupaperques_prac" EntityType="Self.stupaperques_prac" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [stupaperques_prac].[type] AS [type], 
+    [stupaperques_prac].[stu_id] AS [stu_id], 
+    [stupaperques_prac].[pqid] AS [pqid], 
+    [stupaperques_prac].[eid] AS [eid], 
+    [stupaperques_prac].[q_type] AS [q_type], 
+    [stupaperques_prac].[title] AS [title], 
+    [stupaperques_prac].[right_answer] AS [right_answer], 
+    [stupaperques_prac].[output] AS [output], 
+    [stupaperques_prac].[detail] AS [detail], 
+    [stupaperques_prac].[cost] AS [cost], 
+    [stupaperques_prac].[state] AS [state], 
+    [stupaperques_prac].[wrongtype] AS [wrongtype], 
+    [stupaperques_prac].[stu_ans] AS [stu_ans]
+    FROM [dbo].[stupaperques_prac] AS [stupaperques_prac]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="teainfo" EntityType="Self.teainfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [teainfo].[id] AS [id], 
+    [teainfo].[pass] AS [pass], 
+    [teainfo].[tea_user] AS [tea_user], 
+    [teainfo].[tea_name] AS [tea_name], 
+    [teainfo].[tea_level] AS [tea_level], 
+    [teainfo].[college_name] AS [college_name], 
+    [teainfo].[lastTime] AS [lastTime], 
+    [teainfo].[lastIP] AS [lastIP]
+    FROM [dbo].[teainfo] AS [teainfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="teapaper" EntityType="Self.teapaper" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [teapaper].[pcount] AS [pcount], 
+    [teapaper].[admin_tea] AS [admin_tea], 
+    [teapaper].[tea_name] AS [tea_name], 
+    [teapaper].[tea_level] AS [tea_level]
+    FROM [dbo].[teapaper] AS [teapaper]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="user_account" EntityType="Self.user_account" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [user_account].[account] AS [account], 
+    [user_account].[id] AS [id], 
+    [user_account].[cname] AS [cname], 
+    [user_account].[pass] AS [pass], 
+    [user_account].[level] AS [level]
+    FROM [dbo].[user_account] AS [user_account]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="class_id_nsc" Association="Self.class_id_nsc">
+            <End Role="class" EntitySet="class" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paper_que__paper__53D770D6" Association="Self.FK__paper_que__paper__53D770D6">
+            <End Role="paper" EntitySet="paper" />
+            <End Role="paper_ques" EntitySet="paper_ques" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paper_que__ques___6F4A8121" Association="Self.FK__paper_que__ques___6F4A8121">
+            <End Role="question" EntitySet="question" />
+            <End Role="paper_ques" EntitySet="paper_ques" />
+          </AssociationSet>
+          <AssociationSet Name="FK__qbase_cha__back___17036CC0" Association="Self.FK__qbase_cha__back___17036CC0">
+            <End Role="background" EntitySet="background" />
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+          </AssociationSet>
+          <AssociationSet Name="FK__qbase_cha__setid__04E4BC85" Association="Self.FK__qbase_cha__setid__04E4BC85">
+            <End Role="qbase_set" EntitySet="qbase_set" />
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__chap_i__703EA55A" Association="Self.FK__question__chap_i__703EA55A">
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__stu_class__class__4316F928" Association="Self.FK__stu_class__class__4316F928">
+            <End Role="class" EntitySet="class" />
+            <End Role="stu_class" EntitySet="stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__stu_class__stu_i__440B1D61" Association="Self.FK__stu_class__stu_i__440B1D61">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_class" EntitySet="stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__stu_info__colleg__44FF419A" Association="Self.FK__stu_info__colleg__44FF419A">
+            <End Role="college_info" EntitySet="college_info" />
+            <End Role="stu_info" EntitySet="stu_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_c__class__47DBAE45" Association="Self.FK__teacher_c__class__47DBAE45">
+            <End Role="class" EntitySet="class" />
+            <End Role="teacher_class" EntitySet="teacher_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_c__tea_i__48CFD27E" Association="Self.FK__teacher_c__tea_i__48CFD27E">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="teacher_class" EntitySet="teacher_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_i__colle__49C3F6B7" Association="Self.FK__teacher_i__colle__49C3F6B7">
+            <End Role="college_info" EntitySet="college_info" />
+            <End Role="teacher_info" EntitySet="teacher_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK_class_ToTable_1" Association="Self.FK_class_ToTable_1">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_class_Toclass" Association="Self.FK_exam_class_Toclass">
+            <End Role="class" EntitySet="class" />
+            <End Role="exam_class" EntitySet="exam_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_class_Toexam" Association="Self.FK_exam_class_Toexam">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="exam_class" EntitySet="exam_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_paper_Toexam" Association="Self.FK_exam_paper_Toexam">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="exam_paper" EntitySet="exam_paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_paper_Topaper" Association="Self.FK_exam_paper_Topaper">
+            <End Role="paper" EntitySet="paper" />
+            <End Role="exam_paper" EntitySet="exam_paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_paper_ToTable" Association="Self.FK_paper_ToTable">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="paper" EntitySet="paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_qbase_set_ToTable" Association="Self.FK_qbase_set_ToTable">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="qbase_set" EntitySet="qbase_set" />
+          </AssociationSet>
+          <AssociationSet Name="FK_qpe_to_pq" Association="Self.FK_qpe_to_pq">
+            <End Role="paper_ques" EntitySet="paper_ques" />
+            <End Role="stu_paperques" EntitySet="stu_paperques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ques_judge_ToTable" Association="Self.FK_ques_judge_ToTable">
+            <End Role="question" EntitySet="question" />
+            <End Role="ques_judge" EntitySet="ques_judge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spq_to_stu_info" Association="Self.FK_spq_to_stu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_paperques" EntitySet="stu_paperques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stu_ans_log_Toexam_class" Association="Self.FK_stu_ans_log_Toexam_class">
+            <End Role="exam_class" EntitySet="exam_class" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stu_ans_log_Topaper_ques" Association="Self.FK_stu_ans_log_Topaper_ques">
+            <End Role="paper_ques" EntitySet="paper_ques" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stu_ans_log_Tostu_info" Association="Self.FK_stu_ans_log_Tostu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_time_exam_class" Association="Self.FK_time_exam_class">
+            <End Role="exam_class" EntitySet="exam_class" />
+            <End Role="timeless" EntitySet="timeless" />
+          </AssociationSet>
+          <AssociationSet Name="FK_time_stu_info" Association="Self.FK_time_stu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="timeless" EntitySet="timeless" />
+          </AssociationSet>
+          <AssociationSet Name="notice_id_nsc" Association="Self.notice_id_nsc">
+            <End Role="NOTICE" EntitySet="NOTICE" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="notice_tea_id" Association="Self.notice_tea_id">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="NOTICE" EntitySet="NOTICE" />
+          </AssociationSet>
+          <AssociationSet Name="stu_id_nsc" Association="Self.stu_id_nsc">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="moocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="Fun_String2ToStringArray_Result">
+          <Property Name="item" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="describe" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="stu_class" Relationship="Self.FK__stu_class__class__1AD3FDA4" FromRole="class" ToRole="stu_class" />
+          <NavigationProperty Name="teacher_class" Relationship="Self.FK__teacher_c__class__236943A5" FromRole="class" ToRole="teacher_class" />
+          <NavigationProperty Name="notice_stu_class" Relationship="moocModel.class_id_nsc" FromRole="class" ToRole="notice_stu_class" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="tea_id" Type="Int64" />
+          <NavigationProperty Name="teacher_info" Relationship="moocModel.FK_class_ToTable_1" FromRole="class" ToRole="teacher_info" />
+          <NavigationProperty Name="exam_class" Relationship="moocModel.FK_exam_class_Toclass" FromRole="class" ToRole="exam_class" />
+        </EntityType>
+        <EntityType Name="college_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="college_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="stu_info" Relationship="Self.FK__stu_info__colleg__1CBC4616" FromRole="college_info" ToRole="stu_info" />
+          <NavigationProperty Name="teacher_info" Relationship="Self.FK__teacher_i__colle__245D67DE" FromRole="college_info" ToRole="teacher_info" />
+        </EntityType>
+        <EntityType Name="qbase_chapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="setid" Type="Int64" />
+          <Property Name="chap_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="describe" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="qbase_set" Relationship="Self.FK__qbase_cha__set_i__34C8D9D1" FromRole="qbase_chapter" ToRole="qbase_set" />
+          <NavigationProperty Name="question" Relationship="Self.FK__question__chap_i__37A5467C" FromRole="qbase_chapter" ToRole="question" />
+          <NavigationProperty Name="background" Relationship="moocModel.FK__qbase_cha__back___17036CC0" FromRole="qbase_chapter" ToRole="background" />
+        </EntityType>
+        <EntityType Name="qbase_set">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="set_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="isopen" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="qbase_chapter" Relationship="Self.FK__qbase_cha__set_i__34C8D9D1" FromRole="qbase_set" ToRole="qbase_chapter" />
+          <Property Name="admin_id" Type="Int64" />
+          <NavigationProperty Name="teacher_info" Relationship="moocModel.FK_qbase_set_ToTable" FromRole="qbase_set" ToRole="teacher_info" />
+          <Property Name="describe" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="question">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="chap_id" Type="Int64" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ans1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hard_level" Type="Int16" />
+          <NavigationProperty Name="qbase_chapter" Relationship="Self.FK__question__chap_i__37A5467C" FromRole="question" ToRole="qbase_chapter" />
+          <Property Name="check_sentence" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="totvalue" Type="Int16" Nullable="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ques_judge" Relationship="moocModel.FK_ques_judge_ToTable" FromRole="question" ToRole="ques_judge" />
+          <NavigationProperty Name="paper_ques" Relationship="moocModel.FK__paper_que__ques___54CB950F" FromRole="question" ToRole="paper_ques" />
+          <Property Name="output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="stu_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK__stu_class__class__1AD3FDA4" FromRole="stu_class" ToRole="class" />
+          <NavigationProperty Name="stu_info" Relationship="Self.FK__stu_class__stu_i__19DFD96B" FromRole="stu_class" ToRole="stu_info" />
+        </EntityType>
+        <EntityType Name="stu_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="stu_num" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="phonenum" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="emailaddress" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="college_id" Type="Int64" />
+          <Property Name="major" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="college_info" Relationship="Self.FK__stu_info__colleg__1CBC4616" FromRole="stu_info" ToRole="college_info" />
+          <NavigationProperty Name="stu_class" Relationship="Self.FK__stu_class__stu_i__19DFD96B" FromRole="stu_info" ToRole="stu_class" />
+          <NavigationProperty Name="notice_stu_class" Relationship="moocModel.stu_id_nsc" FromRole="stu_info" ToRole="notice_stu_class" />
+          <Property Name="lastIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="stu_ans_log" Relationship="moocModel.FK_stu_ans_log_Tostu_info" FromRole="stu_info" ToRole="stu_ans_log" />
+          <NavigationProperty Name="stu_paperques" Relationship="moocModel.FK_spq_to_stu_info" FromRole="stu_info" ToRole="stu_paperques" />
+          <NavigationProperty Name="timeless" Relationship="moocModel.FK_time_stu_info" FromRole="stu_info" ToRole="timeless" />
+        </EntityType>
+        <EntityType Name="teacher_class">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tea_id" Type="Int64" />
+          <Property Name="class_id" Type="Int64" />
+          <NavigationProperty Name="class" Relationship="Self.FK__teacher_c__class__236943A5" FromRole="teacher_class" ToRole="class" />
+          <NavigationProperty Name="teacher_info" Relationship="Self.FK__teacher_c__tea_i__22751F6C" FromRole="teacher_class" ToRole="teacher_info" />
+        </EntityType>
+        <EntityType Name="teacher_info">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="tea_user" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="college_id" Type="Int64" />
+          <Property Name="tea_level" Type="Int16" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="college_info" Relationship="Self.FK__teacher_i__colle__245D67DE" FromRole="teacher_info" ToRole="college_info" />
+          <NavigationProperty Name="teacher_class" Relationship="Self.FK__teacher_c__tea_i__22751F6C" FromRole="teacher_info" ToRole="teacher_class" />
+          <NavigationProperty Name="NOTICE" Relationship="moocModel.notice_tea_id" FromRole="teacher_info" ToRole="NOTICE" />
+          <Property Name="lastTime" Type="DateTime" Precision="3" />
+          <Property Name="lastIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="class" Relationship="moocModel.FK_class_ToTable_1" FromRole="teacher_info" ToRole="class" />
+          <NavigationProperty Name="qbase_set" Relationship="moocModel.FK_qbase_set_ToTable" FromRole="teacher_info" ToRole="qbase_set" />
+          <NavigationProperty Name="paper" Relationship="moocModel.FK_paper_ToTable" FromRole="teacher_info" ToRole="paper" />
+        </EntityType>
+        <EntityType Name="user_account">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="account" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cname" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="level" Type="Int32" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__stu_class__class__1AD3FDA4">
+          <End Role="class" Type="Self.class" Multiplicity="0..1" />
+          <End Role="stu_class" Type="Self.stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="stu_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_c__class__236943A5">
+          <End Role="class" Type="Self.class" Multiplicity="0..1" />
+          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="teacher_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__stu_info__colleg__1CBC4616">
+          <End Role="college_info" Type="Self.college_info" Multiplicity="0..1" />
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="college_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_info">
+              <PropertyRef Name="college_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_i__colle__245D67DE">
+          <End Role="college_info" Type="Self.college_info" Multiplicity="0..1" />
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="college_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_info">
+              <PropertyRef Name="college_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__qbase_cha__set_i__34C8D9D1">
+          <End Role="qbase_set" Type="Self.qbase_set" Multiplicity="0..1" />
+          <End Role="qbase_chapter" Type="Self.qbase_chapter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="qbase_set">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="qbase_chapter">
+              <PropertyRef Name="setid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__question__chap_i__37A5467C">
+          <End Role="qbase_chapter" Type="Self.qbase_chapter" Multiplicity="0..1" />
+          <End Role="question" Type="Self.question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="qbase_chapter">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="question">
+              <PropertyRef Name="chap_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__stu_class__stu_i__19DFD96B">
+          <End Role="stu_info" Type="Self.stu_info" Multiplicity="1" />
+          <End Role="stu_class" Type="Self.stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="stu_class">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__teacher_c__tea_i__22751F6C">
+          <End Role="teacher_info" Type="Self.teacher_info" Multiplicity="0..1" />
+          <End Role="teacher_class" Type="Self.teacher_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="teacher_class">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="class" EntityType="Self.class" />
+          <EntitySet Name="college_info" EntityType="Self.college_info" />
+          <EntitySet Name="qbase_chapter" EntityType="Self.qbase_chapter" />
+          <EntitySet Name="qbase_set" EntityType="Self.qbase_set" />
+          <EntitySet Name="question" EntityType="Self.question" />
+          <EntitySet Name="stu_class" EntityType="Self.stu_class" />
+          <EntitySet Name="stu_info" EntityType="Self.stu_info" />
+          <EntitySet Name="teacher_class" EntityType="Self.teacher_class" />
+          <EntitySet Name="teacher_info" EntityType="Self.teacher_info" />
+          <EntitySet Name="user_account" EntityType="Self.user_account" />
+          <AssociationSet Name="FK__stu_class__class__1AD3FDA4" Association="Self.FK__stu_class__class__1AD3FDA4">
+            <End Role="class" EntitySet="class" />
+            <End Role="stu_class" EntitySet="stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_c__class__236943A5" Association="Self.FK__teacher_c__class__236943A5">
+            <End Role="class" EntitySet="class" />
+            <End Role="teacher_class" EntitySet="teacher_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__stu_info__colleg__1CBC4616" Association="Self.FK__stu_info__colleg__1CBC4616">
+            <End Role="college_info" EntitySet="college_info" />
+            <End Role="stu_info" EntitySet="stu_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_i__colle__245D67DE" Association="Self.FK__teacher_i__colle__245D67DE">
+            <End Role="college_info" EntitySet="college_info" />
+            <End Role="teacher_info" EntitySet="teacher_info" />
+          </AssociationSet>
+          <AssociationSet Name="FK__qbase_cha__set_i__34C8D9D1" Association="Self.FK__qbase_cha__set_i__34C8D9D1">
+            <End Role="qbase_set" EntitySet="qbase_set" />
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+          </AssociationSet>
+          <AssociationSet Name="FK__question__chap_i__37A5467C" Association="Self.FK__question__chap_i__37A5467C">
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+            <End Role="question" EntitySet="question" />
+          </AssociationSet>
+          <AssociationSet Name="FK__stu_class__stu_i__19DFD96B" Association="Self.FK__stu_class__stu_i__19DFD96B">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_class" EntitySet="stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__teacher_c__tea_i__22751F6C" Association="Self.FK__teacher_c__tea_i__22751F6C">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="teacher_class" EntitySet="teacher_class" />
+          </AssociationSet>
+          <FunctionImport Name="Fun_String2ToStringArray" IsComposable="true" ReturnType="Collection(moocModel.Fun_String2ToStringArray_Result)">
+            <Parameter Name="str" Mode="In" Type="String" />
+            <Parameter Name="split" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MassInsertStu">
+            <Parameter Name="stunums" Mode="In" Type="String" />
+            <Parameter Name="class_id" Mode="In" Type="Int64" />
+            <Parameter Name="college_id" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="NOTICE" EntityType="moocModel.NOTICE" />
+          <EntitySet Name="notice_stu_class" EntityType="moocModel.notice_stu_class" />
+          <AssociationSet Name="class_id_nsc" Association="moocModel.class_id_nsc">
+            <End Role="class" EntitySet="class" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="notice_id_nsc" Association="moocModel.notice_id_nsc">
+            <End Role="NOTICE" EntitySet="NOTICE" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+          <AssociationSet Name="notice_tea_id" Association="moocModel.notice_tea_id">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="NOTICE" EntitySet="NOTICE" />
+          </AssociationSet>
+          <AssociationSet Name="stu_id_nsc" Association="moocModel.stu_id_nsc">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="notice_stu_class" EntitySet="notice_stu_class" />
+          </AssociationSet>
+          <FunctionImport Name="MakeNotice">
+            <Parameter Name="tea_id" Mode="In" Type="Int32" />
+            <Parameter Name="content" Mode="In" Type="String" />
+            <Parameter Name="class_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="teainfo" EntityType="moocModel.teainfo" />
+          <EntitySet Name="classinfo" EntityType="moocModel.classinfo" />
+          <AssociationSet Name="FK_class_ToTable_1" Association="moocModel.FK_class_ToTable_1">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <EntitySet Name="StuClass" EntityType="moocModel.StuClass" />
+          <AssociationSet Name="FK_qbase_set_ToTable" Association="moocModel.FK_qbase_set_ToTable">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="qbase_set" EntitySet="qbase_set" />
+          </AssociationSet>
+          <EntitySet Name="background" EntityType="moocModel.background" />
+          <EntitySet Name="qbasechapter" EntityType="moocModel.qbasechapter" />
+          <EntitySet Name="qbaseset" EntityType="moocModel.qbaseset" />
+          <AssociationSet Name="FK__qbase_cha__back___17036CC0" Association="moocModel.FK__qbase_cha__back___17036CC0">
+            <End Role="background" EntitySet="background" />
+            <End Role="qbase_chapter" EntitySet="qbase_chapter" />
+          </AssociationSet>
+          <EntitySet Name="ques" EntityType="moocModel.ques" />
+          <EntitySet Name="ques_judge" EntityType="moocModel.ques_judge" />
+          <AssociationSet Name="FK_ques_judge_ToTable" Association="moocModel.FK_ques_judge_ToTable">
+            <End Role="question" EntitySet="question" />
+            <End Role="ques_judge" EntitySet="ques_judge" />
+          </AssociationSet>
+          <EntitySet Name="teapaper" EntityType="moocModel.teapaper" />
+          <EntitySet Name="paper" EntityType="moocModel.paper" />
+          <AssociationSet Name="FK_paper_ToTable" Association="moocModel.FK_paper_ToTable">
+            <End Role="teacher_info" EntitySet="teacher_info" />
+            <End Role="paper" EntitySet="paper" />
+          </AssociationSet>
+          <EntitySet Name="paperquestion" EntityType="moocModel.paperquestion" />
+          <EntitySet Name="paper_ques" EntityType="moocModel.paper_ques" />
+          <AssociationSet Name="FK__paper_que__paper__53D770D6" Association="moocModel.FK__paper_que__paper__53D770D6">
+            <End Role="paper" EntitySet="paper" />
+            <End Role="paper_ques" EntitySet="paper_ques" />
+          </AssociationSet>
+          <AssociationSet Name="FK__paper_que__ques___54CB950F" Association="moocModel.FK__paper_que__ques___54CB950F">
+            <End Role="question" EntitySet="question" />
+            <End Role="paper_ques" EntitySet="paper_ques" />
+          </AssociationSet>
+          <EntitySet Name="exam" EntityType="moocModel.exam" />
+          <EntitySet Name="exam_class" EntityType="moocModel.exam_class" />
+          <EntitySet Name="exam_paper" EntityType="moocModel.exam_paper" />
+          <AssociationSet Name="FK_exam_class_Toclass" Association="moocModel.FK_exam_class_Toclass">
+            <End Role="class" EntitySet="class" />
+            <End Role="exam_class" EntitySet="exam_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_class_Toexam" Association="moocModel.FK_exam_class_Toexam">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="exam_class" EntitySet="exam_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_paper_Toexam" Association="moocModel.FK_exam_paper_Toexam">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="exam_paper" EntitySet="exam_paper" />
+          </AssociationSet>
+          <AssociationSet Name="FK_exam_paper_Topaper" Association="moocModel.FK_exam_paper_Topaper">
+            <End Role="paper" EntitySet="paper" />
+            <End Role="exam_paper" EntitySet="exam_paper" />
+          </AssociationSet>
+          <EntitySet Name="examclass" EntityType="moocModel.examclass" />
+          <EntitySet Name="practiceclass" EntityType="moocModel.practiceclass" />
+          <EntitySet Name="stuinfo" EntityType="moocModel.stuinfo" />
+          <EntitySet Name="stuexam" EntityType="moocModel.stuexam" />
+          <EntitySet Name="stupaperques" EntityType="moocModel.stupaperques" />
+          <EntitySet Name="stupaperques_prac" EntityType="moocModel.stupaperques_prac" />
+          <EntitySet Name="stu_ans_count" EntityType="moocModel.stu_ans_count" />
+          <EntitySet Name="paper_ques_count" EntityType="moocModel.paper_ques_count" />
+          <EntitySet Name="stupaperques_exam" EntityType="moocModel.stupaperques_exam" />
+          <EntitySet Name="feedback" EntityType="moocModel.feedback" />
+          <EntitySet Name="quesanswer" EntityType="moocModel.quesanswer" />
+          <EntitySet Name="stu_ans_log" EntityType="moocModel.stu_ans_log" />
+          <EntitySet Name="stu_paperques" EntityType="moocModel.stu_paperques" />
+          <AssociationSet Name="FK_stu_ans_log_Toexam_class" Association="moocModel.FK_stu_ans_log_Toexam_class">
+            <End Role="exam_class" EntitySet="exam_class" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_qpe_to_pq" Association="moocModel.FK_qpe_to_pq">
+            <End Role="paper_ques" EntitySet="paper_ques" />
+            <End Role="stu_paperques" EntitySet="stu_paperques" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stu_ans_log_Topaper_ques" Association="moocModel.FK_stu_ans_log_Topaper_ques">
+            <End Role="paper_ques" EntitySet="paper_ques" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stu_ans_log_Tostu_info" Association="moocModel.FK_stu_ans_log_Tostu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_ans_log" EntitySet="stu_ans_log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spq_to_stu_info" Association="moocModel.FK_spq_to_stu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="stu_paperques" EntitySet="stu_paperques" />
+          </AssociationSet>
+          <EntitySet Name="examfeedback" EntityType="moocModel.examfeedback" />
+          <EntitySet Name="stu_ans_score" EntityType="moocModel.stu_ans_score" />
+          <EntitySet Name="exampaper" EntityType="moocModel.exampaper" />
+          <EntitySet Name="timeless" EntityType="moocModel.timeless" />
+          <AssociationSet Name="FK_time_exam_class" Association="moocModel.FK_time_exam_class">
+            <End Role="exam_class" EntitySet="exam_class" />
+            <End Role="timeless" EntitySet="timeless" />
+          </AssociationSet>
+          <AssociationSet Name="FK_time_stu_info" Association="moocModel.FK_time_stu_info">
+            <End Role="stu_info" EntitySet="stu_info" />
+            <End Role="timeless" EntitySet="timeless" />
+          </AssociationSet>
+          <EntitySet Name="stu_exam_right_answer" EntityType="moocModel.stu_exam_right_answer" />
+          <EntitySet Name="userapply" EntityType="moocModel.userapply" />
+          </EntityContainer>
+        <EntityType Name="NOTICE">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tea_id" Type="Int64" Nullable="false" />
+          <Property Name="content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Int16" Nullable="false" />
+          <Property Name="ntime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="notice_stu_class" Relationship="moocModel.notice_id_nsc" FromRole="NOTICE" ToRole="notice_stu_class" />
+          <NavigationProperty Name="teacher_info" Relationship="moocModel.notice_tea_id" FromRole="NOTICE" ToRole="teacher_info" />
+        </EntityType>
+        <EntityType Name="notice_stu_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="notice_id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" Nullable="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="isread" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="moocModel.class_id_nsc" FromRole="notice_stu_class" ToRole="class" />
+          <NavigationProperty Name="NOTICE" Relationship="moocModel.notice_id_nsc" FromRole="notice_stu_class" ToRole="NOTICE" />
+          <NavigationProperty Name="stu_info" Relationship="moocModel.stu_id_nsc" FromRole="notice_stu_class" ToRole="stu_info" />
+        </EntityType>
+        <Association Name="class_id_nsc">
+          <End Type="moocModel.class" Role="class" Multiplicity="1" />
+          <End Type="moocModel.notice_stu_class" Role="notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notice_id_nsc">
+          <End Type="moocModel.NOTICE" Role="NOTICE" Multiplicity="1" />
+          <End Type="moocModel.notice_stu_class" Role="notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NOTICE">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="notice_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notice_tea_id">
+          <End Type="moocModel.teacher_info" Role="teacher_info" Multiplicity="1" />
+          <End Type="moocModel.NOTICE" Role="NOTICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NOTICE">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="stu_id_nsc">
+          <End Type="moocModel.stu_info" Role="stu_info" Multiplicity="1" />
+          <End Type="moocModel.notice_stu_class" Role="notice_stu_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stu_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notice_stu_class">
+              <PropertyRef Name="stu_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="teainfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="tea_user" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="tea_level" Type="Int16" />
+          <Property Name="college_name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="lastTime" Type="DateTime" Precision="3" />
+          <Property Name="lastIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="classinfo">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="Int64" Nullable="false" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="describe" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="tea_id" Type="Int64" />
+          <Property Name="s_count" Type="Int32" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_class_ToTable_1">
+          <End Type="moocModel.teacher_info" Role="teacher_info" Multiplicity="0..1" />
+          <End Type="moocModel.class" Role="class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="tea_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StuClass">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="lastIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastTime" Type="DateTime" Precision="3" />
+          <Property Name="stu_num" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_qbase_set_ToTable">
+          <End Type="moocModel.teacher_info" Role="teacher_info" Multiplicity="0..1" />
+          <End Type="moocModel.qbase_set" Role="qbase_set" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teacher_info">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="qbase_set">
+              <PropertyRef Name="admin_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="background">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sql" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="qbase_chapter" Relationship="moocModel.FK__qbase_cha__back___17036CC0" FromRole="background" ToRole="qbase_chapter" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="db" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="qbasechapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="setid" Type="Int64" />
+          <Property Name="back_id" Type="Int64" />
+          <Property Name="set_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="chap_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="q_count" Type="Int32" />
+          <Property Name="describe" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="back_describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="qbaseset">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="set_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="admin_id" Type="Int64" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="qbase_count" Type="Int32" />
+          <Property Name="isopen" Type="Boolean" Nullable="false" />
+          <Property Name="describe" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__qbase_cha__back___17036CC0">
+          <End Type="moocModel.background" Role="background" Multiplicity="0..1" />
+          <End Type="moocModel.qbase_chapter" Role="qbase_chapter" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ques">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="chap_id" Type="Int64" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ans1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hard_level" Type="Int16" />
+          <Property Name="check_sentence" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="chap_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="back_describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="totvalue" Type="Int16" Nullable="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="output" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ques_judge">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="judge_sentence" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="value" Type="Decimal" Nullable="false" Precision="4" Scale="1" />
+          <NavigationProperty Name="question" Relationship="moocModel.FK_ques_judge_ToTable" FromRole="ques_judge" ToRole="question" />
+        </EntityType>
+        <Association Name="FK_ques_judge_ToTable">
+          <End Type="moocModel.question" Role="question" Multiplicity="1" />
+          <End Type="moocModel.ques_judge" Role="ques_judge" Multiplicity="*" />
+        </Association>
+        <EntityType Name="teapaper">
+          <Key>
+            <PropertyRef Name="admin_tea" />
+          </Key>
+          <Property Name="pcount" Type="Int32" />
+          <Property Name="admin_tea" Type="Int64" Nullable="false" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="tea_level" Type="Int16" />
+        </EntityType>
+        <EntityType Name="paper">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paper_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="teacher_info" Relationship="moocModel.FK_paper_ToTable" FromRole="paper" ToRole="teacher_info" />
+          <Property Name="isopen" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="paper_ques" Relationship="moocModel.FK__paper_que__paper__53D770D6" FromRole="paper" ToRole="paper_ques" />
+          <NavigationProperty Name="exam_paper" Relationship="moocModel.FK_exam_paper_Topaper" FromRole="paper" ToRole="exam_paper" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="type" Type="Int16" />
+        </EntityType>
+        <Association Name="FK_paper_ToTable">
+          <End Type="moocModel.teacher_info" Role="teacher_info" Multiplicity="1" />
+          <End Type="moocModel.paper" Role="paper" Multiplicity="*" />
+        </Association>
+        <EntityType Name="paperquestion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="admin_tea" Type="Int64" Nullable="false" />
+          <Property Name="paper_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="isopen" Type="Boolean" Nullable="false" />
+          <Property Name="qcount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paper_ques">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nowvalue" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="paper" Relationship="moocModel.FK__paper_que__paper__53D770D6" FromRole="paper_ques" ToRole="paper" />
+          <NavigationProperty Name="question" Relationship="moocModel.FK__paper_que__ques___54CB950F" FromRole="paper_ques" ToRole="question" />
+          <NavigationProperty Name="stu_paperques" Relationship="moocModel.FK_qpe_to_pq" FromRole="paper_ques" ToRole="stu_paperques" />
+          <NavigationProperty Name="stu_ans_log" Relationship="moocModel.FK_stu_ans_log_Topaper_ques" FromRole="paper_ques" ToRole="stu_ans_log" />
+        </EntityType>
+        <Association Name="FK__paper_que__paper__53D770D6">
+          <End Type="moocModel.paper" Role="paper" Multiplicity="1" />
+          <End Type="moocModel.paper_ques" Role="paper_ques" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__paper_que__ques___54CB950F">
+          <End Type="moocModel.question" Role="question" Multiplicity="1" />
+          <End Type="moocModel.paper_ques" Role="paper_ques" Multiplicity="*" />
+        </Association>
+        <EntityType Name="exam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="type" Type="Boolean" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_time" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="exam_class" Relationship="moocModel.FK_exam_class_Toexam" FromRole="exam" ToRole="exam_class" />
+          <NavigationProperty Name="exam_paper" Relationship="moocModel.FK_exam_paper_Toexam" FromRole="exam" ToRole="exam_paper" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="attention" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="exam_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="class" Relationship="moocModel.FK_exam_class_Toclass" FromRole="exam_class" ToRole="class" />
+          <NavigationProperty Name="exam" Relationship="moocModel.FK_exam_class_Toexam" FromRole="exam_class" ToRole="exam" />
+          <NavigationProperty Name="stu_ans_log" Relationship="moocModel.FK_stu_ans_log_Toexam_class" FromRole="exam_class" ToRole="stu_ans_log" />
+          <NavigationProperty Name="timeless" Relationship="moocModel.FK_time_exam_class" FromRole="exam_class" ToRole="timeless" />
+        </EntityType>
+        <EntityType Name="exam_paper">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="exam" Relationship="moocModel.FK_exam_paper_Toexam" FromRole="exam_paper" ToRole="exam" />
+          <NavigationProperty Name="paper" Relationship="moocModel.FK_exam_paper_Topaper" FromRole="exam_paper" ToRole="paper" />
+          <Property Name="israndom" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_exam_class_Toclass">
+          <End Type="moocModel.class" Role="class" Multiplicity="1" />
+          <End Type="moocModel.exam_class" Role="exam_class" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_exam_class_Toexam">
+          <End Type="moocModel.exam" Role="exam" Multiplicity="1" />
+          <End Type="moocModel.exam_class" Role="exam_class" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_exam_paper_Toexam">
+          <End Type="moocModel.exam" Role="exam" Multiplicity="1" />
+          <End Type="moocModel.exam_paper" Role="exam_paper" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_exam_paper_Topaper">
+          <End Type="moocModel.paper" Role="paper" Multiplicity="1" />
+          <End Type="moocModel.exam_paper" Role="exam_paper" Multiplicity="*" />
+        </Association>
+        <EntityType Name="examclass">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="exam_id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" Nullable="false" />
+          <Property Name="exam_id" Type="Int64" Nullable="false" />
+          <Property Name="tea_id" Type="Int64" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="college_id" Type="Int64" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="practiceclass">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_time" />
+            <PropertyRef Name="end_time" />
+            <PropertyRef Name="test_time" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" Nullable="false" />
+          <Property Name="exam_id" Type="Int64" Nullable="false" />
+          <Property Name="tea_id" Type="Int64" />
+          <Property Name="tea_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="college_id" Type="Int64" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_time" Type="Time" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="stuinfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="stu_num" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="phonenum" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="emailaddress" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="college_id" Type="Int64" />
+          <Property Name="major" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lastIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="stuexam">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="type" />
+            <PropertyRef Name="start_time" />
+            <PropertyRef Name="end_time" />
+            <PropertyRef Name="test_time" />
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="class_id" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="Boolean" Nullable="false" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="test_time" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="exam_id" Type="Int64" Nullable="false" />
+          <Property Name="class_id" Type="Int64" Nullable="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stupaperques">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="pqid" Type="Int64" Nullable="false" />
+          <Property Name="eid" Type="Int64" Nullable="false" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cost" Type="Int32" />
+          <Property Name="state" Type="Boolean" />
+          <Property Name="wrongtype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="stu_ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="output" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ans1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="stupaperques_prac">
+          <Key>
+            <PropertyRef Name="type" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="type" Type="Boolean" Nullable="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="pqid" Type="Int64" Nullable="false" />
+          <Property Name="eid" Type="Int64" Nullable="false" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="output" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="cost" Type="Int32" />
+          <Property Name="state" Type="Boolean" />
+          <Property Name="wrongtype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="stu_ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="stu_ans_count">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="anscount" Type="Int32" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="paper_ques_count">
+          <Key>
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="anscount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="stupaperques_exam">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pqid" />
+            <PropertyRef Name="eid" />
+          </Key>
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="pqid" Type="Int64" Nullable="false" />
+          <Property Name="eid" Type="Int64" Nullable="false" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="output" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="cost" Type="Int32" />
+          <Property Name="state" Type="Boolean" />
+          <Property Name="wrongtype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="stu_ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="feedback">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="anscount" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="quesanswer">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="totvalue" />
+            <PropertyRef Name="isdelete" />
+            <PropertyRef Name="paper_id" />
+            <PropertyRef Name="nowvalue" />
+            <PropertyRef Name="pqid" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="chap_id" Type="Int64" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="right_answer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ans1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="hard_level" Type="Int16" />
+          <Property Name="check_sentence" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="output" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="totvalue" Type="Int16" Nullable="false" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="detail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="back_describe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="chap_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="paper_id" Type="Int64" Nullable="false" />
+          <Property Name="nowvalue" Type="Int64" Nullable="false" />
+          <Property Name="pqid" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="stu_ans_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="score" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="wronginfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cost" Type="Time" Precision="7" />
+          <NavigationProperty Name="exam_class" Relationship="moocModel.FK_stu_ans_log_Toexam_class" FromRole="stu_ans_log" ToRole="exam_class" />
+          <NavigationProperty Name="paper_ques" Relationship="moocModel.FK_stu_ans_log_Topaper_ques" FromRole="stu_ans_log" ToRole="paper_ques" />
+          <NavigationProperty Name="stu_info" Relationship="moocModel.FK_stu_ans_log_Tostu_info" FromRole="stu_ans_log" ToRole="stu_info" />
+        </EntityType>
+        <EntityType Name="stu_paperques">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cost" Type="Int32" />
+          <Property Name="score" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="wrongtype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="paper_ques" Relationship="moocModel.FK_qpe_to_pq" FromRole="stu_paperques" ToRole="paper_ques" />
+          <NavigationProperty Name="stu_info" Relationship="moocModel.FK_spq_to_stu_info" FromRole="stu_paperques" ToRole="stu_info" />
+        </EntityType>
+        <Association Name="FK_stu_ans_log_Toexam_class">
+          <End Type="moocModel.exam_class" Role="exam_class" Multiplicity="1" />
+          <End Type="moocModel.stu_ans_log" Role="stu_ans_log" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_qpe_to_pq">
+          <End Type="moocModel.paper_ques" Role="paper_ques" Multiplicity="1" />
+          <End Type="moocModel.stu_paperques" Role="stu_paperques" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_stu_ans_log_Topaper_ques">
+          <End Type="moocModel.paper_ques" Role="paper_ques" Multiplicity="1" />
+          <End Type="moocModel.stu_ans_log" Role="stu_ans_log" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_stu_ans_log_Tostu_info">
+          <End Type="moocModel.stu_info" Role="stu_info" Multiplicity="1" />
+          <End Type="moocModel.stu_ans_log" Role="stu_ans_log" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_spq_to_stu_info">
+          <End Type="moocModel.stu_info" Role="stu_info" Multiplicity="1" />
+          <End Type="moocModel.stu_paperques" Role="stu_paperques" Multiplicity="*" />
+        </Association>
+        <EntityType Name="examfeedback">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="score" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cost" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityType Name="stu_ans_score">
+          <Key>
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="ec_id" />
+          </Key>
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+          <Property Name="score" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="cost" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityType Name="exampaper">
+          <Key>
+            <PropertyRef Name="exam_id" />
+            <PropertyRef Name="paper_id" />
+            <PropertyRef Name="israndom" />
+            <PropertyRef Name="admin_tea" />
+            <PropertyRef Name="isopen" />
+            <PropertyRef Name="qcount" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="exam_id" Type="Int64" Nullable="false" />
+          <Property Name="paper_id" Type="Int64" Nullable="false" />
+          <Property Name="israndom" Type="Boolean" Nullable="false" />
+          <Property Name="admin_tea" Type="Int64" Nullable="false" />
+          <Property Name="paper_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="isopen" Type="Boolean" Nullable="false" />
+          <Property Name="qcount" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="timeless">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="time" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="exam_class" Relationship="moocModel.FK_time_exam_class" FromRole="timeless" ToRole="exam_class" />
+          <NavigationProperty Name="stu_info" Relationship="moocModel.FK_time_stu_info" FromRole="timeless" ToRole="stu_info" />
+        </EntityType>
+        <Association Name="FK_time_exam_class">
+          <End Type="moocModel.exam_class" Role="exam_class" Multiplicity="1" />
+          <End Type="moocModel.timeless" Role="timeless" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_time_stu_info">
+          <End Type="moocModel.stu_info" Role="stu_info" Multiplicity="1" />
+          <End Type="moocModel.timeless" Role="timeless" Multiplicity="*" />
+        </Association>
+        <EntityType Name="stu_exam_right_answer">
+          <Key>
+            <PropertyRef Name="ec_id" />
+            <PropertyRef Name="pq_id" />
+            <PropertyRef Name="stu_id" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="wronginfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cost" Type="Time" Precision="7" />
+          <Property Name="ec_id" Type="Int64" Nullable="false" />
+          <Property Name="score" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ans" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="pq_id" Type="Int64" Nullable="false" />
+          <Property Name="stu_id" Type="Int64" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="right_answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="q_type" Type="Int16" />
+          <Property Name="ans1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans3" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans4" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans5" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ans6" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="userapply">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="tname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="cname" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="isdelete" Type="Boolean" Nullable="false" />
+          <Property Name="isagree" Type="Boolean" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="moocModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="class">
+            <EntityTypeMapping TypeName="moocModel.class">
+              <MappingFragment StoreEntitySet="class">
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="college_info">
+            <EntityTypeMapping TypeName="moocModel.college_info">
+              <MappingFragment StoreEntitySet="college_info">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="qbase_chapter">
+            <EntityTypeMapping TypeName="moocModel.qbase_chapter">
+              <MappingFragment StoreEntitySet="qbase_chapter">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="setid" ColumnName="setid" />
+                <ScalarProperty Name="chap_name" ColumnName="chap_name" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="qbase_set">
+            <EntityTypeMapping TypeName="moocModel.qbase_set">
+              <MappingFragment StoreEntitySet="qbase_set">
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="set_name" ColumnName="set_name" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="isopen" ColumnName="isopen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="question">
+            <EntityTypeMapping TypeName="moocModel.question">
+              <MappingFragment StoreEntitySet="question">
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="totvalue" ColumnName="totvalue" />
+                <ScalarProperty Name="check_sentence" ColumnName="check_sentence" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="chap_id" ColumnName="chap_id" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans5" ColumnName="ans5" />
+                <ScalarProperty Name="ans6" ColumnName="ans6" />
+                <ScalarProperty Name="hard_level" ColumnName="hard_level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_class">
+            <EntityTypeMapping TypeName="moocModel.stu_class">
+              <MappingFragment StoreEntitySet="stu_class">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_info">
+            <EntityTypeMapping TypeName="moocModel.stu_info">
+              <MappingFragment StoreEntitySet="stu_info">
+                <ScalarProperty Name="lastTime" ColumnName="lastTime" />
+                <ScalarProperty Name="lastIP" ColumnName="lastIP" />
+                <ScalarProperty Name="stu_num" ColumnName="stu_num" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="phonenum" ColumnName="phonenum" />
+                <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+                <ScalarProperty Name="college_id" ColumnName="college_id" />
+                <ScalarProperty Name="major" ColumnName="major" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teacher_class">
+            <EntityTypeMapping TypeName="moocModel.teacher_class">
+              <MappingFragment StoreEntitySet="teacher_class">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teacher_info">
+            <EntityTypeMapping TypeName="moocModel.teacher_info">
+              <MappingFragment StoreEntitySet="teacher_info">
+                <ScalarProperty Name="lastIP" ColumnName="lastIP" />
+                <ScalarProperty Name="lastTime" ColumnName="lastTime" />
+                <ScalarProperty Name="tea_user" ColumnName="tea_user" />
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="college_id" ColumnName="college_id" />
+                <ScalarProperty Name="tea_level" ColumnName="tea_level" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_account">
+            <EntityTypeMapping TypeName="moocModel.user_account">
+              <MappingFragment StoreEntitySet="user_account">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="cname" ColumnName="cname" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="level" ColumnName="level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="moocModel.Store.Fun_String2ToStringArray" FunctionImportName="Fun_String2ToStringArray">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="moocModel.Fun_String2ToStringArray_Result">
+                <ScalarProperty Name="item" ColumnName="item" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MassInsertStu" FunctionName="moocModel.Store.MassInsertStu" />
+          <EntitySetMapping Name="NOTICE">
+            <EntityTypeMapping TypeName="moocModel.NOTICE">
+              <MappingFragment StoreEntitySet="NOTICE">
+                <ScalarProperty Name="ntime" ColumnName="ntime" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notice_stu_class">
+            <EntityTypeMapping TypeName="moocModel.notice_stu_class">
+              <MappingFragment StoreEntitySet="notice_stu_class">
+                <ScalarProperty Name="isread" ColumnName="isread" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="notice_id" ColumnName="notice_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MakeNotice" FunctionName="moocModel.Store.MakeNotice" />
+          <EntitySetMapping Name="teainfo">
+            <EntityTypeMapping TypeName="moocModel.teainfo">
+              <MappingFragment StoreEntitySet="teainfo">
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="lastIP" ColumnName="lastIP" />
+                <ScalarProperty Name="lastTime" ColumnName="lastTime" />
+                <ScalarProperty Name="college_name" ColumnName="college_name" />
+                <ScalarProperty Name="tea_level" ColumnName="tea_level" />
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="tea_user" ColumnName="tea_user" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="classinfo">
+            <EntityTypeMapping TypeName="moocModel.classinfo">
+              <MappingFragment StoreEntitySet="classinfo">
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="s_count" ColumnName="s_count" />
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StuClass">
+            <EntityTypeMapping TypeName="moocModel.StuClass">
+              <MappingFragment StoreEntitySet="StuClass">
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="stu_num" ColumnName="stu_num" />
+                <ScalarProperty Name="lastTime" ColumnName="lastTime" />
+                <ScalarProperty Name="lastIP" ColumnName="lastIP" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="background">
+            <EntityTypeMapping TypeName="moocModel.background">
+              <MappingFragment StoreEntitySet="background">
+                <ScalarProperty Name="db" ColumnName="db" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="sql" ColumnName="sql" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="qbasechapter">
+            <EntityTypeMapping TypeName="moocModel.qbasechapter">
+              <MappingFragment StoreEntitySet="qbasechapter">
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="back_describe" ColumnName="back_describe" />
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="q_count" ColumnName="q_count" />
+                <ScalarProperty Name="chap_name" ColumnName="chap_name" />
+                <ScalarProperty Name="set_name" ColumnName="set_name" />
+                <ScalarProperty Name="back_id" ColumnName="back_id" />
+                <ScalarProperty Name="setid" ColumnName="setid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="qbaseset">
+            <EntityTypeMapping TypeName="moocModel.qbaseset">
+              <MappingFragment StoreEntitySet="qbaseset">
+                <ScalarProperty Name="describe" ColumnName="describe" />
+                <ScalarProperty Name="isopen" ColumnName="isopen" />
+                <ScalarProperty Name="qbase_count" ColumnName="qbase_count" />
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="set_name" ColumnName="set_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK__qbase_cha__back___17036CC0" TypeName="moocModel.FK__qbase_cha__back___17036CC0" StoreEntitySet="qbase_chapter">
+            <EndProperty Name="qbase_chapter">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="background">
+              <ScalarProperty Name="id" ColumnName="back_id" />
+            </EndProperty>
+            <Condition ColumnName="back_id" IsNull="false" />
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ques">
+            <EntityTypeMapping TypeName="moocModel.ques">
+              <MappingFragment StoreEntitySet="ques">
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="totvalue" ColumnName="totvalue" />
+                <ScalarProperty Name="back_describe" ColumnName="back_describe" />
+                <ScalarProperty Name="chap_name" ColumnName="chap_name" />
+                <ScalarProperty Name="check_sentence" ColumnName="check_sentence" />
+                <ScalarProperty Name="hard_level" ColumnName="hard_level" />
+                <ScalarProperty Name="ans6" ColumnName="ans6" />
+                <ScalarProperty Name="ans5" ColumnName="ans5" />
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="chap_id" ColumnName="chap_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ques_judge">
+            <EntityTypeMapping TypeName="moocModel.ques_judge">
+              <MappingFragment StoreEntitySet="ques_judge">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="judge_sentence" ColumnName="judge_sentence" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_ques_judge_ToTable" TypeName="moocModel.FK_ques_judge_ToTable" StoreEntitySet="ques_judge">
+            <EndProperty Name="ques_judge">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="question">
+              <ScalarProperty Name="id" ColumnName="ques_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="teapaper">
+            <EntityTypeMapping TypeName="moocModel.teapaper">
+              <MappingFragment StoreEntitySet="teapaper">
+                <ScalarProperty Name="tea_level" ColumnName="tea_level" />
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="admin_tea" ColumnName="admin_tea" />
+                <ScalarProperty Name="pcount" ColumnName="pcount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paper">
+            <EntityTypeMapping TypeName="moocModel.paper">
+              <MappingFragment StoreEntitySet="paper">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="isopen" ColumnName="isopen" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="paper_name" ColumnName="paper_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_paper_ToTable" TypeName="moocModel.FK_paper_ToTable" StoreEntitySet="paper">
+            <EndProperty Name="paper">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="teacher_info">
+              <ScalarProperty Name="id" ColumnName="admin_tea" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="paperquestion">
+            <EntityTypeMapping TypeName="moocModel.paperquestion">
+              <MappingFragment StoreEntitySet="paperquestion">
+                <ScalarProperty Name="qcount" ColumnName="qcount" />
+                <ScalarProperty Name="isopen" ColumnName="isopen" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="paper_name" ColumnName="paper_name" />
+                <ScalarProperty Name="admin_tea" ColumnName="admin_tea" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paper_ques">
+            <EntityTypeMapping TypeName="moocModel.paper_ques">
+              <MappingFragment StoreEntitySet="paper_ques">
+                <ScalarProperty Name="nowvalue" ColumnName="nowvalue" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK__paper_que__paper__53D770D6" TypeName="moocModel.FK__paper_que__paper__53D770D6" StoreEntitySet="paper_ques">
+            <EndProperty Name="paper_ques">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="paper">
+              <ScalarProperty Name="id" ColumnName="paper_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__paper_que__ques___54CB950F" TypeName="moocModel.FK__paper_que__ques___54CB950F" StoreEntitySet="paper_ques">
+            <EndProperty Name="paper_ques">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="question">
+              <ScalarProperty Name="id" ColumnName="ques_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="exam">
+            <EntityTypeMapping TypeName="moocModel.exam">
+              <MappingFragment StoreEntitySet="exam">
+                <ScalarProperty Name="attention" ColumnName="attention" />
+                <ScalarProperty Name="details" ColumnName="details" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="test_time" ColumnName="test_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exam_class">
+            <EntityTypeMapping TypeName="moocModel.exam_class">
+              <MappingFragment StoreEntitySet="exam_class">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exam_paper">
+            <EntityTypeMapping TypeName="moocModel.exam_paper">
+              <MappingFragment StoreEntitySet="exam_paper">
+                <ScalarProperty Name="israndom" ColumnName="israndom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_exam_class_Toclass" TypeName="moocModel.FK_exam_class_Toclass" StoreEntitySet="exam_class">
+            <EndProperty Name="exam_class">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="class">
+              <ScalarProperty Name="class_id" ColumnName="class_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_exam_class_Toexam" TypeName="moocModel.FK_exam_class_Toexam" StoreEntitySet="exam_class">
+            <EndProperty Name="exam_class">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="exam">
+              <ScalarProperty Name="Id" ColumnName="exam_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_exam_paper_Toexam" TypeName="moocModel.FK_exam_paper_Toexam" StoreEntitySet="exam_paper">
+            <EndProperty Name="exam_paper">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="exam">
+              <ScalarProperty Name="Id" ColumnName="exam_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_exam_paper_Topaper" TypeName="moocModel.FK_exam_paper_Topaper" StoreEntitySet="exam_paper">
+            <EndProperty Name="exam_paper">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="paper">
+              <ScalarProperty Name="id" ColumnName="paper_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="examclass">
+            <EntityTypeMapping TypeName="moocModel.examclass">
+              <MappingFragment StoreEntitySet="examclass">
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="college_id" ColumnName="college_id" />
+                <ScalarProperty Name="test_time" ColumnName="test_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="practiceclass">
+            <EntityTypeMapping TypeName="moocModel.practiceclass">
+              <MappingFragment StoreEntitySet="practiceclass">
+                <ScalarProperty Name="test_time" ColumnName="test_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="college_id" ColumnName="college_id" />
+                <ScalarProperty Name="tea_name" ColumnName="tea_name" />
+                <ScalarProperty Name="tea_id" ColumnName="tea_id" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stuinfo">
+            <EntityTypeMapping TypeName="moocModel.stuinfo">
+              <MappingFragment StoreEntitySet="stuinfo">
+                <ScalarProperty Name="lastTime" ColumnName="lastTime" />
+                <ScalarProperty Name="lastIP" ColumnName="lastIP" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="major" ColumnName="major" />
+                <ScalarProperty Name="college_id" ColumnName="college_id" />
+                <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+                <ScalarProperty Name="phonenum" ColumnName="phonenum" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="stu_num" ColumnName="stu_num" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stuexam">
+            <EntityTypeMapping TypeName="moocModel.stuexam">
+              <MappingFragment StoreEntitySet="stuexam">
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+                <ScalarProperty Name="test_time" ColumnName="test_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stupaperques">
+            <EntityTypeMapping TypeName="moocModel.stupaperques">
+              <MappingFragment StoreEntitySet="stupaperques">
+                <ScalarProperty Name="ans6" ColumnName="ans6" />
+                <ScalarProperty Name="ans5" ColumnName="ans5" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="stu_ans" ColumnName="stu_ans" />
+                <ScalarProperty Name="wrongtype" ColumnName="wrongtype" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="pqid" ColumnName="pqid" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stupaperques_prac">
+            <EntityTypeMapping TypeName="moocModel.stupaperques_prac">
+              <MappingFragment StoreEntitySet="stupaperques_prac">
+                <ScalarProperty Name="stu_ans" ColumnName="stu_ans" />
+                <ScalarProperty Name="wrongtype" ColumnName="wrongtype" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="pqid" ColumnName="pqid" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_ans_count">
+            <EntityTypeMapping TypeName="moocModel.stu_ans_count">
+              <MappingFragment StoreEntitySet="stu_ans_count">
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="anscount" ColumnName="anscount" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paper_ques_count">
+            <EntityTypeMapping TypeName="moocModel.paper_ques_count">
+              <MappingFragment StoreEntitySet="paper_ques_count">
+                <ScalarProperty Name="anscount" ColumnName="anscount" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stupaperques_exam">
+            <EntityTypeMapping TypeName="moocModel.stupaperques_exam">
+              <MappingFragment StoreEntitySet="stupaperques_exam">
+                <ScalarProperty Name="stu_ans" ColumnName="stu_ans" />
+                <ScalarProperty Name="wrongtype" ColumnName="wrongtype" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="eid" ColumnName="eid" />
+                <ScalarProperty Name="pqid" ColumnName="pqid" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="feedback">
+            <EntityTypeMapping TypeName="moocModel.feedback">
+              <MappingFragment StoreEntitySet="feedback">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="anscount" ColumnName="anscount" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="quesanswer">
+            <EntityTypeMapping TypeName="moocModel.quesanswer">
+              <MappingFragment StoreEntitySet="quesanswer">
+                <ScalarProperty Name="pqid" ColumnName="pqid" />
+                <ScalarProperty Name="nowvalue" ColumnName="nowvalue" />
+                <ScalarProperty Name="paper_id" ColumnName="paper_id" />
+                <ScalarProperty Name="chap_name" ColumnName="chap_name" />
+                <ScalarProperty Name="back_describe" ColumnName="back_describe" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="totvalue" ColumnName="totvalue" />
+                <ScalarProperty Name="output" ColumnName="output" />
+                <ScalarProperty Name="check_sentence" ColumnName="check_sentence" />
+                <ScalarProperty Name="hard_level" ColumnName="hard_level" />
+                <ScalarProperty Name="ans6" ColumnName="ans6" />
+                <ScalarProperty Name="ans5" ColumnName="ans5" />
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="chap_id" ColumnName="chap_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_ans_log">
+            <EntityTypeMapping TypeName="moocModel.stu_ans_log">
+              <MappingFragment StoreEntitySet="stu_ans_log">
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="wronginfo" ColumnName="wronginfo" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="ans" ColumnName="ans" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_paperques">
+            <EntityTypeMapping TypeName="moocModel.stu_paperques">
+              <MappingFragment StoreEntitySet="stu_paperques">
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="wrongtype" ColumnName="wrongtype" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="ans" ColumnName="ans" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_stu_ans_log_Toexam_class" TypeName="moocModel.FK_stu_ans_log_Toexam_class" StoreEntitySet="stu_ans_log">
+            <EndProperty Name="stu_ans_log">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="exam_class">
+              <ScalarProperty Name="Id" ColumnName="ec_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_qpe_to_pq" TypeName="moocModel.FK_qpe_to_pq" StoreEntitySet="stu_paperques">
+            <EndProperty Name="stu_paperques">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="paper_ques">
+              <ScalarProperty Name="id" ColumnName="pq_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_stu_ans_log_Topaper_ques" TypeName="moocModel.FK_stu_ans_log_Topaper_ques" StoreEntitySet="stu_ans_log">
+            <EndProperty Name="stu_ans_log">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="paper_ques">
+              <ScalarProperty Name="id" ColumnName="pq_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_stu_ans_log_Tostu_info" TypeName="moocModel.FK_stu_ans_log_Tostu_info" StoreEntitySet="stu_ans_log">
+            <EndProperty Name="stu_ans_log">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="stu_info">
+              <ScalarProperty Name="id" ColumnName="stu_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_spq_to_stu_info" TypeName="moocModel.FK_spq_to_stu_info" StoreEntitySet="stu_paperques">
+            <EndProperty Name="stu_paperques">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="stu_info">
+              <ScalarProperty Name="id" ColumnName="stu_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="examfeedback">
+            <EntityTypeMapping TypeName="moocModel.examfeedback">
+              <MappingFragment StoreEntitySet="examfeedback">
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stu_ans_score">
+            <EntityTypeMapping TypeName="moocModel.stu_ans_score">
+              <MappingFragment StoreEntitySet="stu_ans_score">
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exampaper">
+            <EntityTypeMapping TypeName="moocModel.exampaper">
+              <MappingFragment StoreEntitySet="exampaper">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="qcount" ColumnName="qcount" />
+                <ScalarProperty Name="isopen" ColumnName="isopen" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="paper_name" ColumnName="paper_name" />
+                <ScalarProperty Name="admin_tea" ColumnName="admin_tea" />
+                <ScalarProperty Name="israndom" ColumnName="israndom" />
+                <ScalarProperty Name="paper_id" ColumnName="paper_id" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="timeless">
+            <EntityTypeMapping TypeName="moocModel.timeless">
+              <MappingFragment StoreEntitySet="timeless">
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK_time_exam_class" TypeName="moocModel.FK_time_exam_class" StoreEntitySet="timeless">
+            <EndProperty Name="timeless">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="exam_class">
+              <ScalarProperty Name="Id" ColumnName="ec_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK_time_stu_info" TypeName="moocModel.FK_time_stu_info" StoreEntitySet="timeless">
+            <EndProperty Name="timeless">
+              <ScalarProperty Name="id" ColumnName="id" />
+            </EndProperty>
+            <EndProperty Name="stu_info">
+              <ScalarProperty Name="id" ColumnName="stu_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="stu_exam_right_answer">
+            <EntityTypeMapping TypeName="moocModel.stu_exam_right_answer">
+              <MappingFragment StoreEntitySet="stu_exam_right_answer">
+                <ScalarProperty Name="ans6" ColumnName="ans6" />
+                <ScalarProperty Name="ans5" ColumnName="ans5" />
+                <ScalarProperty Name="ans4" ColumnName="ans4" />
+                <ScalarProperty Name="ans3" ColumnName="ans3" />
+                <ScalarProperty Name="ans2" ColumnName="ans2" />
+                <ScalarProperty Name="ans1" ColumnName="ans1" />
+                <ScalarProperty Name="q_type" ColumnName="q_type" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="right_answer" ColumnName="right_answer" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="stu_id" ColumnName="stu_id" />
+                <ScalarProperty Name="pq_id" ColumnName="pq_id" />
+                <ScalarProperty Name="ans" ColumnName="ans" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="ec_id" ColumnName="ec_id" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="wronginfo" ColumnName="wronginfo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userapply">
+            <EntityTypeMapping TypeName="moocModel.userapply">
+              <MappingFragment StoreEntitySet="userapply">
+                <ScalarProperty Name="isagree" ColumnName="isagree" />
+                <ScalarProperty Name="isdelete" ColumnName="isdelete" />
+                <ScalarProperty Name="cname" ColumnName="cname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="tname" ColumnName="tname" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

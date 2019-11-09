@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = null;
+}
+@model moocweb.Models.user_account
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <script src="~/jQuery easyUI/jquery.min.js"></script>
+    <script src="~/jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="~/jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" href="~/jQuery easyUI/themes/material-teal/easyui.css">
+    <link rel="stylesheet" href="~/CSS/s_login.css">
+    <script src="~/JS/studentLogin.js"></script>
+    <link rel="stylesheet" href="~/font-awesome-4.7.0/css/font-awesome.css">
+    <style>
+        #form table{
+            width: 400px;
+            height: 200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #loginbtn{
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 13px;
+        }
+        #loginbtn input{
+            width:100%;
+            height:32px;
+            background-color: #006fff;
+            opacity: 0.9;
+            font-size: 18px;
+            border: none;
+            color: white;
+        }
+        #loginbtn input:hover{
+            color: white;
+            background-color: #006fff;
+            opacity: 1;
+        }
+        #btn2{
+            margin: 15px auto
+        }
+        #signin {
+            width: 600px;
+            height: 450px;
+        }
+        #signin table{
+            width: 400px;
+            height: 300px;
+            margin: 30px auto;
+        }
+        #rtvpwd{
+            
+        }
+    </style>
+</head>
+<body background="~/IMG/login.jpg" style="background-repeat: no-repeat;background-size: 100%">
+    <div id="title" style="width: 900px;">
+        <h2>数据库系统概论实验平台</h2>
+    </div>
+    <div id="login" style="width: 600px;height: 380px;">
+        <div class="easyui-panel" title="<center>账号登陆</center>" data-options="fit:true">
+            @using (Html.BeginForm("Login", "Login", FormMethod.Post,new {id = "form" })) {
+                <table cellpadding="5px">
+                    <tr>
+                        <td style="font-size: 16px;">学 校</td>
+                        <td>
+                            @Html.DropDownListFor(u => u.cname, ViewBag.Coptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "school", @style = "width:90%;" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">账 号 </td>
+                        <td>@Html.TextBoxFor(u => u.account, new { @class = "easyui-textbox", @required = "required", @style = "width:90%;" })</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">密 码 </td>
+                        <td>@Html.PasswordFor(u => u.pass, new { @class = "easyui-textbox", @required = "required", @style = "width:90%;" })</td>
+                    </tr>
+                </table>
+                <div id="loginbtn">
+                <input class ="l-btn"type="submit" value="登录" />
+                </div>
+                <div id="btn2">
+                    <a class="easyui-linkbutton" href="#" target="_self" onclick="$('#signin').window('open')">用户注册</a>
+                    <span id="sp"></span>
+                    <a class="easyui-linkbutton" href="#" target="_self" onclick="$('#rtvpwd').window('open')">忘记密码</a>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="signin" class="easyui-window" title="<center>用户注册<center>"
+         data-options="modal:true,
+                      draggable:false,
+                      collapsible:false,
+                      minimizable:false,
+                      maximizable:false,
+                      closed:true">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'center'" style="padding: 10px;">
+                <table cellpadding="5px">
+                    <tr>
+                        <td style="font-size: 16px;">邮箱</tdstyle="font-size:>
+                        <td><input class="easyui-textbox" type="text" data-options="prompt:'请输入邮箱',validType:'email'" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">密码</td>
+                        <td><input class="easyui-textbox" type="password" name="password" id="signinpwd" data-options="prompt:'******'" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">确认密码</td>
+                        <td><input class="easyui-textbox" type="password" data-options="prompt:'******'" validType="eqPassword['#userSignIn input[name=password]']" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">学校</td>
+                        <td>
+                            <select class="easyui-combobox" name="school" style="width:100%;">
+                                <option value="中国人民大学">中国人民大学</option>
+                                <option value="清华大学">清华大学</option>
+                                <option value="北京大学">北京大学</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">班级</td>
+                        <td>
+                            <select id="class" class="easyui-combobox" style="width: 100%">
+                                <option value="1班">1班</option>
+                                <option value="2班">2班</option>
+                                <option value="3班">3班</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="signinsouthbtn" data-options="region:'south',border:false">
+                <a class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o'" onclick=" ">注册</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'fa fa-times'" onclick="$('#signin').window('close')">取消</a>
+            </div>
+        </div>
+    </div>
+    <div id="rtvpwd" class="easyui-window" title="<center>找回密码<center>"
+         data-options="modal:true,
+                      draggable:false,
+                      collapsible:false,
+                      minimizable:false,
+                      maximizable:false,
+                      closed:true">
+        <div class="easyui-layout" data-options="fit:true">
+            <div data-options="region:'center'" style="padding: 10px;">
+                <table cellpadding="5px">
+                    <tr>
+                        <td style="font-size: 16px;">邮箱</td>
+                        <td><input class="easyui-textbox" type="email" data-options="prompt:'请输入邮箱地址'" required="required"></td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 16px;">验证码</td>
+                        <td><input id="pwsucode" class="easyui-textbox" type="text" data-options="prompt:'请输入验证码'" required="required"></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="rtvsouthbtn" data-options="region:'south',border:false">
+                <a class="easyui-linkbutton" data-options="iconCls:'fa fa-key'" href="#" target="_self" onclick=" ">找回密码</a>
+            </div>
+        </div>
+    </div>
+    <div id="copyRight">
+        <p>版权信息</p>
+    </div>
+
+</body>
+</html>

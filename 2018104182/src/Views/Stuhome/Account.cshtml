@@ -1,0 +1,85 @@
+﻿@model moocweb.Models.stuinfo
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/s_information.css">
+<script>
+    function addSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+        }
+        else {
+            alert(data);
+        }
+    }
+    function addFailed(xhr, status, error) {
+        alert("修改失败");
+    }
+    function addComplete(xhr, status) {
+        $.parser.parse($('.easyui-tabs'));
+    }
+</script>
+<style>
+    #btn button{
+        width: 80px;
+        border: 1px solid #1db0b8;
+        color: #1db0b8;
+    }
+</style>
+<div class="easyui-tabs" data-options="fit:true">
+    <div title="个人信息" style="padding: 10px">
+        <div id="info" class="easyui-panel" data-options="fit:true,border:false">
+            @using (Ajax.BeginForm("Edit_Account", "Student", new AjaxOptions()
+            {
+                
+                HttpMethod = "Post",
+                OnSuccess = "addSuccess",
+                OnFailure = "addFailed",
+                OnComplete = "addComplete"
+            })) {
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.stu_num, "学号")
+                    @Html.TextBoxFor(m => m.stu_num, new { @class = "easyui-textbox", @readonly = true, @Value = Model.stu_num })
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.name, "姓名")
+                    @Html.TextBoxFor(m => m.name, new { @class = "easyui-textbox", @required = "required", @Value = Model.name })
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.pass, "密码")
+                    @Html.TextBoxFor(m => m.pass, new { @class = "easyui-textbox", @type = "password", @required = "required", @Value = Model.pass })
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.gender, "性别")
+                    @Html.DropDownListFor(m => m.gender, ViewBag.Soptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox",style = "width:300px;" })
+                    @{
+                        string gender = "";
+                        if (Model.gender == true) {
+                            gender = "男";
+                        } else if(Model.gender == false) {
+                            gender = "女";
+                        }
+                        Html.DropDownListFor(m => m.gender, ViewBag.Soptions as IEnumerable<SelectListItem>, gender, new { @class = "easyui-combobox" });
+                    }
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.phonenum, "电话")
+                    @Html.TextBoxFor(m => m.phonenum, new { @class = "easyui-textbox", @Value = Model.phonenum })
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.emailaddress, "邮箱")
+                    @Html.TextBoxFor(m => m.emailaddress, new { @class = "easyui-textbox", @required = "true", @Value = Model.emailaddress })
+                </div>
+                <div style="margin-bottom: 20px">
+                    @Html.LabelFor(m => m.major, "专业")
+                    @Html.TextBoxFor(m => m.major, new { @class = "easyui-textbox", @Value = Model.major })
+                </div>
+                <div id="btn">
+                    <button class="easyui-linkbutton" type="submit">提交</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,96 @@
+﻿@model moocweb.Models.exam
+@{
+    ViewBag.Title = "Practice";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_new_test.css">
+<script>
+    function ename(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/ExamPaper/' + row.exam_id + '">' + row.name + '</a>';
+    }
+    function analyse(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="">' + '查看分析数据' + '</a>';
+    }
+    function addSuccess(data, status, xhr) {
+        alert("添加成功");
+    }
+    function addFailed(xhr, status, error) {
+        alert("添加失败");
+    }
+    function addComplete(xhr, status) {
+        $('#apd_test').window('close');
+        $("#cm").datagrid("reload");
+    }
+</script>
+<table class="easyui-datagrid" title="<center>@ViewBag.name 练习管理</center>" style="width: 100%;height: 750px;"
+       data-options="
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,
+                    url:'/Teacher/PracticeClass_info/@ViewBag.id',
+                    method:'post',
+                    toolbar: '#epm_btn'">
+    <thead>
+        <tr>
+            <th data-options="field:'name', formatter:ename, width:'40%', align:'center'">练习名称</th>
+            <th data-options="field:'class_name',width:'30%', align:'center'">班级</th>
+            <th data-options="field:'analyse', formatter:analyse, width:'30%', align:'center'">反馈</th>
+        </tr>
+    </thead>
+</table>
+<div id="epm_btn" style="text-align: right">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_test').window('open')">添加考试</a>
+</div>
+<div id="apd_test" class="easyui-window" title="<center>添加考试</center>" style="width: 800px;height: 500px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:false,
+                resizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("Add_Exam", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "addSuccess",
+        OnFailure = "addFailed",
+        OnComplete = "addComplete"
+    })) {
+        <table cellpadding="5px" style="width: 80%;margin: 20px auto">
+            @Html.TextBoxFor(m => m.type, new { @type = "hidden", @Value = true })
+            <tbody>
+                <tr>
+                    <td>测试名称</td>
+                    <td>@Html.TextBoxFor(m => m.name, new { @class = "easyui-textbox", @required = "required" })</td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>@Html.TextBoxFor(m => m.start_time, new { @class = "easyui-datebox" })</td>
+                </tr>
+                <tr>
+                    <td>结束时间</td>
+                    <td>@Html.TextBoxFor(m => m.end_time, new { @class = "easyui-datebox" })</td>
+                </tr>
+                <tr>
+                    <td>答题时间</td>
+                    <td>@Html.TextBoxFor(m => m.test_time, new { @class = "easyui-textbox", @required = "required" })</td>
+                </tr>
+                <tr>
+                    <td>选择考生</td>
+                    <td>
+                        @foreach (var item in ViewBag.classes) {
+                            <input class="easyui-checkbox" data-options="labelPosition:'after'" name="class_ids" value=@item.class_id label=@item.class_name>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center">
+            <button class="easyui-linkbutton" type="submit" style="width: 80px;border: 1px solid #1db0b8;color: #1db0b8;">添加考试</button>
+        </div>
+    }
+</div>
+<h2>Practice</h2>
+

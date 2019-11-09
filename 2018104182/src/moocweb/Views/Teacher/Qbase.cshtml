@@ -1,0 +1,190 @@
+﻿@model moocweb.Models.qbase_set
+    @{
+        ViewBag.Title = "Qbase";
+        Layout = "~/Views/Shared/_adminindex.cshtml";
+    }
+    <link rel="stylesheet" href="~/CSS/t_questions.css">
+    <script>
+        function adelete(id, count) {
+            if (count != 0) {
+                alert('该习题集尚有题库未删除，请先删除全部题库');
+                return;
+            };
+            $.ajax({
+                url: '@Url.Action("Qbaseset_Del", "Teacher")',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    id: id
+                },
+                success: function (r) {
+                    if (r.result == 0) {
+                        alert("删除成功");
+                        $("#ques").datagrid('reload');
+                    } else {
+                        alert("删除失败");
+                    }
+                }
+            });
+        }
+        function update(row) {
+            var str = JSON.stringify(row).replace(RegExp("##", 'g'), "'");
+            row = JSON.parse(str);
+            $('#update_qbset').window('open');
+            $('#qbset_name').textbox("setValue", row.set_name);
+            $('#qbset_info').textbox("setValue", row.describe);
+            if (row.isopen == 1) {
+                $('#open').radiobutton("check");
+            } else if (row.isopen == 0) {
+                $('#close').radiobutton("check");
+            }
+            $('#qbset_id').val(row.id);
+        }
+        function formatOpen(val, row, index) {
+            return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/QbaseEdit/' + row.id + '">' + row.set_name + '</a>';
+        }
+        function formatDelete(val, row, index) {
+            var str = JSON.stringify(row).replace(RegExp("'", 'g'), "##");
+            //return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="adelete(' + row.id + ',' + row.qbase_count + ')">删除</a>';
+            return '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick=' + "'update(" + str + ")'>" + '修改' + '</a>' + ' | ' + '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="adelete(' + row.id + ',' + row.qbase_count + ')">删除</a>';
+        }
+        function formatIsopen(val, row, index) {
+            if (row.isopen == false) {
+                return '不开放';
+            } else {
+                return '开放';
+            }
+        }
+        function addSuccess(data, status, xhr) {
+            alert("添加成功");
+            $('#append').window('close');
+            $('input').val("");
+        }
+        function addFailed(xhr, status, error) {
+            alert("添加失败");
+        }
+        function addComplete(xhr, status) {
+            $("#ques").datagrid("reload");
+        }
+        function updateSuccess(data, status, xhr) {
+            if (data == "") {
+                alert("修改成功");
+                $('#update_qbset').window('close');
+            } else {
+                alert("修改失败\n" + data);
+            }
+        }
+        function updateComplete(xhr, status) {
+            $("#ques").datagrid("reload");
+        }
+    </script>
+    <div style="width: 100%;height: 100%;">
+        <table id="ques" title="<center>题库集管理</center>" class="easyui-datagrid"
+               data-options="
+                rownumbers:true,
+                fit:true,
+                pagination:true,
+                singleSelect:true,
+                url:'/Teacher/Qbaseset',
+                method:'post',
+                striped:true,
+                toolbar: '#ques_tb'">
+            <thead>
+            <th data-options="field:'id',align:'center',hidden:true" style="width: 13%">ID</th>
+            <th data-options="field:'set_name',formatter:formatOpen,align:'center'" width="20%">题库集名称</th>
+            <th data-options="field:'tea_name',align:'center'" width="20%">管理人员</th>
+            <th data-options="field:'qbase_count',align:'center'" width="20%">题库数量</th>
+            <th data-options="field:'describe',align:'center'" width="20%">描述</th>
+            <th data-options="field:'isopen',formatter:formatIsopen,align:'center'" width="10%">开放</th>
+            <th data-options="field:'delete',formatter:formatDelete,align:'center'" width="10%">操作</th>
+            </thead>
+        </table>
+    </div>
+    <div id="ques_tb">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append').window('open')" style="width: 70px;">添加</a>
+    </div>
+    <div id="append" class="easyui-window" title="<center>添加题库集</center>" style="width: 600px;height: 350px"
+         data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+        @using (Ajax.BeginForm("Add_Qbaseset", "Teacher", new AjaxOptions()
+        {
+            HttpMethod = "Post",
+            OnSuccess = "addSuccess",
+            OnFailure = "addFailed",
+            OnComplete = "addComplete"
+        })) {
+            <table cellpadding="10px" style="width:80%;margin: 10px auto">
+                <tr>
+                    <td style="width:120px">题库集名称</td>
+                    <td>@Html.TextBoxFor(model => model.set_name, new { @id = "cname", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+                </tr>
+                <tr>
+                    <td style="width:120px">管理人员</td>
+                    <td>@Html.DropDownListFor(model => model.admin_id, ViewBag.Toptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "cmanager", @style = "width:100%;" })</td>
+                </tr>
+                <tr>
+                    <td style="width:120px">题库集描述</td>
+                    <td>
+                        @Html.TextAreaFor(model => model.describe, new { @id = "cinfo", @class = "easyui-textbox",@style = "width:100%;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>是否开放</td>
+                    <td>
+                        @Html.RadioButtonFor(model => model.isopen, true, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "开放" })
+                        @Html.RadioButtonFor(model => model.isopen, false, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "不开放", @checked = true })
+                    </td>
+                </tr>
+            </table>
+            <div id="appendbtn">
+                <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">添加</button>
+            </div>
+        }
+    </div>
+
+
+<div id="update_qbset" class="easyui-window" title="<center>修改信息</center>" style="width: 500px;height: 300px;"
+     data-options="
+     modal:true,
+     closed:true,
+     draggable:false,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+    @using (Ajax.BeginForm("Qbaseset_Update", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+        OnFailure = "updateFailed",
+        OnComplete = "updateComplete"
+    })) {
+        @Html.TextBoxFor(model => model.id, new { @id = "qbset_id", @type = "hidden" });
+        <table cellpadding="10px" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+            <tr>
+                <td>题库集名称</td>
+                <td>@Html.TextBoxFor(model => model.set_name, new { @id = "qbset_name", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+            </tr>
+            <tr>
+                <td>题库集描述</td>
+                <td>
+                    @Html.TextAreaFor(model => model.describe, new { @id = "qbset_info", @class = "easyui-textbox", @style = "width:100%;" })
+                </td>
+            </tr>
+            <tr>
+                <td>是否开放</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.isopen, true, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "开放" })
+                    @Html.RadioButtonFor(model => model.isopen, false, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "不开放", @checked = true })
+                </td>
+            </tr>
+        </table>
+        <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">修改</button>
+        </div>
+    }
+</div>

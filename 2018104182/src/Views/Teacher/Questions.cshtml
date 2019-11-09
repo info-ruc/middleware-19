@@ -1,0 +1,450 @@
+﻿@model moocweb.Models.question
+@{
+    ViewBag.Title = "QbaseEdit";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_topic1.css">
+<script>
+    function formatDelete(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="#">' + '删除' + '</a>';
+    }
+    $(function () {
+        $("#options").click(function () {
+            var tr = "<tr>" +
+                "<td>" +
+                "<input class='easyui-textbox judge' title='text' prompt='请输入语义' style='width: 70%;padding: 5px 4px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "<input class='easyui-textbox value' title='text' prompt='请输入分数' style='width: 20%;padding: 5px 6px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "</td>" +
+                "</tr>";
+            $("#tb").append(tr);
+            // $("#tb tr:eq(2)").after(tr);
+        });
+    });
+    function onTopClick() {
+        window.location.hash = '"#"+loc';
+    }
+</script>
+<div style="width: 100%; height: 100%;">
+    <div class="easyui-panel" title="<center>@ViewBag.name</center>" data-options="fit:true">
+        <div id="ques_type" style="width: 95%;">
+            <a href="#" class="easyui-menubutton" data-options="menu:'#mn1',iconCls:'fa fa-reorder'">题目类型</a>
+            <div id="mn1" style="width:100px;">
+                <div iconCls="fa fa-angel-right"><a href="#" onclick="window.location.hash = '#sql'" style="color: #404040;text-decoration: none">SQL语句</a> </div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#singleChoice'" style="color: #404040;text-decoration: none">单选题</a> </div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#multipleChoice'" style="color: #404040;text-decoration: none">多选题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#tf'" style="color: #404040;text-decoration: none">判断题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#fillInTheBlank'" style="color: #404040;text-decoration: none">填空题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#shortAnswer'" style="color: #404040;text-decoration: none">简答题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#longAnswer'" style="color: #404040;text-decoration: none">综合题</a></div>
+            </div>
+            <a href="#" class="easyui-menubutton" data-options="menu:'#mn2',iconCls:'fa fa-plus'">添加题目</a>
+            <div id="mn2" style="width:100px;">
+                <div iconCls="fa fa-angel-right"><a href="#" onclick="$('#appendsql').window('open')" style="color: #404040;text-decoration: none">SQL语句</a> </div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendsc').window('open')" style="color: #404040;text-decoration: none">单选题</a> </div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendmc').window('open')" style="color: #404040;text-decoration: none">多选题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendtf').window('open')" style="color: #404040;text-decoration: none">判断题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendfitb').window('open')" style="color: #404040;text-decoration: none">填空题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendsa').window('open')" style="color: #404040;text-decoration: none">简答题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendla').window('open')" style="color: #404040;text-decoration: none">综合题</a></div>
+            </div>
+        </div>
+        <div id="sql" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table id ="sqltb" class="easyui-datagrid" title="<center>SQL语句</center>"
+                   data-options="
+                    fit:true,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    url:'/Teacher/Question_info',
+                    queryParams:{
+                        id: '@ViewBag.id',
+                        type: 1
+                   },
+                    method:'post',
+                    striped:true,
+                    toolbar: '#sql_tb'">
+                <thead>
+                <th data-options="field:'id'" hidden="hidden">ID</th>
+                <th data-options="field:'title'" width="50%">题目</th>
+                <th data-options="field:'right_answer'" width="40%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="singleChoice" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>单选题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                    <tr>
+                        <th data-options="field:'ques'" width="40%">题目</th>
+                        <th data-options="field:'option'" width="40%">选项</th>
+                        <th data-options="field:'ans'" width="10%">答案</th>
+                        <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>在存在下列关键字的SQL语句中，不可能出现where子句的是</td>
+                        <td>A.update B.delete C.insert D.alter</td>
+                        <td>D</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="multipleChoice" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>多选题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="40%">题目</th>
+                <th data-options="field:'option'" width="40%">选项</th>
+                <th data-options="field:'ans'" width="10%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="tf" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>判断题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="80%">题目</th>
+                <th data-options="field:'ans'" width="10%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="fillInTheBlank" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>填空题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="60%">题目</th>
+                <th data-options="field:'ans'" width="30%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="shortAnswer" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>简答题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="50%">题目</th>
+                <th data-options="field:'ans'" width="40%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="longAnswer" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>综合题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="50%">题目</th>
+                <th data-options="field:'ans'" width="40%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="appendsc" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 450px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px" style="width: 80%;margin: 30px auto;">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="sl" value="A" label="选项A" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_oa" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="sl" value="B" label="选项B" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_ob" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="sl" value="C" label="选项C" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_oc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="sl" value="D" label="选项D" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_od" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr></tr>
+                </table>
+            </form>
+            <div id="appendbtn_sc">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendmc" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 450px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_mc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="ml" value="A" label="选项A" data-options="labelPosition:'after'"></td>
+                        <td><input id="oa" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="ml" value="B" label="选项B" data-options="labelPosition:'after'"></td>
+                        <td><input id="ob" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="ml" value="C" label="选项C" data-options="labelPosition:'after'"></td>
+                        <td><input id="oc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-checkbox" name="ml" value="D" label="选项D" data-options="labelPosition:'after'"></td>
+                        <td><input id="od" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_mc">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendtf" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 300px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_tf" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center;">
+                            <input class="easyui-checkbox" name="true" value="true" label="对" data-options="labelPosition:'after'">
+                            <input class="easyui-checkbox" name="false" value="false" label="错" data-options="labelPosition:'after'">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_tf">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendfitb" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 300px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td>
+                            <input id="t_fitb" class="easyui-textbox" type="text" required="required" style="width: 80%;"
+                                   data-options="prompt:'请用4个下划线“____”表示空白处'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><input id="a_fitb" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_fitb">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendsa" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 350px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sa" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea style="width: 80%;height: 100px;font-size:14px;border: none;box-shadow: 0 0 20px #C0C0C0;"></textarea></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_sa">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendla" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 350px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_la" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea style="width: 80%;height: 100px;font-size:14px;border: none;box-shadow: 0 0 20px #C0C0C0;"></textarea></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_la">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendsql" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 600px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:true,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <script>
+                function submitsql() {
+                    var title = $('#t_sql').val();
+                    var ans = $('#sql_ans').val();
+                    var judges = [];
+                    var values = [];
+                    var totvalue = 0;
+                    $('.judge').each(function () {
+                        judges.push($(this).val());
+                    })
+                    $('.value').each(function () {
+                        var v = parseInt($(this).val())
+                        totvalue += v;
+                        values.push(v);
+                        if (totvalue > 10) {
+                            alert("分数总值不得超过10");
+                            return;
+                        }
+                    })
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        ans: ans,
+                        judges: judges,
+                        values: values
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_SQL_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#sqltb").datagrid('reload');
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                                $("#sqltb").datagrid('reload');
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post">
+                <table cellpadding="8px" style="width: 80%;margin: 30px auto;text-align: left;">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sql" class="easyui-textbox" type="text" required="required" style="width: 90%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea id="sql_ans" required="required"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>语义</td>
+                        <td>
+                            <table id="tb" cellpadding="5px" style="width: 90%">
+                                <tr>
+                                    <td>
+                                        <input class="easyui-textbox judge" title="text" prompt="请输入语义" style="width: 70%;">
+                                        <input class="easyui-textbox value" title="text" prompt="请输入分数(总分10)" style="width: 20%">
+                                    </td>
+                                    <td>
+                                        <a id="options" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" style="width: 30px;border: none;"></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_sql">
+                <a class="easyui-linkbutton" onclick="submitsql()">添加</a>
+            </div>
+        </div>
+    </div>
+</div>

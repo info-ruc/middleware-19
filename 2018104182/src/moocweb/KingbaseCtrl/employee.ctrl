@@ -1,0 +1,5 @@
+DELIMITER=','
+TYPE=csv
+DATAFILE='C:/Users/Administrator/Desktop/moocweb/moocweb/moocweb/UploadFile/employee.csv'
+TABLE=LINGSHOU.EMPLOYEE
+ROLLBACK=True

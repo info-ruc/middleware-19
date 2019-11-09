@@ -1,0 +1,85 @@
+:focus{
+    outline: none;
+}
+#north{
+    padding:10px;
+    background-color: #011935
+}
+#nortitle{
+    margin-top: 5px;
+}
+#schoolbadge{
+    vertical-align:middle ;
+    color: #E0ECFF;
+}
+#title{
+    padding-left: 6px;
+    vertical-align: middle;
+    font-size: 23px;
+    font-weight: bold;
+    text-decoration: none;
+    color: 	#E0ECFF;
+}
+#copyRight{
+    padding-top: 5px;
+    text-align: center;
+    color: #6a6a6a;
+    font-weight: bold;
+}
+#exit{
+    font-size: 10px;
+    position:absolute;
+    right:50px;
+    top:23px;
+    color: 	#E0ECFF;
+    text-decoration: none;
+}
+.panel-icon{
+    padding-left: 15px;
+    width: auto;
+}
+.panel-with-icon{
+    padding-left: 50px;
+}
+.sidemenu .tree-node-selected{
+    color: #009FAB;
+}
+.tree-file{
+    background: none;
+}
+#center{
+    background-color:#f2f2f2;
+    padding: 10px;
+}
+.tree-node{
+    height: 45px;
+}
+.tree-file{
+    height: 20px;
+    width: 20px;
+    margin: 7px 4px;
+    padding: 3px 0px;
+    background: none;
+}
+.tree-folder-open{
+    background: none;
+}
+.tree-folder{
+    background: none;
+    margin: 4px 3px;
+    padding: 3px 0;
+    height: 19px;
+}
+#treeMenu li span a{
+    text-decoration: none;
+    color:#404040;
+    font-weight: bold;
+}
+#guide{
+    font-size: 10px;
+    position: absolute;
+    right: 100px;
+    top: 23px;
+    color: #E0ECFF;
+    text-decoration: none;
+}

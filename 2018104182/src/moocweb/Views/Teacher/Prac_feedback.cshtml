@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "Prac_feedback";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_echarts_practice.css">
+<script src="~/echarts/echarts.js"></script>
+<a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;margin-left:30px" onclick="javascript: history.back(-1);">返回</a>
+<div class="content">
+    <div id="score"></div>
+    <script>
+        var sChart = echarts.init(document.getElementById('score'));
+        var sOption = {
+            backgroundColor: 'white',
+            title: {
+                text: '作答次数',
+                left: 40,
+                top: 25,
+                textStyle: {
+                    fontSize: 23
+                }
+            },
+            grid: {
+                height: 360,
+                width: 'auto',
+                top: 100
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                orient: 'horizontal',
+                top: 30,
+                right: 80,
+                itemGap: 20,
+                itemWidth: 13,
+                itemHeight: 13,
+                data: [
+                    {
+                        name: '作答1次',
+                        textStyle: {
+                            color: '#b34038'
+                        }
+                    },
+                    {
+                        name: '作答2-4次',
+                        textStyle: {
+                            color: '#384b5a'
+                        }
+                    },
+                    {
+                        name: '作答5次以上',
+                        textStyle: {
+                            color: '#6f9fa7'
+                        }
+                    }]
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    name: '题目',
+                    boundaryGap: true,
+                    axisLine: {
+                        lineStyle: {
+                            type: 'solid'
+                        }
+                    },
+                    axisTick: {
+                        inside: true
+                    },
+                    splitLine: {
+                        show: false
+                    },
+                    data: []
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    minInterval: 1,
+                    axisTick: {
+                        inside: true
+                    },
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            type: 'dotted'
+                        }
+                    }
+                }
+            ],
+            series: [{
+                type: 'bar',
+                name: '作答1次',
+                data: []
+
+            }, {
+                type: 'bar',
+                name: '作答2-4次',
+                data: []
+
+            }, {
+                type: 'bar',
+                name: '作答5次以上',
+                data: []
+            }]
+        };
+        sChart.setOption(sOption);
+    </script>
+    <div id="total"></div>
+</div>
+<div class="stu">
+    <div id="stuInfo">
+        <div class="stuName">
+            <p>请选择学生姓名：</p>
+            <div class="slt">
+                @Html.DropDownList("stu_info", ViewBag.SnameOptions as SelectList, new { @class = "easyui-combobox", @id = "stuselect", @style = "width:100%;" })
+            </div>
+        </div>
+    </div>
+    <div class="stuCtt .clearfix">
+            <div id="stuScore"></div>
+            <div id="stuGraph">
+                <div id="stuQues">
+                    <p>请选择题目：</p>
+                    <div class="quesSlt">
+                        @Html.DropDownList("Question", ViewBag.QuesOptions as SelectList, new { @class = "easyui-combobox", @id = "pqselect", @style = "width:100%;" })
+                    </div>
+                </div>
+                <div id="stuTime">
+                    <table class="easyui-datagrid" title="<center>学生作答统计</center>"
+                           data-options="
+                            rownumbers:true,
+                            pagination:true,
+                            singleSelect:true,
+                            striped:true,
+                            nowrap:false,
+                            fit: true
+                            ">
+                        <thead>
+                            <tr>
+                                <th data-options="field:'ans', width:'70%', align:'left'">错误答案</th>
+                                <th data-options="field:'wronginfo', width:'30%', align:'left'">错误类型</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<script>
+        var tChart = echarts.init(document.getElementById('total'));
+        var tOption = {
+            backgroundColor: 'white',
+            title: {
+                text: '答题情况',
+                left: 'center',
+                top: 30,
+                textStyle: {
+                    fontSize: 23
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'horizontal',
+                bottom: 10,
+                left: 'center',
+                itemGap: 40,
+                itemWidth: 13,
+                itemHeight: 13,
+                data: [
+                    {
+                        name: '已作答',
+                        textStyle: {
+                            color: '#b34038'
+                        }
+                    },
+                    {
+                        name: '未作答',
+                        textStyle: {
+                            color: '#384b5a'
+                        }
+                    },
+                    {
+                        name: '正在作答',
+                        textStyle: {
+                            color: '#6f9fa7'
+                        }
+                    }]
+            },
+            series: {
+                type: 'pie',
+                radius: '60%',
+                center: ['50%', '50%'],
+                selectedMode: 'single',
+                data: [],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        };
+        tChart.setOption(tOption);
+        var num1, num2, num3;
+        var categories;
+            $.get('/Teacher/Prac_feedback_info/@ViewBag.ecid').done(function (data) {
+                categories = data.sCategories;
+            sChart.setOption({
+                xAxis: {
+                    data: data.sCategories
+                },
+                series: [{
+                    name: '作答1次',
+                    data: data.sa
+                }, {
+                    name: '作答2-5次',
+                    data: data.sb
+                }, {
+                    name: '作答5次以上',
+                    data: data.sc
+                }]
+            });
+            num1 = data.num[0];
+            num2 = data.num[1];
+            num3 = data.num[2];
+            tChart.setOption({
+                series: {
+                    data: [{
+                        name: '已作答',
+                        value: num2
+                    }, {
+                        name: '未作答',
+                        value: num3
+                    }, {
+                        name: '正在作答',
+                        value: num1
+                    }]
+                }
+            });
+        });
+            var ssChart = echarts.init(document.getElementById('stuScore'));
+            var ssOption = {
+                backgroundColor: 'white',
+                title: {
+                    text: '作答次数',
+                    left: 20,
+                    top: 25,
+                    textStyle: {
+                        fontSize: 23
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b} : {c}次'
+                },
+                grid: {
+                    height: 280,
+                    width: 500,
+                    top: 100,
+                    left: 30,
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    name: '题目',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '次数',
+                    minInterval: 1
+                },
+                series: [
+                    {
+                        name: '成绩',
+                        type: 'line',
+                        data: []
+                    }
+                ]
+            };
+            ssChart.setOption(ssOption);
+            $('#pqselect').combobox({
+                onChange: function () {
+                    var pqid = $(this).combobox('getValue');
+                    var stuid = $('#stuselect').combobox('getValue');
+                    $.ajax({
+                        url: '/Teacher/Prac_feedback_detail',
+                        type: 'post',
+                        data: {
+                            ecid: '@ViewBag.ecid',
+                            stuid,
+                            pqid,
+                        },
+                        success: function (r) {
+                            $('.easyui-datagrid').datagrid('loadData', r.pqinfo);
+                        }
+                    });
+                }
+            });
+            $('#stuselect').combobox({
+                onChange: function () {
+                    var stuid = $(this).combobox('getValue');
+                    var pqid = $('#pqselect').combobox('getValue');
+                    $.ajax({
+                        url: '/Teacher/Prac_feedback_detail',
+                        type: 'post',
+                        data: {
+                            ecid: '@ViewBag.ecid',
+                            stuid,
+                            pqid,
+                        },
+                        success: function (r) {
+                            ssChart.setOption({
+                                xAxis: {
+                                    data: categories
+                                },
+                                series: [{
+                                    name: '次数',
+                                    data: r.times
+                                }]
+                            });
+                            $('.easyui-datagrid').datagrid('loadData', r.pqinfo);
+                        }
+                    })
+                }
+            })
+</script>
+

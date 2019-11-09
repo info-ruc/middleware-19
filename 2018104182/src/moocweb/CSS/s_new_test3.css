@@ -1,0 +1,176 @@
+:focus{
+    outline: none;
+}
+h3,h2,p{
+    margin: 0;
+    padding: 0;
+}
+.top{
+    width: 100%;
+    height: 100px;
+    margin: 0 auto;
+    padding: 50px 0 0 62px;
+}
+.top p{
+    font-size: 26px;
+}
+.content{
+    width: 100%;
+    margin: 0 auto;
+}
+.left{
+    width: 70%;
+    height: auto;
+    float: left;
+}
+.left .test{
+    height: 500px;
+    width: 95%;
+    margin: 10px 0 0 32px;
+    padding: 50px 50px;
+    background-color: #fff;
+    border: 1px solid #D8D8D8;
+    box-shadow: 0 0 18px 1px #D8D8D8;
+}
+.test .num{
+    width: 50px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+    text-align: center;
+    display: inline-block;
+}
+.num p{
+    font-size: 16px;
+    line-height: 28px;
+}
+.test .ques{
+    display: inline;
+    font-size: 17px;
+}
+.answer{
+    width: 100%;
+    height: 280px;
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+.answer textarea{
+    border: none;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    font-size: 18px;
+    overflow: auto;
+}
+.nextBtn{
+    text-align: center;
+    margin-top: 30px;
+}
+.nextBtn a{
+    border: none;
+    width: 500px;
+    height: 35px;
+    background-color: #1db0b8;
+    color: white;
+    opacity: 0.9;
+}
+.right{
+    width: 30%;
+    height: auto;
+    float: right;
+    /*background-color: green;*/
+}
+.right .tool{
+    height: 500px;
+    width: 95%;
+    margin-top: 10px;
+    padding: 100px 30px 30px 30px;
+    background-color: #fff;
+    border: 1px solid #D8D8D8;
+    box-shadow: 0 0 18px 1px #D8D8D8;
+    text-align: center;
+    line-height: 30px;
+}
+.tool p{
+    font-size: 16px;
+}
+.tool .p1{
+    color: #1db0b8;
+}
+.tool .p2{
+    color: #000;
+    font-weight: bold;
+}
+.tool .h{
+    width: 100%;
+    height: 1px;
+    background: #ddd;
+    border: none;
+}
+.tool .p3{
+    color: #aaa;
+}
+.p3 span{
+    color: #000;
+    font-weight: bold;
+}
+.tool .number{
+    width: 100%;
+    height: auto;
+    margin: 20px auto 0 auto;
+    text-align: left;
+    /*background-color: red;*/
+}
+.number button{
+    width: 28px;
+    margin: 1px;
+    color: black;
+    border: none;
+}
+.number button:hover{
+    color: white;
+    background-color: #1db0b8;
+    border: none;
+}
+.answer {
+    width: 100%;
+    height: 280px;
+    margin-top: 20px;
+    border: none;
+    padding: 20px;
+}
+
+.answer .ctt {
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+ }
+.ctt .op{
+    width: 95%;
+    height: auto;
+    line-height: 50px;
+    font-size: 18px;
+}
+.btn{
+    margin-top: 30px;
+}
+.btn a {
+    border: none;
+    width: 100%;
+    height: 35px;
+    background-color: #1db0b8;
+    color: white;
+    opacity: 0.9;
+}
+/*
+.btn a:hover{
+    border: none;
+    width: 100%;
+    height: 35px;
+    background-color: #1db0b8;
+    color: white;
+    opacity: 1.2;
+}*/

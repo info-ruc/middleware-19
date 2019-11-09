@@ -1,0 +1,96 @@
+﻿@model IEnumerable<moocweb.Models.quesanswer>
+@{
+    ViewBag.Title = "Exam";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/s_new_test3.css">
+<div class="easyui-panel" style="border: none;width: 100%;height: 100%;">
+    <div class="top">
+        <p>@ViewBag.name</p>
+    </div>
+    <div class="content">
+        @for (int i = 0; i < Model.Count(); i++) {
+                        var m = Model.ToArray();
+                        var textareaid = "answer" + i;
+                        var divid = "page" + i;
+                        var next = i + 1;
+                        if (i == 0) {
+                <div class="left" id="@divid">
+                    <div class="test">
+                        <div class="num">
+                            <p>@next/@Model.Count()</p>
+                        </div>
+                        <p class="ques">@next.@m[i].title</p>
+                        <form action=" " method="post">
+                            <div class="answer" id="@textareaid">
+                                <textarea></textarea>
+                            </div>
+                        </form>
+                        <div class="nextBtn">
+                            <button class="easyui-linkbutton" onclick="change(@next)">下一题</button>
+                        </div>
+                    </div>
+                </div>
+            } else {
+                <div class="left" id="@divid" style="display:none">
+                    <div class="test">
+                        <div class="num">
+                            <p>@next/@Model.Count()</p>
+                        </div>
+                        <p class="ques">@next.@m[i].title</p>
+                        <form action=" " method="post">
+                            <div class="answer" id="@textareaid">
+                                <textarea></textarea>
+                            </div>
+                        </form>
+                        <div class="nextBtn">
+                            <button class="easyui-linkbutton" onclick="change(@next)">下一题</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="right">
+            <div class="tool">
+                <p class="p1">剩余时间</p>
+                <p class="p2">00:00:00</p>
+                <hr class="h">
+                <p class="p3">答题进度：<span>1/@Model.Count()</span></p>
+                <div class="number">
+                    @for (var i = 0; i < Model.Count(); i++) {
+                        var bid = "button" + i;
+                        <button id ="@bid" class="easyui-linkbutton" onclick="change(@i)">@(i+1)</button>
+                    }
+                </div>
+                <div class="btn">
+                    <a class="easyui-linkbutton" onclick="">提交试卷</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function change(i) {
+        var j = i + 1;
+        $(".left").fadeOut();
+        $("#page" + i).fadeIn();
+        $(".p3 span").text(j + "/@Model.Count()");
+    }
+    function sub(pqid) {
+        var ans = $("#answer").val();
+        $.ajax({
+            url:'@Url.Action("Judge_Sql","Student")',
+            type: 'post',
+            dataType: "json",
+            data: {
+                ans,
+                pqid,
+            },
+            success: function (r) {
+                alert(r.score);
+                alert(r.exc);
+            }
+        })
+    }
+</script>
+

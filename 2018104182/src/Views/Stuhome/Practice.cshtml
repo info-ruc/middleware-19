@@ -1,0 +1,139 @@
+﻿@model IEnumerable<moocweb.Models.quesanswer>
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Practice";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/s_new_practice1.css">
+<style>
+    .mg .p{
+        font-size: 16px;
+    }
+    .ta1{
+        height: 460px;
+    }
+    .ta2{
+        height: 225px;
+        background-color: white;
+        margin: 3px auto
+    }
+</style>
+<div class="easyui-panel easyui-layout" title="<center>课后练习</center>" style="width:100%; height: 100%;">
+    <div data-options="region:'west',title:'<center>@ViewBag.name</center>',split:true,border:true" style="width:50%;padding: 24px;">
+        <div class="mg" id="tit">
+            <h2>题目</h2>
+            <p>查询至少选修了一门课程的学生学号</p>
+        </div>
+        <hr class="hr">
+        <div class="mg" id="back_info">
+            <h2>表信息</h2>
+            <div class="p">学生表：Student(Sno,Sname,Ssex,Sage,Sdept)<br />
+            课程表：Course(Cno,Cname,Cpno,Ccredit)<br />
+            学生选课表：SC(Sno,Cno,Grade)
+            </div>
+        </div>
+        <hr class="hr">
+        <div class="mg" id="output_info">
+            <h2>输出列</h2>
+            <p>Sno</p>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'<center>SQL语句</center>'" style="background:#eee;">
+        <div class="number">
+            @for (int i = 0; i < Model.Count(); i++) {
+                var m = Model.ToArray();
+                if(m[i].stu_ans == " "||m[i].stu_ans == null) {
+                    m[i].stu_ans = " ";
+                }
+                var data = new {
+                    pqid = m[i].pqid,
+                    id = m[i].id,
+                    output = m[i].output,
+                    title = m[i].title,
+                    detail = m[i].detail.Replace("\r\n\r\n", "\n").Split('\n'),
+                    stu_ans = m[i].stu_ans
+                };
+                string json = JsonConvert.SerializeObject(data);
+                if (i == 0) {
+                    <a class="easyui-linkbutton" data-options="selected:true" onclick="ChangePage(this,'@json')">@(i + 1)</a>
+                } else {
+                    <a class="easyui-linkbutton" onclick="ChangePage(this,'@json')">@(i + 1)</a>
+                }
+            }
+            <!--a class="easyui-linkbutton next" onclick="">下一页</a-->
+        </div>
+        <div class="ctool">
+            <a class="easyui-linkbutton" onclick="save()">保存</a>
+            <a class="easyui-linkbutton" onclick="sub()">答题</a>
+        </div>
+        <div>
+            <form class="form" action=" " method=" ">
+                <textarea class="ta1" id="sqlans"></textarea>
+                <textarea class="ta2" id="replyinfo" disabled></textarea>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var nowpqid = 0;
+    function sub() {
+        var ans = $('#sqlans').val();
+        $.ajax({
+            url:'@Url.Action("Sub_Ans","Student")',
+            type: 'post',
+            dataType: "json",
+            data: {
+                ans,
+                pqid: this.nowpqid,
+            },
+            success: function (r) {
+                $("#replyinfo").val(r.message);
+            }
+        })
+    }
+    function save() {
+        var ans = $('#sqlans').val();
+        $.ajax({
+            url:'@Url.Action("Save_Ans","Student")',
+            type: 'post',
+            data: {
+                ans,
+                pqid: this.nowpqid,
+            },
+            success: function (r) {
+                if (r == "") {
+                    alert("保存成功");
+                } else {
+                    alert(r);
+                }
+            }
+        })
+    }
+    function ChangePage(obj, i) {
+        if (this.nowpqid != 0) {
+            var ans = $('#sqlans').val();
+            $.ajax({
+                url: '@Url.Action("Save_Ans","Student")',
+                type: 'post',
+                data: {
+                    ans,
+                    pqid: this.nowpqid,
+                },
+            });
+        }
+        var data = JSON.parse(i.replace(/\n/g, "\\n"));
+        this.nowpqid = data.pqid;
+        $(".l-btn-selected").removeClass("l-btn-selected");
+        $(obj).addClass("l-btn-selected");
+        $("#tit p").html(data.title);
+        $("#back_info div").html("");
+        $(".ta1").val(data.stu_ans);
+        for (var i = 0; i < data.detail.length; i++) {
+            $("#back_info div").append("<p>" + data.detail[i] + "<p>");
+        }
+        $("#output_info p").html(data.output);
+    }
+    $(function () {
+        $(".easyui-button:first").click();
+    })
+</script>

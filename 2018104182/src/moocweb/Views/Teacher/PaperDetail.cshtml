@@ -1,0 +1,415 @@
+﻿@model IEnumerable<moocweb.Models.quesanswer>
+@{
+    ViewBag.Title = "PaperDetail";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_exam_paper.css" />
+<style>
+    .ques .answer {
+        height: 80px;
+        font-size: 15px;
+        box-shadow: 0 0 10px #C0C0C0;
+    }
+
+    .ques {
+        margin-left: 10px;
+    }
+
+    .op label {
+        display: block;
+    }
+
+    .op input {
+        margin-right: 8px;
+    }
+
+    .ip {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        top: 6px;
+        background-color: #fff;
+        border: 2px solid #39c;
+        border-radius: 50%;
+        color: #fff;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        outline: none;
+    }
+
+        .ip:checked {
+            color: #fff;
+            background-color: #39c;
+            border: 2px solid #39c;
+        }
+
+    .ip {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        top: 6px;
+        background-color: #fff;
+        border: 2px solid #39c;
+        border-radius: 50%;
+        color: #fff;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        outline: none;
+    }
+
+        .ip:checked {
+            color: #fff;
+            background-color: #39c;
+            border: 2px solid #39c;
+        }
+
+    .cb {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        top: 6px;
+        background-color: #fff;
+        border: 2px solid #39c;
+        border-radius: 4px;
+        color: #fff;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -ms-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+        outline: none;
+    }
+
+        .cb:checked {
+            color: #fff;
+            background-color: #39c;
+            border: 2px solid #39c;
+        }
+</style>
+
+<div class="easyui-panel" title="<center>@ViewBag.name</center>" style="width: 100%;height: 100%;">
+    <div id="apd_btn">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left'" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+        <a href="#" class="easyui-linkbutton"
+           data-options="iconCls:'fa fa-plus'" onclick="$('#apd_ques').window('open')">添加试题</a>
+    </div>
+    <div id="questions" style="width: 90%;height: 85%;">
+        <div class="easyui-panel" data-options="fit:true,border:false">
+            <form>
+                @{  int i = 0;
+                    foreach (var item in Model) {
+                        i++;
+                        <div class="ques op">
+                            <h4 style="width: 85%;">@i. @item.title</h4>
+                            @if (item.q_type == 1 || item.q_type == 2) {
+                                <textarea class="answer" readonly="readonly">@item.right_answer</textarea>
+                            } else if (item.q_type == 3) {
+                                if (item.right_answer == "A") {
+                                    <label for="ra"><input class="ip" id="ra" type="radio" name="roption'@i'a" value="a" disabled checked>选项A: @item.ans1</label>
+                                } else {
+                                    <label for="ra"><input class="ip" id="ra" type="radio" name="roption'@i'a" value="a" disabled>选项A: @item.ans1</label>
+                                }
+                                if (item.right_answer == "B") {
+                                    <label for="rb"><input class="ip" id="rb" type="radio" name="roption'@i'b" value="b" disabled checked>选项B: @item.ans2</label>
+                                } else {
+                                    <label for="rb"><input class="ip" id="rb" type="radio" name="roption'@i'b" value="b" disabled>选项B: @item.ans2</label>
+                                }
+                                if (item.right_answer == "C") {
+                                    <label for="rc"><input class="ip" id="rc" type="radio" name="roption'@i'c" value="c" disabled checked>选项C: @item.ans3</label>
+                                } else {
+                                    <label for="rc"><input class="ip" id="rc" type="radio" name="roption'@i'c" value="c" disabled>选项C: @item.ans3</label>
+                                }
+                                if (item.right_answer == "D") {
+                                    <label for="rd"><input class="ip" id="rd" type="radio" name="roption'@i'd" value="d" disabled checked>选项D: @item.ans4</label>
+                                } else {
+                                    <label for="rd"><input class="ip" id="rd" type="radio" name="roption'@i'd" value="d" disabled>选项D: @item.ans4</label>
+                                }
+
+                            } else if (item.q_type == 4) {
+                                string[] str = item.right_answer.Split(',');
+                                for (int j = 0; j < str.Count(); j++) {
+                                    if (str[j] == "A") {
+                                        <label for="ca"><input class="cb" id="ca" type="radio" name="coption'@i'a" value="a" disabled checked>选项A: @item.ans1</label>
+                                        break;
+                                    }
+                                    if (j == str.Count() - 1) {
+                                        <label for="ca"><input class="cb" id="ca" type="radio" name="coption'@i'a" value="a" disabled>选项A: @item.ans1</label>
+                                    }
+                                }
+                                for (int j = 0; j < str.Count(); j++) {
+                                    if (str[j] == "B") {
+                                        <label for="cb"><input class="cb" id="cb" type="radio" name="coption'@i'b" value="b" disabled checked>选项B: @item.ans2</label>
+                                        break;
+                                    }
+                                    if (j == str.Count() - 1) {
+                                        <label for="cb"><input class="cb" id="cb" type="radio" name="coption'@i'b" value="b" disabled>选项B: @item.ans2</label>
+                                    }
+                                }
+                                for (int j = 0; j < str.Count(); j++) {
+                                    if (str[j] == "C") {
+                                        <label for="cc"><input class="cb" id="cc" type="radio" name="coption'@i'c" value="c" disabled checked>选项C: @item.ans3</label>
+                                        break;
+                                    }
+                                    if (j == str.Count() - 1) {
+                                        <label for="cc"><input class="cb" id="cc" type="radio" name="coption'@i'c" value="c" disabled>选项C: @item.ans3</label>
+                                    }
+                                }
+                                for (int j = 0; j < str.Count(); j++) {
+                                    if (str[j] == "D") {
+                                        <label for="cd"><input class="cb" id="cd" type="radio" name="coption'@i'd" value="d" disabled checked>选项D: @item.ans4</label>
+                                        break;
+                                    }
+                                    if (j == str.Count() - 1) {
+                                        <label for="cd"><input class="cb" id="cd" type="radio" name="coption'@i'd" value="d" disabled>选项D: @item.ans4</label>
+                                    }
+                                }
+                                if (item.ans5 != null) {
+                                    for (int j = 0; j < str.Count(); j++) {
+                                        if (str[j] == "E") {
+                                            <label for="ce"><input class="cb" id="ce" type="radio" name="coption'@i'e" value="e" disabled checked>选项E: @item.ans5</label>
+                                            break;
+                                        }
+                                        if (j == str.Count() - 1) {
+                                            <label for="ce"><input class="cb" id="ce" type="radio" name="coption'@i'e" value="e" disabled>选项E: @item.ans5</label>
+                                        }
+                                    }
+                                }
+                                if (item.ans6 != null) {
+                                    for (int j = 0; j < str.Count(); j++) {
+                                        if (str[j] == "F") {
+                                            <label for="cf"><input class="cb" id="cf" type="radio" name="coption'@i'f" value="f" disabled checked>选项F: @item.ans6</label>
+                                            break;
+                                        }
+                                        if (j == str.Count() - 1) {
+                                            <label for="cf"><input class="cb" id="cf" type="radio" name="coption'@i'f" value="f" disabled>选项F: @item.ans6</label>
+                                        }
+                                    }
+                                }
+                            } else if (item.q_type == 5) {
+                                if (item.right_answer == "true") {
+                                    <label for="ta"><input class="ip" id="ta" type="radio" name="toption'@i't" value="t" disabled checked>对</label>
+                                } else {
+                                    <label for="ta"><input class="ip" id="ta" type="radio" name="toption'@i't" value="t" disabled>对</label>
+                                }
+                                if (item.right_answer == "false") {
+                                    <label for="tb"><input class="ip" id="tb" type="radio" name="toption'@i'f" value="f" disabled checked>错</label>
+                                } else {
+                                    <label for="tb"><input class="ip" id="tb" type="radio" name="toption'@i'f" value="f" disabled>错</label>
+                                }
+                            }
+
+                            <a href="#" class="easyui-linkbutton score_btn" data-options="iconCls:'fa fa-cog',plain:true" onclick="$('#score').window('open')"></a>
+                            <a href="#" class="easyui-linkbutton delete_btn" data-options="iconCls:'fa fa-trash-o',plain:true" onclick="adelete(@item.pqid)"></a>
+                        </div>
+                    }
+                }
+            </form>
+        </div>
+    </div>
+    <div id="save_btn">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o',plain:true" onclick=" ">保存</a>
+    </div>
+</div>
+<div id="apd_ques" class="easyui-window" title="<center>添加试题</center>" style="width: 1200px;height: 700px;"
+     data-options="
+     closed:true,
+     modal:true,
+     minimizable:false,
+     maximizable:false,
+     draggable:true,
+     resizable:false,
+     collapsible:false">
+    <form method="post">
+        <table id="apd_ques_top" cellpadding="8px">
+            <tr>
+                <td>题库集</td>
+                <td>
+                    @Html.DropDownList("q_chap", ViewBag.qbaselist as SelectList, new { @class = "easyui-combobox", @id = "qbselect", @style = "width:80%;" })
+                </td>
+                <td>题库</td>
+                <td>
+                    <select id="qchselect" class="easyui-combobox" style="width: 80%;" data-options="valueField:'id',textField:'text'">
+                        <option value="0">全部</option>
+                    </select>
+                </td>
+                <td>题型</td>
+                <td>
+                    <select id="qtypeselect" class="easyui-combobox" style="width: 80%;">
+                        <option value="none"></option>
+                        <option value="2">SQL语句</option>
+                        <option value="3">单选题</option>
+                        <option value="4">多选题</option>
+                        <option value="5">判断题</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        function adelete(pqid) {
+            $.ajax({
+                url: '/Teacher/Del_Paperques',
+                type: 'post',
+                data: {
+                    id: pqid
+                },
+                success: function (r) {
+                    if (r == "") {
+                        alert('删除成功');
+                    } else {
+                        alert('删除失败\n'+ r);
+                    }
+                    window.location.reload();
+                }
+            })
+        }
+        function append_ques() {
+            var idlist = [];
+            $("input[type='checkbox']").each(function (index, el) {
+                if (el.disabled == false && el.checked == true) {
+                    idlist.push($(this).parent().parent().parent().children("td").eq(1).text());
+                }
+            });
+            $.ajax({
+                url: '/Teacher/Make_Paper',
+                type: 'post',
+                data: {
+                    idlist,
+                    pid: @ViewBag.id
+                },
+                success: function (r) {
+                    if (parseInt(r) > 0) {
+                        alert('成功添加' + r + '道题');
+                        $('#apd_ques').window('close');
+                    } else if(parseInt(r) == -1) {
+                        alert('添加失败');
+                    } else {
+                        alert('添加的题中含有客观题');
+                    }
+                    window.location.reload();
+                }
+            })
+        }
+        $('#qtypeselect').combobox({
+            onChange: function () {
+                var qbid = $('#qbselect').combobox('getValue');
+                var qcid = $('#qchselect').combobox('getValue');
+                var qtid = $(this).combobox('getValue');
+                $('#quesans').datagrid('options').url = '/Teacher/Quesans_info_qbase?pid=@ViewBag.id&qbid=' + qbid + '&&qcid=' + qcid+'&&qtype='+qtid;
+                $('#quesans').datagrid('reload');
+            }
+        });
+        $('#qchselect').combobox({
+            onChange: function () {
+                var qbid = $('#qbselect').combobox('getValue');
+                var qcid = $(this).combobox('getValue');
+                $('#quesans').datagrid('options').url = '/Teacher/Quesans_info_qbase?pid=@ViewBag.id&qbid=' + qbid + '&&qcid=' + qcid+'&&qtype=0';
+                $('#quesans').datagrid('reload');
+            }
+        });
+        $('#qbselect').combobox({
+            onChange: function () {
+                var qbid = $(this).combobox('getValue');
+                if (parseInt(qbid) == 0) {
+                    $('#quesans').datagrid('options').url = '/Teacher/Quesans_info/@ViewBag.id';
+                    $('#quesans').datagrid('reload');
+                } else {
+                    $('#qchselect').combobox('reload', '/Teacher/QchapSelectItem/' + qbid);
+                    $('#quesans').datagrid('options').url = '/Teacher/Quesans_info_qbase?pid=@ViewBag.id&qbid=' + qbid + '&&qcid=0'+'&&qtype=0';
+                    $('#quesans').datagrid('reload');
+                }
+            }
+        });
+        $(function () {
+            $('#quesans').datagrid({
+                columns: [[
+                    { field: 'ck', checkbox: "true", width: "5%" },
+                    { field: 'id', hidden: true},
+                    { field: 'title', align: 'center', width: '65%', title: "题目内容"},
+                    {
+                        field: 'type', formatter: function(val, row, index) {
+                            switch (row.q_type) {
+                                case 1: return "SQL查询语句";
+                                case 2: return "SQL操纵语句";
+                                case 3: return "单选题";
+                                case 4: return "多选题";
+                                case 5: return "判断题";
+                                case 6: return "填空题";
+                                case 7: return "简答题";
+                                case 8: return "综合题";
+                            }
+                            return " ";
+                        }, width: '10%', title: '题型' },
+                    { field: 'chap_name', align: 'center', width: '10%', title: '章节' },
+                    { field: 'hard_level', align: 'center', width: '10%', title: '难度' }
+                ]],
+                nowrap: false,
+                rownumbers: true,
+                fit: true,
+                pagination: true,
+                singleSelect: false,
+                checkOnSelect: true,
+                selectOnCheck: true,
+                url: '/Teacher/Quesans_info/@ViewBag.id',
+                method: 'post',
+                striped: true,
+                onLoadSuccess: function (data) {
+                    if (data) {
+                        $.each(data.rows, function (index, item) {
+                            if (item.iselect == 1) {
+                                $('#quesans').datagrid('checkRow', index);
+                                $("input[type='checkbox']")[index + 1].disabled = true;
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+    <div id="apd_ques_dtgd">
+        <table id="quesans"></table>
+    </div>
+    <form method="post">
+        <table id="apd_ques_btm" cellpadding="8px">
+            <tr>
+                <td class="ques_btm_td">已添加试题数目：</td>
+                <td>@Model.Count()</td>
+            </tr>
+            <!--tr>
+                <td class="ques_btm_td">推荐作答时间(分钟)：</td>
+                <td><input type="text" class="easyui-textbox" required="required" data-options="prompt:'60'"></td>
+            </tr-->
+        </table>
+    </form>
+    <div id="apd_sql">
+        <button class="easyui-linkbutton" onclick="append_ques()">添加</button>
+    </div>
+</div>
+<div id="score" class="easyui-window" title="<center>修改分数</center>" style="width: 600px;height: 200px;"
+     data-options="
+     closed:true,
+     modal:true,
+     minimizable:false,
+     maximizable:false,
+     draggable:true,
+     resizable:false,
+     collapsible:false">
+    <form method="post">
+        <table id="score_tb" cellpadding="5px">
+            <tr>
+                <td>修改分数：</td>
+                <td><input type="text" class="easyui-textbox" required="required" value="10" style="width: 90%;"></td>
+            </tr>
+        </table>
+    </form>
+    <div id="score_tb_btn">
+        <button class="easyui-linkbutton" onclick="$('#score').window('close')">修改</button>
+    </div>
+</div>
+

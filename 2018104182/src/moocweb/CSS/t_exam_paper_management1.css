@@ -1,0 +1,12 @@
+:focus{
+    outline: none;
+}
+#apd_epm table{
+    width: 80%;
+    margin: 20px auto;
+}
+#apd_epm_btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}

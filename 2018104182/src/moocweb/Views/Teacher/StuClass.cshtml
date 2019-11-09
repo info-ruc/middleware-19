@@ -1,0 +1,239 @@
+﻿@model moocweb.Models.stu_class
+@{
+    ViewBag.Title = "StuClass";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_class1.css">
+<link href="font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<script>
+
+    
+
+    function formatDelete(val, row, index) {
+        return '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick=' + "'update(" + JSON.stringify(row) + ")'>" + '修改' + '</a>' + ' | ' + '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="remove(' + row.id + ')">' + '删除' + '</a>';
+        //return '<a style="color: #1db0b8;text-decoration: none" onclick="remove('+row.id+')">删除</a>';
+    }
+    function update(row) {
+        $('#update_stu').window('open');
+        $('#stuname').textbox("setValue", row.name);
+        $('#stunum').textbox("setValue", row.stu_num);
+        $('#stupass').textbox("setValue", row.pass);
+        if (row.gender == 1) {
+            $('#male').radiobutton("check");
+        } else if (row.gender == 0) {
+            $('#female').radiobutton("check");
+        }
+        $('#id').val(row.id);
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+            $('#update_stu').window('close');
+        } else {
+            alert("修改失败\n" + data);
+        }
+    }
+    function updateFailed(xhr, status, error) {
+        alert("修改失败");
+    }
+    function updateComplete(xhr, status) {
+        $(".easyui-datagrid").datagrid("reload");
+    }
+    function remove(id) {
+        $.ajax({
+            url: '/Teacher/Del_StuCls',
+            type: 'post',
+            data: {
+                id: id,
+            },
+            success: function (res) {
+                if (res == "") {
+                    alert("删除成功");
+                    $(".easyui-datagrid").datagrid('reload');
+                } else {
+                    alert("删除失败\n" + res);
+                }
+            }
+        })
+    }
+    function formatGender(val, row, index) {
+        if (row.gender) {
+            return '男';
+        } else if (row.gender == false) {
+            return '女';
+        } else {
+            return '';
+        }
+    }
+    function lasttime(val, row, index) {
+        if (row.lastTime == null) {
+            return "";
+        }
+        var re = /-?\d+/;
+        var m = re.exec(row.lastTime);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+    function addstus() {
+        var nums = $("#stunums").val();
+        $.ajax({
+            url: '/Teacher/Add_stu',
+            type: 'post',
+            data: {
+                stunum: nums,
+                id: '@ViewBag.id'
+            },
+            success: function (res) {
+                if (res == "") {
+                    alert("导入成功\n学生初始密码123456");
+                    $("#tb").datagrid("reload");
+                    $("input").val("");
+                    $('#append_stu').window('close');
+                } else {
+                    alert("导入失败\n" + res);
+                }
+            },
+            error: function(){
+                alert("出错啦");
+            }
+        })
+    }
+    
+        
+</script>
+<style>
+    #stunums{
+        border: 1px solid groove;
+        border-radius: 8px;
+        resize: none;
+        font-size: 17px;
+        line-height: 1.5;
+        width:100%;
+        height:100px;
+    }
+</style>
+<div style="width: 100%;height: 100%;">
+        <table id="tb" class="easyui-datagrid" title="<center>@ViewBag.classname</center>"
+               data-options="
+                pagination:true,
+                fit:true,
+                rownumbers:true,
+                striped:true,
+                singleSelect:true,
+                url:'/Teacher/StuClass_info/@ViewBag.id',
+                method:'post',
+                toolbar: '#tb_tb'">
+            <thead>
+            <th data-options="field:'stu_num'" width="18%">学生学号</th>
+            <th data-options="field:'name'" width="18%">真实姓名</th>
+            <th data-options="field:'gender',formatter:formatGender" width="18%">性别</th>
+            <th data-options="field:'lastTime',formatter:lasttime" width="18%">最后登录时间</th>
+            <th data-options="field:'lastIP'" width="18%">最后登录IP</th>
+            <th data-options="field:'delete',formatter:formatDelete,align:'center'" width="10%">操作</th>
+            </thead>
+        </table>
+        <div id="tb_tb">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+            <a class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append_file').window('open')">批量添加</a>
+            <a class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append_stu').window('open')">添加</a>
+        </div>
+    </div>
+
+<div id="append_file" class="easyui-window" title="<center>批量添加学生</center>" style="width: 350px;height: 180px;"
+     data-options="
+     draggable:false,
+     modal:true,
+     closed:true,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+    @using (Html.BeginForm("Add_Stu_File", "Teacher", null, FormMethod.Post, new { enctype = "multipart/form-data" , id = @ViewBag.id })) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+    <table cellpadding="12px">
+        <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+            <i class="fa fa-download" aria-hidden="true" title="下载" onclick="window.open('../../Fileheader/StuInfo.csv')">下载示例文件</i>
+        </div>
+        <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+            <div class="form-group">
+                <input type="file" id="dataFile" name="upload" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-default" />
+            </div>
+        </div>
+    </table>
+    }
+</div>
+
+
+    <div id="append_stu" class="easyui-window" title="<center>添加学生</center>" style="width: 450px;height: 300px;"
+         data-options="
+                draggable:false,
+                modal:true,
+                closed:true,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+        <table cellpadding="12px">
+            <tr>
+                <td>请输入学生学号(英文逗号分隔)</td>
+            </tr>
+            <tr>
+                <td><textarea id="stunums"></textarea></td>
+            </tr>
+        </table>
+        <div id="append_stu_btn" style="margin-top:10px;">
+            <a class="easyui-linkbutton" onclick="addstus()">提交</a>
+        </div>
+    </div>
+
+<div id="update_stu" class="easyui-window" title="<center>修改信息</center>" style="width: 500px;height: 350px;"
+     data-options="
+     modal:true,
+     closed:true,
+     draggable:false,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+    @using (Ajax.BeginForm("Update_stu", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+        OnFailure = "updateFailed",
+        OnComplete = "updateComplete"
+    })) {
+        @Html.TextBoxFor(model => model.id, new { @id = "id", @type = "hidden" });
+        <table cellpadding="10px" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+            <tr>
+                <td>学生学号</td>
+                <td>@Html.TextBoxFor(model => model.stu_info.stu_num, new { @id = "stunum", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+            </tr>
+            <tr>
+                <td>学生姓名</td>
+                <td>
+                    @Html.TextAreaFor(model => model.stu_info.name, new { @id = "stuname", @class = "easyui-textbox", @style = "width:100%;" })
+                </td>
+            </tr>
+            <tr>
+                <td>学生性别</td>
+                <td>
+                    @Html.RadioButtonFor(model => model.stu_info.gender, true, new { @id = "male", @class = "easyui-radiobutton", @labelPosition = "after", @label = "男" })
+                    @Html.RadioButtonFor(model => model.stu_info.gender, false, new { @id = "female", @class = "easyui-radiobutton", @labelPosition = "after", @label = "女" })
+                </td>
+            </tr>
+            <tr>
+                <td>重置密码</td>
+                <td>
+                    @Html.TextAreaFor(model => model.stu_info.pass, new { @id = "stupass", @class = "easyui-textbox", @style = "width:100%;" })
+                </td>
+            </tr>
+
+
+        </table>
+        <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">修改</button>
+        </div>
+    }
+</div>

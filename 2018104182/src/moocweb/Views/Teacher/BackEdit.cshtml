@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "BackEdit";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+
+<link rel="stylesheet" href="~/CSS/t_questionScene_data.css">
+<link href="font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet">
+<script src="~/JS/jquery.form.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<div id="backtab" class="easyui-tabs" style="width:100%;height:auto">
+    <script>
+        function showInform(){
+            document.getElementById("inform").style.display='block';
+            // document.getElementById("inform").css("display","block");
+        }
+        //隐藏悬浮层
+        function hiddenInform(event) {
+            var informDiv = document.getElementById('inform');
+            var x = event.clientX;
+            var y = event.clientY;
+            var divx1 = informDiv.offsetLeft;
+            var divy1 = informDiv.offsetTop;
+            var divx2 = informDiv.offsetLeft + informDiv.offsetWidth;
+            var divy2 = informDiv.offsetTop + informDiv.offsetHeight;
+            if (x < divx1 || x > divx2 || y < divy1 || y > divy2) {
+                document.getElementById('inform').style.display = 'none';
+            }
+
+        }
+        $.getJSON("/Teacher/BackDetail/" + @ViewBag.id, function (result) {
+            var cols = new Array(result.count);
+            for (var i = 0; i < result.count; i++) {
+                var out = document.createElement('div');
+                out.setAttribute("title", result.tname[i]);
+                out.setAttribute("style", "padding:10px");
+                var tmp = $(out);
+                var content = '<div class="upload" style="width:100%;align-content:center">';
+                content += '<a href="#" class="easyui-linkbutton" data-options="'+"iconCls:'fa fa-arrow-left'"+',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>';
+                content += '<form id="uploadfile' + i + '" enctype="multipart/form-data"' + '>';
+                content += '<input name = "bid" type="hidden" value="@ViewBag.id"><input name="tnum" type="hidden" value="' + i + '">';
+                content += '<input id= "file" name = "file" class="easyui-filebox" accept=".csv" data-options="buttonText:' + "'选择文件上传'" + ",buttonIcon:'fa fa-upload',propmt:'选择文件上传',buttonAlign:'left'" + '" style = "width: 300px;">';
+                content += '<select class = "easyui-combobox" name = "character" style="width:100px"><option value = "gbk">gbk<option><option value = "utf8">utf8<option></select>';
+                content += '<button class="uploadfilebutton" type="button" onclick="uploadfile(' + result.tname[i] + ',' + i + ')">上传</button></from>';
+                // content += '<i class="fa fa-warning" aria-hidden="true" onMouseOver="javascript:showInform();"  onMouseOut="hiddenInform()"><div id="inform"  onMouseOver="javascript:showInform();"  onMouseOut="hiddenInform(event)"><div>上传文件为csv文件，文件中不可带表头信息，导出时“文本识别符”选择“无”，macOS系统上传文件选择“UTF-8”格式，Windows系统上传文件选择“GBK”格式</div></div></i>';
+                content += '<button style="float:right" type="button" onclick="cleardata(' + result.tname[i]+','+i+')">清除数据</button></div>';
+                content += '<div><table id='+result.tname[i] + ' title = "<center>' + result.tname[i] + '</center>" style="width:100%;height:600px"></table></div>';
+                cols[i] = new Array();
+                $.each(result.colnames[i], function (j, item) {
+                    var count = result.colnames[i].length;
+                    var str = (100 / count).toString();
+                    str = str + '%';
+                    cols[i].push({
+                        "field": item,
+                        "title": item,
+                        "width": str
+                    })
+                });
+                $('#backtab').tabs('add', {
+                    title: result.tname[i],
+                    content: content,
+                    closable: false
+                });
+                //alert(columns[0][0].field + columns[0][0].title);
+                $('#' + result.tname[i]).datagrid({
+                    columns: [cols[i]],
+                    pagination: true,
+                    method: 'get',
+                    url: result.bnames[i],
+                    nowrap: false,
+                    pageSize:10,
+                    pageList:[10,25,50,100],
+                });
+            }
+        });
+        function uploadfile(tname, i) {
+            $("#uploadfile" + i).ajaxSubmit({
+                url: "/Teacher/UploadFile",
+                type: 'post',
+                success: data => {
+                    if (data == "") {
+                        alert("上传成功");
+                        location.reload();
+                    } else {
+                        alert("存在冲突\n" + data);
+                    }
+                }
+            });
+        }
+        function cleardata(tname, i) {
+            $.ajax({
+                url: "/Teacher/ClearBackData",
+                type: 'post',
+                data: {
+                    bid: @ViewBag.id,
+                    tnum: i
+                },
+                success: function (r) {
+                    if (r == "") {
+                        alert("删除成功");
+                    } else {
+                        alert(r);
+                    }
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</div>

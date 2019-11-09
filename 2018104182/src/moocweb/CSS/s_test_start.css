@@ -1,0 +1,16 @@
+:focus{
+    outline: none;
+}
+#content{
+    color: #404040;
+    width: 30%;
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+#btn{
+    color: #404040;
+    text-align: center;
+    margin-top: 10%;
+}

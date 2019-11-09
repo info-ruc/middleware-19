@@ -1,0 +1,83 @@
+#title{
+    margin:100px auto 0 auto;
+    text-align: center;
+    color: white;
+    font-size: 50px;
+    font-weight: 900;
+    text-shadow: 0px 0px 20px #000000;
+}
+#login{
+    font-weight: bold;
+    margin: 80px auto;
+    box-shadow:0 0 20px #0033CC;
+}
+#form{
+    padding: 10px 60px 10px 60px;
+}
+#loginbtn{
+    padding-top: 13px;
+}
+#loginbtn input{
+    width:100%;height:32px;
+}
+#btn2{
+    padding:5px 0 0;
+    text-align: center;
+}
+#btn2 a{
+    width: 80px;
+    text-decoration: none;
+    color: black;
+}
+#sp{
+    padding: 12px 6px 0 6px;
+    margin-left: 6px;
+    border-left: 1px solid #000000;
+    font-size: 0;
+}
+#rtvpwdbtn a{
+    text-decoration: none;color: #000;
+}
+:focus{
+    outline: none;   /*去掉点击时的虚线*/
+}
+#signin{
+    width:450px;
+    height: 300px;
+    padding:5px;
+    font-weight: bold;
+}
+#signin table{
+    margin: 10px 50px 10px 50px;
+}
+#signinsouthbtn{
+    text-align:right;
+    padding:5px 0 0;
+}
+#signinsouthbtn a{
+    width: 80px;
+}
+#rtvpwd{
+    width:400px;
+    height: 200px;
+    padding:5px;
+    font-weight: bold;
+}
+#rtvpwd table{
+    margin: 10px 50px 10px 50px;
+}
+#rtvsouthbtn{
+    text-align:right;
+    padding:5px 0 0;
+}
+#rtvsouthbtn a{
+    width:100px
+}
+#copyRight{
+    width: 100%;
+    color: white;
+    text-align: center;
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+}

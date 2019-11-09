@@ -1,0 +1,15 @@
+#msg{
+    margin: 3% 10%;
+    font-size: 15px;
+    width: 80%;
+}
+#msg a{
+    text-decoration: none;
+    color: #404040;
+}
+.msg_a:hover{
+    color: red;
+}
+#msg a:hover{
+    color: red;
+}

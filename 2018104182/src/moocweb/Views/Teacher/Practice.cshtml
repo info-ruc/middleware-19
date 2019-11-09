@@ -1,0 +1,211 @@
+﻿@model moocweb.Models.exam
+@{
+    ViewBag.Title = "Practice";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_new_test.css">
+<script>
+    function datetrans(str) {
+        var re = /-?\d+/;
+        var m = re.exec(str);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        var tradeDate = end.split('/');
+        var res = tradeDate[0] + "-" + tradeDate[1] + "-" + tradeDate[2];
+        return res;
+    }
+    function etime(val, row, index) {
+        var re = /-?\d+/;
+        var m = re.exec(row.end_time);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+    function stime(val, row, index) {
+        var re = /-?\d+/;
+        var m = re.exec(row.start_time);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+    function ename(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/ExamPaper/' + row.exam_id + '">' + row.name + '</a>';
+    }
+    function analyse(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/Prac_feedback/' + row.Id + '">' + '查看分析数据' + '</a>';
+    }
+    function del(val, row, index) {
+        var str = JSON.stringify(row);
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick=' + "'edits(" + str + ")'>" + '编辑</a> | <a href="#" style="color: #1db0b8;text-decoration: none" onclick="remove(' + row.exam_id + ')">' + '删除' + '</a>';
+    }
+    function edits(row) {
+        if (row) {
+            $('#editwin').window('open');
+            $('#uname').textbox("setValue", row.name);
+            $('#ustime').datebox('setValue', datetrans(row.start_time));
+            $('#uetime').datebox("setValue", datetrans(row.end_time));
+            $('#uts').timespinner({
+                min: '00:00:00',
+                highlight: 1,
+                showSeconds: true
+            });
+            var ttime = row.test_time.Hours + ":" + row.test_time.Minutes + ":" + row.test_time.Seconds;
+            $('#uts').timespinner("setValue", ttime);
+            $('#uid').val(row.Id);
+        }
+    }
+    function remove(id) {
+        $.ajax({
+            url: '@Url.Action("Del_Exam", "Teacher")',
+            type: 'post',
+            data: {
+                id: id
+            },
+            success: function (res) {
+                if (res == "") {
+                    alert("删除成功");
+                    $('.easyui-datagrid').datagrid('reload');
+                } else {
+                    alert("删除失败\n" + res);
+                }
+            }
+        })
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("更新成功");
+            $('#editwin').window('close');
+            $(".easyui-datagrid").datagrid('reload');
+        } else {
+            alert("更新失败\n" + data);
+        }
+    }
+    function addSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("添加成功");
+            $("input").val("");
+            $('#apd_test').window('close');
+            $('.easyui-datagrid').datagrid('reload');
+        }
+        else {
+            alert("添加失败\n" + data);
+        }
+    }
+    function addFailed(xhr, status, error) {
+        alert("操作失败");
+    }
+    function addComplete(xhr, status) {
+        $("#cm").datagrid("reload");
+    }
+</script>
+<style>
+.checkbox{
+    display:inline-block;
+}
+</style>
+<table class="easyui-datagrid" title="<center>@ViewBag.name 练习管理</center>" style="width: 100%;height: 750px;"
+       data-options="
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,
+                    url:'/Teacher/PracticeClass_info/@ViewBag.id',
+                    method:'post',
+                    toolbar: '#epm_btn'">
+    <thead>
+        <tr>
+            <th data-options="field:'name', formatter:ename, width:'18%', align:'center'">练习名称</th>
+            <th data-options="field:'class_name',width:'18%', align:'center'">班级</th>
+            <th data-options="field:'start_time', formatter:stime, width:'18%', align:'center'">开始日期</th>
+            <th data-options="field:'end_time', formatter:etime, width:'18%', align:'center'">结束日期</th>
+            <th data-options="field:'analyse', formatter:analyse, width:'18%', align:'center'">反馈</th>
+            <th data-options="field:'del', formatter:del, width:'10%', align:'center'">删除</th>
+        </tr>
+    </thead>
+</table>
+<div id="epm_btn" style="text-align: right">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_test').window('open')">添加练习</a>
+</div>
+<div id="editwin" class="easyui-window" title="<center>编辑</center>" style="width: 600px;height: 350px;"
+     data-options="
+     closed:true,
+     modal:true,
+     minimizable:false,
+     maximizable:false,
+     draggable:false,
+     resizable:false,
+     collapsible:false">
+    @using (Ajax.BeginForm("Update_Exam", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+        OnFailure = "addFailed",
+    })) {
+        <input id="uid" type="hidden" name="ecid" />
+        <table cellpadding="5px" style="width: 80%;margin: 20px auto">
+            <tbody>
+                <tr>
+                    <td>考试名称</td>
+                    <td>@Html.TextBoxFor(m => m.name, new { @id = "uname", @class = "easyui-textbox", @required = "required" })</td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>@Html.TextBoxFor(m => m.start_time, new { @id = "ustime", @type = "text", @class = "easyui-datebox" })</td>
+                </tr>
+                <tr>
+                    <td>结束时间</td>
+                    <td>@Html.TextBoxFor(m => m.end_time, new { @id = "uetime", @type = "text", @class = "easyui-datebox" })</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center">
+            <button class="easyui-linkbutton" type="submit" style="width: 80px;border: 1px solid #1db0b8;color: #1db0b8;">修改</button>
+        </div>
+    }
+</div>
+<div id="apd_test" class="easyui-window" title="<center>添加练习</center>" style="width: 600px;height: 350px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:false,
+                resizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("Add_Exam", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "addSuccess",
+        OnFailure = "addFailed",
+        OnComplete = "addComplete"
+    })) {
+        <table cellpadding="5px" style="width: 80%;margin: 20px auto">
+            @Html.TextBoxFor(m => m.type, new { @type = "hidden", @Value = true })
+            <tbody>
+                <tr>
+                    <td>测试名称</td>
+                    <td>@Html.TextBoxFor(m => m.name, new { @class = "easyui-textbox", @required = "required" })</td>
+                </tr>
+                <tr>
+                    <td style="min-width:127px">选择班级</td>
+                    <td style="max-width:300px">
+                        @foreach (var item in ViewBag.classes) {
+                            <input class="easyui-checkbox" data-options="labelPosition:'after'" name="class_ids" value=@item.class_id label=@item.class_name>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>开始时间</td>
+                    <td>@Html.TextBoxFor(m => m.start_time, new { @class = "easyui-datebox", @required="required" })</td>
+                </tr>
+                <tr>
+                    <td>结束时间</td>
+                    <td>@Html.TextBoxFor(m => m.end_time, new { @class = "easyui-datebox", @required="required" })</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center">
+            <button class="easyui-linkbutton" type="submit" style="width: 80px;border: 1px solid #1db0b8;color: #1db0b8;">添加练习</button>
+        </div>
+    }
+</div>
+
+
