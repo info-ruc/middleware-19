@@ -1,0 +1,156 @@
+﻿@model moocweb.Models.background
+@{
+    ViewBag.Title = "Background";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<script>
+    function formatOpen(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/BackEdit/'+ row.id+ '">' + row.describe + '</a>';
+    }
+    function formatDelete(val, row, index) {
+        //return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="remove(' + row.id + ')">删除</a>';
+        var str = JSON.stringify(row).replace(new RegExp("'", 'g'), "##");
+        return '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick=' + "'update(" + str + ")'>" + '修改' + '</a>' + ' | ' + '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="remove(' + row.id + ')">删除</a>';
+    }
+    function update(row) {
+        var str = JSON.stringify(row).replace(new RegExp("##", 'g'), "'");
+        row = JSON.parse(str);
+        $('#update_back').window('open');
+        $('#back_des').textbox("setValue", row.describe);
+        $('#back_name').textbox("setValue", row.name);
+        //$('#back_db').val(row.db);
+        //$('#back_sql').textarea("setValue", row.sql);
+        $('#back_id').val(row.id);
+    }
+    function addSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("添加成功");
+            $("input").val("");
+            $('#append').window('close');
+        } else {
+            alert("添加失败\n错误:" + data);
+        }
+        
+    }
+    function addFailed(xhr, status, error) {
+        alert("添加失败 " + status + " " + error);
+    }
+    function addComplete(xhr, status) {
+        $("#ques").datagrid("reload");
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+            $('#update_back').window('close');
+        } else {
+            alert("修改失败\n" + data);
+        }
+    }
+    function updateComplete(xhr, status) {
+        $("#ques").datagrid("reload");
+    }
+</script>
+    <table id="ques" title="<center>数据库背景</center>" class="easyui-datagrid"
+           data-options="
+                rownumbers:true,
+                fit:true,
+                pagination:true,
+                singleSelect:true,
+                url:'/Teacher/Backinfo',
+                method:'post',
+                striped:true,
+                toolbar: '#ques_tb'">
+        <thead>
+        <th data-options="field:'id',align:'center',hidden:true" style="width: 13%">ID</th>
+        <th data-options="field:'describe',formatter:formatOpen,align:'center'" width="50%">背景描述</th>
+        <th data-options="field:'name',align:'center'" width="20%">背景名称</th>
+        <th data-options="field:'db',align:'center'" width="20%">数据库</th>
+        <th data-options="field:'delete',formatter:formatDelete,align:'center'" width="10%">删除</th>
+        </thead>
+    </table>
+<div id="ques_tb">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+    <a style="float:right" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append').window('open')" style="width: 70px;">添加</a>
+</div>
+<div id="append" class="easyui-window" title="<center>添加背景</center>" style="width: 600px;height: 400px"
+     data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("AddBack","Teacher",new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "addSuccess",
+        OnFailure = "addFailed",
+        OnComplete = "addComplete"
+    })) {
+        <table cellpadding="10px" style="width: 80%;margin: 10px auto;">
+            <tr>
+                <td style="width:120px;">背景描述</td>
+                <td>@Html.TextBoxFor(model => model.describe, new { @class = "easyui-textbox", @required = "required", @style = "width:50%" })</td>
+            </tr>
+            <tr>
+                <td style="width:120px;">背景名称(英文)</td>
+                <td>@Html.TextBoxFor(model => model.name, new { @class = "easyui-textbox", @required = "required", @style = "width:50%" })</td>
+            </tr>
+            <tr>
+                <td style="width:120px;">背景数据库</td>
+                <td>
+                   @Html.DropDownListFor(model => model.db, ViewBag.DBoptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "dbselect", @style = "width:50%;" })
+                </td>
+            </tr>
+            <tr>
+                <td style="width:120px;">建表SQL语句</td>
+                <td>@Html.TextAreaFor(model => model.sql, new { @style = "width:100%;height:100px;border:none;box-shadow:0 0 20px #C0C0C0;" })</td>
+            </tr>
+        </table>
+        <div id="appendbtn" style="text-align:center">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">添加</button>
+        </div>
+    }
+</div>
+
+<div id="update_back" class="easyui-window" title="<center>修改信息</center>" style="width: 550px;height: 230px"
+     data-options="
+     modal:true,
+     closed:true,
+     draggable:false,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+    @using (Ajax.BeginForm("Update_back", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+        OnFailure = "updateFailed",
+        OnComplete = "updateComplete"
+    })) {
+        @Html.TextBoxFor(model => model.id, new { @id = "back_id", @type = "hidden" });
+        <table cellpadding="10px" style="width: 80%;margin: 10px auto;">
+            <tr>
+                <td style="width:130px;">背景描述</td>
+                <td>@Html.TextBoxFor(model => model.describe, new { @id = "back_des", @class = "easyui-textbox", @required = "required", @style = "width:100%" })</td>
+            </tr>
+            <tr>
+                <td style="width:130px;">背景名称(英文)</td>
+                <td>@Html.TextBoxFor(model => model.name, new { @id = "back_name", @class = "easyui-textbox", @required = "required", @style = "width:100%" })</td>
+            </tr>
+            @*<tr>
+                    <td style="width:120px;">背景数据库</td>
+                    <td>
+                        @Html.DropDownListFor(model => model.db, ViewBag.DBoptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "dbselect", @style = "width:50%;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:120px;">建表SQL语句</td>
+                    <td>@Html.TextAreaFor(model => model.sql, new { @id = "back_sql", @style = "width:100%;height:100px;border:none;box-shadow:0 0 20px #C0C0C0;" })</td>
+                </tr>*@
+        </table>
+        <div id="updatebtn" style="text-align:center">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">修改</button>
+        </div>
+    }
+</div>

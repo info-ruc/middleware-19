@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "ExamPaper";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_new_test1.css"/>
+<script>
+    function paper(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/PaperDetail/'+row.paper_id+ '">' + row.paper_name + '</a>';
+    }
+    function enable(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="">' + '启用' + '</a>';
+    }
+    function del(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="remove(' + row.Id + ')">' + '删除' + '</a>';
+    }
+    function ctime(val, row, index) {
+        var re = /-?\d+/;
+        var m = re.exec(row.create_time);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+    function remove(id) {
+        $.ajax({
+            url: '/Teacher/Del_ExamPaper',
+            type: 'post',
+            data: {
+                id
+            },
+            success: function (r) {
+                if (r == "") {
+                    alert('删除成功');
+                    $('#eptb').datagrid('reload');
+                } else {
+                    alert('删除失败\n' + r);
+                }
+            }
+        })
+    }
+    function isopen(val, row, index) {
+        if (row.isopen == false) {
+            return '否';
+        } else {
+            return '是';
+        }
+    }
+    function append_ques() {
+        var idlist = [];
+        $("input[type='checkbox']").each(function (index, el) {
+            if (el.disabled == false && el.checked == true) {
+                idlist.push($(this).parent().parent().parent().children("td").eq(1).text());
+            }
+        });
+        $.ajax({
+            url: '/Teacher/Make_Exam',
+            type: 'post',
+            data: {
+                idlist,
+                eid: '@ViewBag.id'
+            },
+            success: function (r) {
+                if (parseInt(r) > 0) {
+                    alert('成功添加' + r + '篇试卷');
+                } else {
+                    alert('添加失败');
+                }
+                $('#apd_test').window('close');
+                $('#eptb').datagrid('reload');
+            }
+        })
+    }
+    $(function () {
+        $('#eptb').datagrid({
+            columns: [[
+                { field: 'paper_name',formatter:paper, width: '50%', align: 'center', title: '试卷名称' },
+                { field: 'qcount', width: '30%', align: 'center', title: '题目数量' },
+                { field: 'delete',formatter:del ,width: '20%', align: 'center', title: '删除' }
+            ]],
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            striped: true,
+            url: '/Teacher/ExamPaper_info/@ViewBag.id',
+            method: 'post',
+            toolbar: '#epm_btn'
+        });
+    })
+</script>
+<table id="eptb" title="<center>@ViewBag.name 考试管理</center>" style="width: 100%;height: 100%;">
+</table>
+<div id="epm_btn" style="text-align: right">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_test').window('open')">添加试卷</a>
+</div>
+<div id="apd_test" class="easyui-window" title="<center>添加试卷</center>" style="width: 1000px;height: 700px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:false,
+                resizable:false,
+                collapsible:false">
+    <form method="post">
+        <div style="width: 90%;height: 480px;margin: 10px auto;">
+            <table class="easyui-datagrid" title="<center>试卷管理</center>"
+                   data-options="
+                        fit:true,
+                        rownumbers:true,
+                        pagination:true,
+                        singleSelect:false,
+                        striped:true,
+                        url:'/Teacher/PaperSelect_info/@ViewBag.id',
+                        method:'post'">
+                <thead>
+                    <tr>
+                        <th data-options="field:'ck',checkbox:true"></th>
+                        <th data-options="field:'id',hidden:true">id</th>
+                        <th data-options="field:'paper_name', width:'24%', align:'center'">试卷名称</th>
+                        <th data-options="field:'create_time',formatter:ctime, width:'24%', align:'right'">创建时间</th>
+                        <th data-options="field:'qcount',width:'24%', align:'right'">题目数量</th>
+                        <th data-options="field:'isopen',formatter:isopen, width:'24%', align:'center'">是否公开</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </form>
+    <div style="text-align: center">
+        <button class="easyui-linkbutton" onclick="append_ques()" style="width: 80px;margin-top: 30px;border: 1px solid #1db0b8;color: #1db0b8;">添加试卷</button>
+    </div>
+</div>
+

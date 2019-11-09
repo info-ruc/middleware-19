@@ -1,0 +1,996 @@
+﻿@model moocweb.Models.question
+@{
+    ViewBag.Title = "QbaseEdit";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+    <script src="jQuery easyUI/jquery.min.js"></script>
+    <script src="jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" href="jQuery easyUI/themes/material-teal/easyui.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+    <style>
+        /*#tb {
+                margin-top: 80px;
+                margin-left: 150px;
+            }*/
+
+        #tb td {
+            height: 50px;
+        }
+
+        .cb {
+            width: 20px;
+            height: 20px;
+            margin-top: 0;
+            background-color: #fff;
+            border: 2px solid #39c;
+            border-radius: 4px;
+            color: #fff;
+            text-align: center;
+            line-height: 15px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -ms-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            outline: none;
+        }
+
+            .cb:hover {
+                border-color: #39c;
+            }
+
+            .cb:checked {
+                color: #fff;
+                background-color: #39c;
+                border: 2px solid #39c;
+            }
+
+            .cb:after {
+                content: "✓";
+            }
+
+        .tt {
+            padding: 0 4px;
+            border: none;
+            border-bottom: 2px solid #ffa8a8;
+            outline-style: none;
+            font-size: 18px;
+        }
+
+            .tt:focus {
+                border-bottom: 2px solid #39c;
+            }
+
+            .tt:-webkit-autofill {
+                border-bottom: 2px solid #39c;
+            }
+
+        #tip {
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            width: 100px;
+            height: 24px;
+            margin-left: 8px;
+            background-color: #fffed1;
+            border: 1px solid #c59a47;
+            border-radius: 4px;
+            display: inline-block;
+            position: absolute;
+            z-index: 1;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="~/CSS/t_topic1.css">
+<script>
+    (function($){
+        function pagerFilter(data){
+            if ($.isArray(data)){	// is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var target = this;
+            var dg = $(target);
+            var state = dg.data('datagrid');
+            var opts = dg.datagrid('options');
+            if (!state.allRows){
+                state.allRows = (data.rows);
+            }
+            if (!opts.remoteSort && opts.sortName){
+                var names = opts.sortName.split(',');
+                var orders = opts.sortOrder.split(',');
+                state.allRows.sort(function(r1,r2){
+                    var r = 0;
+                    for(var i=0; i<names.length; i++){
+                        var sn = names[i];
+                        var so = orders[i];
+                        var col = $(target).datagrid('getColumnOption', sn);
+                        var sortFunc = col.sorter || function(a,b){
+                            return a==b ? 0 : (a>b?1:-1);
+                        };
+                        r = sortFunc(r1[sn], r2[sn]) * (so=='asc'?1:-1);
+                        if (r != 0){
+                            return r;
+                        }
+                    }
+                    return r;
+                });
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = state.allRows.slice(start, end);
+            return data;
+        }
+
+        var loadDataMethod = $.fn.datagrid.methods.loadData;
+        var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
+        $.extend($.fn.datagrid.methods, {
+            clientPaging: function(jq){
+                return jq.each(function(){
+                    var dg = $(this);
+                    var state = dg.data('datagrid');
+                    var opts = state.options;
+                    opts.loadFilter = pagerFilter;
+                    var onBeforeLoad = opts.onBeforeLoad;
+                    opts.onBeforeLoad = function(param){
+                        state.allRows = null;
+                        return onBeforeLoad.call(this, param);
+                    }
+                    var pager = dg.datagrid('getPager');
+                    pager.pagination({
+                        onSelectPage:function(pageNum, pageSize){
+                            opts.pageNumber = pageNum;
+                            opts.pageSize = pageSize;
+                            pager.pagination('refresh',{
+                                pageNumber:pageNum,
+                                pageSize:pageSize
+                            });
+                            dg.datagrid('loadData',state.allRows);
+                        }
+                    });
+                    $(this).datagrid('loadData', state.data);
+                    if (opts.url){
+                        $(this).datagrid('reload');
+                    }
+                });
+            },
+            loadData: function(jq, data){
+                jq.each(function(){
+                    $(this).data('datagrid').allRows = null;
+                });
+                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
+            },
+            deleteRow: function(jq, index){
+                return jq.each(function(){
+                    var row = $(this).datagrid('getRows')[index];
+                    deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
+                    var state = $(this).data('datagrid');
+                    if (state.options.loadFilter == pagerFilter){
+                        for(var i=0; i<state.allRows.length; i++){
+                            if (state.allRows[i] == row){
+                                state.allRows.splice(i,1);
+                                break;
+                            }
+                        }
+                        $(this).datagrid('loadData', state.allRows);
+                    }
+                });
+            },
+            getAllRows: function(jq){
+                return jq.data('datagrid').allRows;
+            }
+        })
+    })(jQuery);
+
+    function getData(){
+        var rows = [];
+        for(var i=1; i<=800; i++){
+            var amount = Math.floor(Math.random()*1000);
+            var price = Math.floor(Math.random()*1000);
+            rows.push({
+                inv: 'Inv No '+i,
+                date: $.fn.datebox.defaults.formatter(new Date()),
+                name: 'Name '+i,
+                amount: amount,
+                price: price,
+                cost: amount*price,
+                note: 'Note '+i
+            });
+        }
+        return rows;
+    }
+    $(function(){
+        $('#sqltb').datagrid({data:getData()}).datagrid('clientPaging');
+    });
+    $(function(){
+        $('#sctb').datagrid({data:getData()}).datagrid('clientPaging');
+    });
+    function formatDelete(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" onclick="remove(' + row.id + ')">' + '删除' + '</a>';
+    }
+    function remove(id) {
+        $.ajax({
+            url: '@Url.Action("Del_Question", "Teacher")',
+            type: 'post',
+            data: {
+                id: id
+            },
+            success: function (res) {
+                if (res == "") {
+                    alert("删除成功");
+                    $(".easyui-datagrid").datagrid('reload');
+                } else {
+                    alert("删除失败\n" + res);
+                }
+            }
+        })
+    }
+    $(function () {
+        $("#options").click(function () {
+            var tr = "<tr>" +
+                "<td>" +
+                "<input class='easyui-textbox judge' title='text' prompt='请输入语义' style='width: 310px;padding: 5px 4px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "</td>" +
+                "<td>" +
+                "<input class='easyui-textbox value' title='text' prompt='请输入分数' style='width: 100px;padding: 5px 6px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "</td>" +
+                "</tr>";
+            $("#tb").append(tr);
+            // $("#tb tr:eq(2)").after(tr);
+        });
+        $("#dqloptions").click(function () {
+            var tr = "<tr>" +
+                "<td>" +
+                "<input class='easyui-textbox judged' title='text' prompt='请输入语义' style='width: 310px;padding: 5px 4px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "</td>" +
+                "<td>" +
+                "<input class='easyui-textbox valued' title='text' prompt='请输入分数' style='width: 100px;padding: 5px 6px;vertical-align:top;border: 0.5 solid #dfdfdf;border-top: transparent;border-left:transparent;border-right: transparent;'>" +
+                "</td>" +
+                "</tr>";
+            $("#dqltb").append(tr);
+            // $("#tb tr:eq(2)").after(tr);
+        });
+        $("#mcplus").click(function () {
+            var len = $("#mctb").find('tr').length;
+            var code = String.fromCharCode(64 + len);
+            var code_low = String.fromCharCode(64+32 + len);
+            if (len>=5 && len<7) {
+                var tr = "<tr>" +
+                    "<td>" +
+                    "<input class='cb'type='checkbox' value='"+code+"' name='ml' label='选项' required>" + "&nbsp;选项" +
+                    code +
+                    "</td>" +
+                    "<td>" +
+                    "<input class='tt' id='mc_o"+code_low+ "'type='text' style='width: 400px;' required>" +
+                    "</td>" +
+                    "</tr>";
+                $("#mctb").append(tr);
+            }else {
+                alert("不可添加");
+            }
+        });
+
+        $("#minus").click(function () {
+            var len = document.getElementById("tb").rows.length;
+            if (len > 1) {
+                document.getElementById("tbbody").lastChild.remove();
+            } else {
+                alert("不可删除");
+            }
+        });
+        $("#dqlminus").click(function () {
+            var len = document.getElementById("dqltb").rows.length;
+            if (len > 1) {
+                document.getElementById("dqltbbody").lastChild.remove();
+            } else {
+                alert("不可删除");
+            }
+        });
+        $("#mcminus").click(function () {
+            var len = $("#mctb").find('tr').length;
+            if (len > 5){
+                $("#mctb").find('tr').last().remove();
+            } else{
+                alert("不可删除");
+            }
+        });
+        $(".tt").mouseover(function () {
+            var tip = "<div id='tip'>该项为必输项</div>";
+            $(this).parent().append(tip);
+        }).mouseout(function () {
+            $("#tip").remove();
+        });
+    });
+    function onTopClick() {
+        window.location.hash = '"#"+loc';
+    }
+</script>
+<div style="width: 100%; height: 100%;">
+    <div class="easyui-panel" title="<center>@ViewBag.name</center>" data-options="fit:true">
+
+        <div id="ques_type" style="width: 95%;">
+            <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+            <a class="easyui-menubutton" data-options="menu:'#mn1',iconCls:'fa fa-reorder'">题目类型</a>
+            <div id="mn1" style="width:100px;">
+                <div><a href="#" onclick="window.location.hash = '#sql'" style="color: #404040;text-decoration: none">SQL语句</a> </div>
+                <div><a href="#" onclick="window.location.hash = '#singleChoice'" style="color: #404040;text-decoration: none">单选题</a> </div>
+                <div><a href="#" onclick="window.location.hash = '#multipleChoice'" style="color: #404040;text-decoration: none">多选题</a></div>
+                <div><a href="#" onclick="window.location.hash = '#tf'" style="color: #404040;text-decoration: none">判断题</a></div>
+                <!--div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#fillInTheBlank'" style="color: #404040;text-decoration: none">填空题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#shortAnswer'" style="color: #404040;text-decoration: none">简答题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="window.location.hash = '#longAnswer'" style="color: #404040;text-decoration: none">综合题</a></div-->
+            </div>
+            <a class="easyui-menubutton" data-options="menu:'#mn2',iconCls:'fa fa-plus'">添加题目</a>
+            <div id="mn2" style="width:100px;">
+                <div><a href="#" onclick="$('#appendsql').window('open')" style="color: #404040;text-decoration: none">SQL查询语句</a> </div>
+                <div><a href="#" onclick="$('#appenddql').window('open')" style="color: #404040;text-decoration: none">SQL操纵定义语句</a> </div>
+                <div><a href="#" onclick="$('#appendsc').window('open')" style="color: #404040;text-decoration: none">单选题</a> </div>
+                <div><a href="#" onclick="$('#appendmc').window('open')" style="color: #404040;text-decoration: none">多选题</a></div>
+                <div><a href="#" onclick="$('#appendtf').window('open')" style="color: #404040;text-decoration: none">判断题</a></div>
+                <!--div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendfitb').window('open')" style="color: #404040;text-decoration: none">填空题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendsa').window('open')" style="color: #404040;text-decoration: none">简答题</a></div>
+                <div iconCls="fa fa-angle-right"><a href="#" onclick="$('#appendla').window('open')" style="color: #404040;text-decoration: none">综合题</a></div!-->
+            </div>
+        </div>
+        <div id="sql" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table id="sqltb" class="easyui-datagrid" title="<center>SQL语句</center>"
+                   data-options="
+                   fit:true,
+                   rownumbers:true,
+                   pagination:true,
+                   singleSelect:true,
+                   pageSize:20,
+                   pageList:[20,40,60,80,100],
+                   nowrap:false,
+                   url:'/Teacher/Question_info',
+            queryParams:{
+            id: '@ViewBag.id',
+            qtype: 2,
+            },
+            method:'post',
+            striped:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'id'" hidden="hidden" halign="center">ID</th>
+                    <th data-options="field:'title'" width="50%" halign="center">题目</th>
+                    <th data-options="field:'right_answer'" width="40%" halign="center">答案</th>
+                    <th data-options="field:'delete',formatter:formatDelete" width="10%" halign="center">操作</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        <div id="singleChoice" style="width: 90%;height: 590px;margin: 15px auto;">
+            <table id="sctb" class="easyui-datagrid" title="<center>单选题</center>"
+                   data-options="
+                   fit:true,
+                   closed:false,
+                   rownumbers:true,
+                   pagination:true,
+                   singleSelect:true,
+                   nowrap:false,
+                   url:'/Teacher/Question_info',
+            queryParams:{
+            id: '@ViewBag.id',
+            qtype: 3,
+            },
+            method:'post',
+            striped:true,
+
+            ">
+            <thead>
+                <tr>
+                    <th data-options="field:'id'" hidden="hidden" halign="center">ID</th>
+                    <th data-options="field:'title'" width="50%" halign="center">题目</th>
+                    <th data-options="field:'ans1'" width="10%" halign="center">选项A</th>
+                    <th data-options="field:'ans2'" width="10%" halign="center">选项B</th>
+                    <th data-options="field:'ans3'" width="10%" halign="center">选项C</th>
+                    <th data-options="field:'ans4'" width="10%" halign="center">选项D</th>
+                    <th data-options="field:'right_answer'" width="5%" halign="center">答案</th>
+                    <th data-options="field:'delete',formatter:formatDelete" width="5%" halign="center">操作</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        <div id="multipleChoice" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>多选题</center>"
+                   data-options="
+                   fit:true,
+                   closed:false,
+                   rownumbers:true,
+                   pagination:true,
+                   singleSelect:true,
+                   nowrap:false,
+                   url:'/Teacher/Question_info',
+            queryParams:{
+            id: '@ViewBag.id',
+            qtype: 4,
+            },
+            method:'post',
+            striped:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'id'" hidden="hidden" halign="center">ID</th>
+                    <th data-options="field:'title'" width="42%" halign="center">题目</th>
+                    <th data-options="field:'ans1'" width="8%" halign="center">选项A</th>
+                    <th data-options="field:'ans2'" width="8%" halign="center">选项B</th>
+                    <th data-options="field:'ans3'" width="8%" halign="center">选项C</th>
+                    <th data-options="field:'ans4'" width="8%" halign="center">选项D</th>
+                    <th data-options="field:'ans5'" width="8%" halign="center">选项E</th>
+                    <th data-options="field:'ans6'" width="8%" halign="center">选项F</th>
+                    <th data-options="field:'right_answer'" width="5%" halign="center">答案</th>
+                    <th data-options="field:'delete',formatter:formatDelete" width="5%" halign="center">操作</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        <div id="tf" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>判断题</center>"
+                   data-options="
+                   fit:true,
+                   closed:false,
+                   rownumbers:true,
+                   pagination:true,
+                   singleSelect:true,
+                   nowrap:false,
+                   url:'/Teacher/Question_info',
+            queryParams:{
+            id: '@ViewBag.id',
+            qtype: 5,
+            },
+            method:'post',
+            striped:true">
+            <thead>
+                <tr>
+                    <th data-options="field:'id'" hidden="hidden" halign="center">ID</th>
+                    <th data-options="field:'title'" width="90%" halign="center">题目</th>
+                    <th data-options="field:'right_answer'" width="5%" halign="center">答案</th>
+                    <th data-options="field:'delete',formatter:formatDelete" width="5%" halign="center">操作</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        <!--div id="fillInTheBlank" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>填空题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="60%">题目</th>
+                <th data-options="field:'ans'" width="30%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="shortAnswer" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>简答题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="50%">题目</th>
+                <th data-options="field:'ans'" width="40%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div>
+        <div id="longAnswer" style="width: 90%;height: 700px;margin: 15px auto;">
+            <table class="easyui-datagrid" title="<center>综合题</center>"
+                   data-options="
+                    fit:true,
+                    closed:false,
+                    rownumbers:true,
+                    pagination:true,
+                    singleSelect:true,
+                    striped:true,">
+                <thead>
+                <th data-options="field:'ques'" width="50%">题目</th>
+                <th data-options="field:'ans'" width="40%">答案</th>
+                <th data-options="field:'delete',formatter:formatDelete" width="10%">操作</th>
+                </thead>
+            </table>
+        </div-->
+        <div id="appendsc" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 450px"
+             data-options="
+             modal:true,
+             closed:true,
+             draggable:false,
+             minimizable:false,
+             maximizable:false,
+             collapsible:false">
+            <script>
+                function submitsc() {
+                    var title = $('#t_sc').val();
+                    var ans1 = $('#sc_oa').val();
+                    var ans2 = $('#sc_ob').val();
+                    var ans3 = $('#sc_oc').val();
+                    var ans4 = $('#sc_od').val();
+                    var right_answer = $("input[name='sl']:checked").val();
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        ans1: ans1,
+                        ans2: ans2,
+                        ans3: ans3,
+                        ans4: ans4,
+                        right_answer: right_answer,
+                        q_type: 3
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_SC_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#appendsc").window('close');
+                                $(".easyui-datagrid").datagrid('reload');
+                            } else if (r.res == -1) {
+                                alert("未选择正确答案");
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post" id="sc">
+                <table cellpadding="8px" style="width: 80%;margin: 30px auto;">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-radiobutton" name="sl" value="A" label="选项A" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_oa" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-radiobutton" name="sl" value="B" label="选项B" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_ob" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-radiobutton" name="sl" value="C" label="选项C" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_oc" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td><input class="easyui-radiobutton" name="sl" value="D" label="选项D" data-options="labelPosition:'after'"></td>
+                        <td><input id="sc_od" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr></tr>
+                </table>
+            </form>
+            <div id="appendbtn_sc">
+                <a class="easyui-linkbutton" onclick="submitsc()">添加</a>
+            </div>
+        </div>
+        <div id="appendmc" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 450px"
+             data-options="
+             modal:true,
+             closed:true,
+             draggable:false,
+             minimizable:false,
+             maximizable:false,
+             collapsible:false">
+            <script>
+                function submitmc() {
+                    var title = $('#t_mc').val();
+                    var ans1 = $('#mc_oa').val();
+                    var ans2 = $('#mc_ob').val();
+                    var ans3 = $('#mc_oc').val();
+                    var ans4 = $('#mc_od').val();
+                    var ans5 = $('#mc_oe').val();
+                    var ans6 = $('#mc_of').val();
+
+                    var s = $("input[name='ml']:checked").map(function () {return $(this).val();}).get().join(',');
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        ans1: ans1,
+                        ans2: ans2,
+                        ans3: ans3,
+                        ans4: ans4,
+                        ans5: ans5,
+                        ans6: ans6,
+                        right_answer: s,
+                        q_type: 4
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_SC_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#appendmc").window('close');
+                                $(".easyui-datagrid").datagrid('reload');
+                            } else if (r.res == -1) {
+                                alert("未选择正确答案");
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post">
+                <table id="mctb" cellpadding="8px">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td>题目</td>
+                            <td><input id="t_mc" class="tt" type="text" style="width: 400px;" required></td>
+                        </tr>
+                        <tr>
+                            <td><input class="cb" type="checkbox" value="A" name="ml" required> 选项A</td>
+                            <td><input class="tt" id="mc_oa" type="text" style="width: 400px;" required></td>
+                        </tr>
+                        <tr>
+                            <td><input class="cb" type="checkbox" value="B" name="ml" required> 选项B</td>
+                            <td><input class="tt" id="mc_ob" type="text" style="width: 400px;" required></td>
+                        </tr>
+                        <tr>
+                            <td><input class="cb" type="checkbox" value="C" name="ml" required> 选项C</td>
+                            <td><input class="tt" id="mc_oc" type="text" style="width: 400px;" required></td>
+                        </tr>
+                        <tr>
+                            <td><input class="cb" type="checkbox" value="D" name="ml" required> 选项D</td>
+                            <td><input class="tt" id="mc_od" type="text" style="width: 400px;" required></td>
+                            <td><a id="mcplus" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" style="width: 20px;border: none;"></a></td>
+                            <td><a id="mcminus" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-minus',plain:true" style="width: 20px;border: none;"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+            <div id="appendbtn_mc">
+                <a class="easyui-linkbutton" onclick="submitmc()">添加</a>
+            </div>
+        </div>
+        <div id="appendtf" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 300px"
+             data-options="
+             modal:true,
+             closed:true,
+             draggable:false,
+             minimizable:false,
+             maximizable:false,
+             collapsible:false">
+            <script>
+                function submittf() {
+                    var title = $('#t_tf').val();
+                    var right_answer = $("input[name='tf']:checked").val();
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        right_answer: right_answer,
+                        q_type: 5
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_SC_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#appendtf").window('close');
+                                $(".easyui-datagrid").datagrid('reload');
+                            } else if (r.res == -1) {
+                                alert("未选择正确答案");
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post">
+                <table cellpadding="8px">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_tf" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: center;">
+                            <input class="easyui-radiobutton" name="tf" value="true" label="对" data-options="labelPosition:'after'">
+                            <input class="easyui-radiobutton" name="tf" value="false" label="错" data-options="labelPosition:'after'">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_tf">
+                <a class="easyui-linkbutton" onclick="submittf()">添加</a>
+            </div>
+        </div>
+        <!--div id="appendfitb" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 300px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td>
+                            <input id="t_fitb" class="easyui-textbox" type="text" required="required" style="width: 80%;"
+                                   data-options="prompt:'请用4个下划线“____”表示空白处'">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><input id="a_fitb" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_fitb">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendsa" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 350px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sa" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea style="width: 80%;height: 100px;font-size:14px;border: none;box-shadow: 0 0 20px #C0C0C0;"></textarea></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_sa">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div>
+        <div id="appendla" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 350px"
+             data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+            <form method="post">
+                <table cellpadding="8px">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_la" class="easyui-textbox" type="text" required="required" style="width: 80%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea style="width: 80%;height: 100px;font-size:14px;border: none;box-shadow: 0 0 20px #C0C0C0;"></textarea></td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_la">
+                <a class="easyui-linkbutton" onclick="">添加</a>
+            </div>
+        </div-->
+        <div id="appendsql" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 600px"
+             data-options="
+             modal:true,
+             closed:true,
+             draggable:true,
+             minimizable:false,
+             maximizable:false,
+             collapsible:false">
+            <script>
+                function submitsql() {
+                    var title = $('#t_sql').val();
+                    var ans = $('#sql_ans').val();
+                    var judges = [];
+                    var values = [];
+                    var totvalue = 0;
+                    $('.judge').each(function () {
+                        judges.push($(this).val());
+                    })
+                    $('.value').each(function () {
+                        var v = parseInt($(this).val())
+                        totvalue += v;
+                        values.push(v);
+                        if (totvalue > 10) {
+                            alert("分数总值不得超过10");
+                            return;
+                        }
+                    })
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        ans: ans,
+                        judges: judges,
+                        values: values
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_SQL_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#appendsql").window('close');
+                                $(".easyui-datagrid").datagrid('reload');
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post">
+                <table cellpadding="8px" style="width: 80%;margin: 30px auto;text-align: left;">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_sql" class="easyui-textbox" type="text" required="required" style="width: 90%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea id="sql_ans" required="required"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>语义</td>
+                        <td>
+                            <table id="tb" cellpadding="5px" style="width: 90%">
+                                <tbody id="tbbody">
+                                    <tr>
+                                        <td>
+                                            <input class="easyui-textbox judge" data-options="required:true" title="text" prompt="请输入语义" style="width: 310px;">
+                                        </td>
+                                        <td>
+                                            <input class="easyui-textbox value" data-options="required:true" title="text" prompt="请输入分数(总分10)" style="width: 100px;">
+                                        </td>
+                                        <td>
+                                            <a id="options" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" style="width: 20px;border: none;"></a>
+                                        </td>
+                                        <td>
+                                            <a id="minus" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-minus',plain:true" style="width: 20px;border: none;"></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_sql">
+                <a class="easyui-linkbutton" onclick="submitsql()">添加</a>
+            </div>
+        </div>
+        <div id="appenddql" class="easyui-window" title="<center>添加题目</center>" style="width: 800px;height: 600px"
+             data-options="
+             modal:true,
+             closed:true,
+             draggable:true,
+             minimizable:false,
+             maximizable:false,
+             collapsible:false
+             ">
+            <script>
+                function submitdql() {
+                    var title = $('#t_dql').val();
+                    var ans = $('#dql_ans').val();
+                    var check = $('#dql_check').val();
+                    var judges = [];
+                    var values = [];
+                    var totvalue = 0;
+                    $('.judged').each(function () {
+                        judges.push($(this).val());
+                    })
+                    $('.valued').each(function () {
+                        var v = parseInt($(this).val())
+                        totvalue += v;
+                        values.push(v);
+                        if (totvalue > 10) {
+                            alert("分数总值不得超过10");
+                            return;
+                        }
+                    })
+                    var jsondata = {
+                        chap_id: '@ViewBag.id',
+                        title: title,
+                        ans: ans,
+                        judges: judges,
+                        values: values,
+                        check
+                    };
+                    //alert(judges.toString() + '\n' + values.toString());
+                    $.ajax({
+                        url: '/Teacher/Add_DQL_Question',
+                        type: 'post',
+                        dataType: "json",
+                        data: jsondata,
+                        success: function (r) {
+                            if (r.res == 0) {
+                                alert("添加成功");
+                                $("#appenddql").window('close');
+                                $(".easyui-datagrid").datagrid('reload');
+                            } else {
+                                alert("添加失败" + '\n' + r.excep);
+                            }
+                        }
+                    })
+                }
+            </script>
+            <form method="post">
+                <table cellpadding="8px" style="width: 80%;margin: 30px auto;text-align: left;">
+                    <tr>
+                        <td>题目</td>
+                        <td><input id="t_dql" class="easyui-textbox" type="text" required="required" style="width: 90%;"></td>
+                    </tr>
+                    <tr>
+                        <td>答案</td>
+                        <td><textarea id="dql_ans" required="required"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>验证语句</td>
+                        <td><textarea id="dql_check" required="required"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>语义</td>
+                        <td>
+                            <table id="dqltb" cellpadding="5px" style="width: 90%">
+                                <tbody id="dqltbbody">
+                                    <tr>
+                                        <td>
+                                            <input class="easyui-textbox judged" data-options="required:true" title="text" prompt="请输入语义" style="width: 310px;">
+                                        </td>
+                                        <td>
+                                            <input class="easyui-textbox valued" data-options="required:true" title="text" prompt="请输入分数(总分10)" style="width: 100px;">
+                                        </td>
+                                        <td>
+                                            <a id="dqloptions" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" style="width: 20px;border: none;"></a>
+                                        </td>
+                                        <td>
+                                            <a id="dqlminus" href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-minus',plain:true" style="width: 20px;border: none;"></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="appendbtn_dql">
+                <a class="easyui-linkbutton" onclick="submitdql()">添加</a>
+            </div>
+        </div>
+    </div>
+</div>

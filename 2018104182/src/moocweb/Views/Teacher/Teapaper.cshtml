@@ -1,0 +1,190 @@
+﻿@model moocweb.Models.paper
+@{
+    ViewBag.Title = "Teapaper";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_exam_paper_management1.css">
+<script>
+    function tname(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/PaperDetail/'+row.id + '">' + row.paper_name + '</a>';
+    }
+    function ctime(val, row, index) {
+        var re = /-?\d+/;
+        var m = re.exec(row.create_time);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+    function pp(val, row, index) {
+        var inpt;
+        if (row.isopen == 0) {
+            inpt = "否";
+        } else if (row.isopen == 1) {
+            inpt = "是";
+        }
+        return '<a href="#" style="color: #1db0b8;text-decoration: none">' + inpt + '</a>';
+    }
+    function del(val, row, index) {
+        var str = JSON.stringify(row);
+        return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick='  + "'edits(" + str+ ")'>修改</a>" + ' | '+ '<a href="#" style="color: #1db0b8;text-decoration: none" onclick="remove(' + row.id + ')">' + '删除' + '</a>';
+    }
+    function edits(row) {
+        if (row) {
+            $('#editwin').window('open');
+            $('#upname').textbox("setValue", row.paper_name);
+            $('#upid').val(row.id);
+            if (row.isopen == 0) {
+                $('#uf').radiobutton("check");
+            } else if (row.isopen == 1) {
+                $('#ut').radiobutton("check");
+            }
+
+        }
+    }
+    function remove(id) {
+        $.ajax({
+            url: '@Url.Action("Del_Paper","Teacher")',
+            type: 'post',
+            data: {
+                id,
+            },
+            success: function (r) {
+                if (r=="") {
+                    alert("删除成功");
+                    $(".easyui-datagrid").datagrid('reload');
+                    window.history.go(-1);
+                } else {
+                    alert("删除失败\n" + r);
+                }
+            }
+        })
+    }
+    function onSuccess(data, statux, xhr) {
+        if (data == "") {
+            alert("添加成功");
+            $('input').val("");
+            $('#apd_epm').window('close');
+            $(".easyui-datagrid").datagrid('reload');
+            window.history.go(-1);
+        } else {
+            alert("添加失败\n", data);
+
+        }
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+            $("#editwin").window('close');
+            $(".easyui-datagrid").datagrid('reload');
+            window.history.go(-1);
+        } else {
+            alert("修改失败\n" + data);
+        }
+    }
+</script>
+<table class="easyui-datagrid" title="<center>@ViewBag.name 试卷管理</center>"
+       data-options="
+                rownumbers:true,
+                fit:true,
+                pagination:true,
+                singleSelect:true,
+                striped:true,
+                url:'/Teacher/Tea_paper_detail/@ViewBag.id',
+                method:'post',
+                toolbar: '#epm_btn'">
+    <thead>
+        <tr>
+            <th data-options="field:'paper_name', formatter:tname, width:'20%', align:'center'">试卷名称</th>
+            <th data-options="field:'create_time', formatter:ctime, width:'20%', align:'center'">创建时间</th>
+            <th data-options="field:'qcount',width:'20%', align:'center'">题目数量</th>
+            <th data-options="field:'isopen', formatter:pp, width:'20%', align:'center'">是否公开</th>
+            <th data-options="field:'del', formatter:del, width:'20%', align:'center'">删除</th>
+        </tr>
+    </thead>
+</table>
+<div id="epm_btn" style="text-align: right">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#apd_epm').window('open')">添加试卷</a>
+</div>
+<div id="apd_epm" class="easyui-window" title="<center>添加试卷</center>" style="width: 600px;height: 300px;"
+     data-options="
+                closed:true,
+                modal:true,
+                minimizable:false,
+                maximizable:false,
+                draggable:false,
+                resizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("Add_Paper", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "onSuccess"
+    })) {
+        <table cellpadding="5px">
+            <tbody>
+                <tr>
+                    <td style="padding:6px">试卷名称：</td>
+                    <td>@Html.TextBoxFor(m => m.paper_name, new { @class = "easyui-textbox", @required = "required", @style = "width:90%;" })</td>
+                </tr>
+                <tr>
+                    <td style="padding:6px">是否公开：</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.isopen, true, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "是" })
+                        @Html.RadioButtonFor(m => m.isopen, false, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "否", @checked = true })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:6px">试卷类型：</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.type, 1, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "用于练习" })
+                        @Html.RadioButtonFor(m => m.type, 2, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "用于考试" })
+                        @Html.RadioButtonFor(m => m.type, 3, new { @class = "easyui-radiobutton", @labelPosition = "after", @label = "两用", @checked = true })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:6px"></td>
+                    <td>（用于练习的试卷无法添加客观题）</td>
+                </tr>
+                <tr>
+                    <td>@Html.HiddenFor(m => m.teacher_info.id, new { @Value = ViewBag.id })</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="apd_epm_btn" style="text-align: center">
+            <button class="easyui-linkbutton" type="submit">添加试卷</button>
+        </div>
+    }
+</div>
+<div id="editwin" class="easyui-window" style="width: 600px;height: 200px;" title="<center>编辑</center>"
+     data-options="
+     modal:true,
+     closed:true,
+     draggable:true,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+     @using(Ajax.BeginForm("Update_Paper","Teacher",new AjaxOptions()
+     {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+     })) {
+        @Html.TextBoxFor(model => model.id, new { @id = "upid", @type = "hidden" });
+        <table cellpadding="5px" style="width: 80%;margin: 20px auto;">
+            <tbody>
+                <tr>
+                    <td>试卷名称：</td>
+                    <td>@Html.TextBoxFor(m => m.paper_name, new { @id = "upname", @class = "easyui-textbox", @required = "required", @style = "width:90%;" })</td>
+                </tr>
+                <tr>
+                    <td>是否公开：</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.isopen, true, new { @id = "ut", @class = "easyui-radiobutton", @labelPosition = "after", @label = "是" })
+                        @Html.RadioButtonFor(m => m.isopen, false, new { @id = "uf", @class = "easyui-radiobutton", @labelPosition = "after", @label = "否"})
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="apd_edi_btn" style="text-align: center">
+            <button class="easyui-linkbutton" type="submit">修改</button>
+        </div>
+     }
+        </div>

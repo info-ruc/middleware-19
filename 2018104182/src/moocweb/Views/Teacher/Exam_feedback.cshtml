@@ -1,0 +1,427 @@
+﻿@{
+    ViewBag.Title = "Exam_feedback";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<script src="~/echarts/echarts.js"></script>
+<link rel="stylesheet" href="~/CSS/t_echarts.css">
+<a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;margin-left:30px" onclick="javascript: history.back(-1);">返回</a>
+<div class="content">
+    <div id="score"></div>
+    <div id="total"></div>
+</div>
+<div class="stu">
+    <div id="stuInfo">
+        <div class="stuName">
+            <p>请选择学生姓名：</p>
+            <div class="slt">
+                @Html.DropDownList("stu_info", ViewBag.SnameOptions as SelectList, new { @class = "easyui-combobox", @id = "stuselect", @style = "width:100%;" })
+            </div>
+        </div>
+    </div>
+    <div class="stuCtt">
+        <!--学生成绩表-->
+        <div id="stuScore"></div>
+        <!--学生答题时间表（新加）-->
+        <div id="stuTime"></div>
+    </div>
+</div>
+<!--下边都是新加的，每道题的学生答题情况-->
+<div class="misAsr">
+    <div class="misInfo">
+        <p>请选择题号：</p>
+        <div class="slt">
+            @Html.DropDownList("Question", ViewBag.QuesOptions as SelectList, new { @class = "easyui-combobox", @id = "pqselect", @style = "width:100%;" })
+        </div>
+        <p>筛选：</p>
+        <div class="slt">
+            @Html.DropDownList("Text", ViewBag.TypeOptions as SelectList, new { @class = "easyui-combobox", @id = "scoreselect", @style = "width:100%;" })
+        </div>
+    </div>
+    <div class="misCtt">
+        <table class="easyui-datagrid" title="<center>答案统计</center>"
+               data-options="
+               rownumbers:true,
+               fit:true,
+               pagination:true,
+               singleSelect:true,
+               striped:true,
+               nowrap:false,
+               ">
+            <thead>
+                <tr>
+                    <th data-options="field:'name', width:'10%', align:'left'">姓名</th>
+                    <th data-options="field:'stu_num', width:'10%', align:'left'">学号</th>
+                    <th data-options="field:'ans', width:'50%', align:'left'">学生答案</th>
+                    <th data-options="field:'wronginfo', width:'20%', align:'left'">答案评价</th>
+                    <th data-options="field:'cost', width:'5%', align:'center'">耗时</th>
+                    <th data-options="field:'score', width:'5%', align:'center'">分数</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<script>
+    var sChart = echarts.init(document.getElementById('score'));
+    var sOption = {
+        backgroundColor: 'white',
+        title: {
+            text: '成绩统计',
+            left: 40,
+            top: 25,
+            textStyle: {
+                fontSize: 23
+            }
+        },
+        grid: {
+            height: 360,
+            width: 'auto',
+            top: 100
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            orient: 'horizontal',
+            top: 30,
+            right: 80,
+            itemGap: 20,
+            itemWidth: 13,
+            itemHeight: 13,
+            data: [
+                {
+                    name: '0分',
+                    textStyle: {
+                        color: '#b34038'
+                    }
+                },
+                {
+                    name: '1-9分',
+                    textStyle: {
+                        color: '#384b5a'
+                    }
+                },
+                {
+                    name: '10分',
+                    textStyle: {
+                        color: '#6f9fa7'
+                    }
+                }]
+        },
+        xAxis: [
+            {
+                type: 'category',
+                name: '题目',
+                boundaryGap: true,
+                axisLine: {
+                    lineStyle: {
+                        type: 'solid'
+                    }
+                },
+                axisTick: {
+                    inside: true
+                },
+                splitLine: {
+                    show: false
+                },
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                minInterval: 1,
+                axisTick: {
+                    inside: true
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        type: 'dotted'
+                    }
+                }
+            }
+        ],
+        series: [{
+            type: 'bar',
+            name: '0分',
+            data: []
+
+        }, {
+            type: 'bar',
+            name: '1-9分',
+            data: []
+
+        }, {
+            type: 'bar',
+            name: '10分',
+            data: []
+        }]
+    };
+    sChart.setOption(sOption);
+    var tChart = echarts.init(document.getElementById('total'));
+    var tOption = {
+        backgroundColor: 'white',
+        title: {
+            text: '答题情况',
+            left: 'center',
+            top: 30,
+            textStyle: {
+                fontSize: 23
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b} : {c} ({d}%)'
+        },
+        legend: {
+            orient: 'horizontal',
+            bottom: 10,
+            left: 'center',
+            itemGap: 40,
+            itemWidth: 13,
+            itemHeight: 13,
+            data: [
+                {
+                    name: '已作答',
+                    textStyle: {
+                        color: '#b34038'
+                    }
+                },
+                {
+                    name: '未作答',
+                    textStyle: {
+                        color: '#384b5a'
+                    }
+                },
+                {
+                    name: '正在作答',
+                    textStyle: {
+                        color: '#6f9fa7'
+                    }
+                }]
+        },
+        series: {
+            type: 'pie',
+            radius: '60%',
+            center: ['50%', '50%'],
+            selectedMode: 'single',
+            data: [],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    };
+    tChart.setOption(tOption);
+    var num1, num2, num3;
+       var categories;
+    var ssChart = echarts.init(document.getElementById('stuScore'));
+    var ssOption = {
+        backgroundColor: 'white',
+        title: {
+            text: '成绩',
+            left: 40,
+            top: 25,
+            textStyle: {
+                fontSize: 23
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: '{b} : {c}分'
+        },
+        grid: {
+            height: 280,
+            width: 500,
+            top: 100,
+            left: 60,
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            name: '题目',
+            boundaryGap: false,
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            name: '分数'
+        },
+        series: [
+            {
+                name: '成绩',
+                type: 'line',
+                data: []
+            }
+        ]
+    };
+    var stChart = echarts.init(document.getElementById('stuTime'));
+    var stOption = {
+        backgroundColor: 'white',
+        title: {
+            text: '时间',
+            left: 40,
+            top: 25,
+            textStyle: {
+                fontSize: 23
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            formatter: '{b} : {c}秒'
+        },
+        grid: {
+            height: 280,
+            width: 500,
+            top: 100,
+            left: 60,
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            name: '题目',
+            boundaryGap: false,
+            data: ['第一题', '第二题', '第三题', '第四题', '第五题', '第六题', '第七题', '第八题', '第九题', '第十题']
+        },
+        yAxis: {
+            type: 'value',
+            name: '时长(秒)'
+        },
+        series: [
+            {
+                name: '时长',
+                type: 'line',
+                data: []
+            }
+        ]
+    };
+    stChart.setOption(stOption);
+    ssChart.setOption(ssOption);
+    $.get('/Teacher/Exam_feedback_info/@ViewBag.ecid').done(function (data) {
+        categories = data.sCategories;
+        sChart.setOption({
+            xAxis: {
+                data: categories
+            },
+            series: [{
+                name: '0分',
+                data: data.sc
+            }, {
+                name: '1-9分',
+                data: data.sb
+            }, {
+                name: '10分',
+                data: data.sa
+            }]
+        });
+        num1 = data.num[0];
+        num2 = data.num[1];
+        num3 = 0;
+        tChart.setOption({
+            series: {
+                data: [{
+                    name: '已作答',
+                    value: num1
+                }, {
+                    name: '未作答',
+                    value: num2
+                }, {
+                    name: '正在作答',
+                    value: num3
+                }]
+            }
+        });
+    });
+    $('#pqselect').combobox({
+        onChange: function () { 
+            var pqid = $(this).combobox('getValue');
+            var type = $('#scoreselect').combobox('getValue');
+            $.ajax({
+                url: '/Teacher/Exam_feedback_ques',
+                type: 'post',
+                data: {
+                    ecid: '@ViewBag.ecid',
+                    pqid,
+                    type,
+                },
+                success: function (r) {
+
+                    $('.easyui-datagrid').datagrid('loadData', r.pqinfo);
+                }
+            });
+       }
+    });
+    $('#scoreselect').combobox({
+        onChange: function () {
+            var pqid = $('#pqselect').combobox('getValue');
+            var type = $(this).combobox('getValue');
+            $.ajax({
+                url: '/Teacher/Exam_feedback_ques',
+                type: 'post',
+                data: {
+                    ecid: '@ViewBag.ecid',
+                    pqid,
+                    type,
+                    },
+                        success: function (r) {
+
+                    $('.easyui-datagrid').datagrid('loadData', r.pqinfo);
+                    }
+                    });
+        }
+    });
+    function makeDurationToSeconds(time) {
+        var str = time;
+        var arr = str.split(':');
+        var hs = parseInt(arr[0] * 3600);
+        var ms = parseInt(arr[1] * 60);
+        var ss = parseInt(arr[2]);
+        var seconds = hs + ms + ss;
+        return seconds;
+    }
+    $('#stuselect').combobox({
+        onChange: function () {
+            var stuid = $(this).combobox('getValue');
+            var pqid = $('#pqselect').combobox('getValue');
+            $.ajax({
+                url: '/Teacher/Exam_feedback_stu',
+                type: 'post',
+                data: {
+                    ecid: '@ViewBag.ecid',
+                    stuid,
+                    pqid,
+                    },
+                success: function (r) {
+                    var costs = [];
+                    for (var i = 0; i < r.cost.length; i++) {
+                        costs[i] = makeDurationToSeconds(r.cost[i]);
+                    }
+                    ssChart.setOption({
+                        xAxis: {
+                            data: categories
+                        },
+                        series: [{
+                            name: '成绩',
+                            data: r.score
+                        }]
+                    });
+                    stChart.setOption({
+                        xAxis: {
+                            data: categories
+                        },
+                        series: [{
+                            name: '时长',
+                            data: costs
+                        }]
+                    })
+                    $('.easyui-datagrid').datagrid('loadData', r.pqinfo);
+              }
+            })
+        }
+    })
+</script>
+

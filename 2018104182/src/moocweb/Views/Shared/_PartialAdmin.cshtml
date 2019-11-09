@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>teacher_layout</title>
+    <script src="~/jQuery easyUI/jquery.min.js"></script>
+    <script src="~/jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="~/jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link rel="stylesheet" href="~/jQuery easyUI/themes/material-teal/easyui.css" />
+    <link rel="stylesheet" href="~/font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/CSS/t_layout.css" />
+    <script src="~/JS/teacher_layout.js"></script>
+</head>
+<style>
+    #guide {
+        font-size: 10px;
+        position: absolute;
+        right: 100px;
+        top: 23px;
+        color: #E0ECFF;
+        text-decoration: none;
+    }
+</style>
+<body class="easyui-layout">
+    <div id="north" data-options="region:'north',border:false" style="height:60px;">
+        <div id="nortitle" style="width: 300px;">
+            <!--<img id="schoolbadge" src="IMG/校徽（白）.png" height="30" width="30">-->
+            <a id="title" href="/Teacher/Account">数据库在线实验平台</a>
+        </div>
+        <a id="guide" href="~/用户手册.pdf"><i class="fa fa-book fa-2x"></i></a>
+        <a id="exit" href="/Teacher/Exit" target="_self"><i class="fa fa-sign-out fa-2x"></i></a>
+    </div>
+    <div data-options="region:'south',border:false" style="height:30px;">
+        <div id="copyRight">
+            版权信息
+        </div>
+    </div>
+    <div data-options="region:'west',split:true" title="<center>功能</center>" style="width:235px;height:80%;">
+        <ul id="treeMenu" class="easyui-tree" data-options="state:'close'">
+            <li iconCls="fa fa-users"><span><a href="/Teacher/Class">班级管理</a></span></li>
+            <li iconCls="fa fa-database"><span><a href="/Teacher/Qbase">题库管理</a></span></li>
+            <li iconCls="fa fa-file-text"><span><a href="/Teacher/Paper">试卷管理</a></span></li>
+            <li iconCls="fa fa-pencil"><span><a href="/Teacher/Practice">课后练习</a></span></li>
+            <li iconCls="fa fa-graduation-cap"><span><a href="/Teacher/Exam">考试管理</a></span></li>
+            <!--li iconCls="fa fa-comments"><span><a href="/Teacher/Notice">通知管理</a></span></li>
+            <li iconCls="fa fa-bullhorn"><span><a href="/Teacher/Feedback">学生反馈</a></span></li-->
+            <li iconCls="fa fa fa-user"><span><a href="/Teacher/Account">账号管理</a></span></li>
+        </ul>
+    </div>
+    <div id="center" data-options="region:'center'" style="width:auto;height:80%;">
+        @RenderBody()
+    </div>
+</body>
+</html>

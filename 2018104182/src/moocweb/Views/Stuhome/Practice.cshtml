@@ -1,0 +1,244 @@
+﻿@model IEnumerable<moocweb.Models.stupaperques>
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Practice";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/s_new_practice1.css">
+<style>
+        .fd span{
+            display: inline-block;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+        .fb_tb{
+            width: 350px;
+            height: auto;
+            margin: 0;
+            text-align: center;
+            border-top: 1px solid #dddddd;
+            border-bottom: 1px solid #dddddd;
+        }
+        .fb_tb thead{
+            font-weight: bold;
+        }
+        .popover{
+            max-width:2000px;
+        }
+</style>
+<div class="easyui-panel easyui-layout" title="<center>课后练习</center>" style="width:100%; height: 100%;">
+    <div data-options="region:'west',title:'<center>@ViewBag.name</center>',split:true,border:true" style="width:50%;padding: 24px;">
+        <div class="mg" id="tit">
+            <h2>题目</h2>
+            <p></p>
+        </div>
+        <hr class="hr">
+        <div class="mg" id="back_info">
+            <h2>表信息</h2>
+            <div>
+            </div>
+        </div>
+        <hr class="hr">
+        <div class="mg" id="output_info">
+            <h2>输出列</h2>
+            <p></p>
+        </div>
+        <button class="btn btn-warning" title="表数据" data-toggle="popover">表数据</button>
+        <div id="aa" class="easyui-accordion" fit=true border=false>
+            <div title="Title1" data-options="iconCls:'icon-save'" style="overflow:auto;padding:10px;">
+                <h3 style="color:#0099FF;">Accordion for jQuery</h3>
+                <p>
+                    Accordion is a part of easyui framework for jQuery.
+                    It lets you define your accordion component on web page more easily.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'center',title:'<center>SQL语句</center>'" style="background:#eee;">
+        <div class="number">
+            @{
+                var m = Model.ToArray();
+                long id = (long)Session["id"];
+                for (int i = 0; i < Model.Count(); i++) {
+                    if (m[i].stu_ans == " " || m[i].stu_ans == null) {
+                        m[i].stu_ans = " ";
+                    }
+                    if (m[i].detail == null) {
+                        m[i].detail = " ";
+                    }
+                    var data = new {
+                        pqid = m[i].pqid,
+                        output = m[i].output,
+                        title = m[i].title,
+                        detail = m[i].detail.Replace("\r\n\r\n", "\n").Split('\n'),
+                        stu_ans = m[i].stu_ans.Replace("'", "##").Replace("\"", "%#"),
+                        state = m[i].state
+                    };
+                    string json = JsonConvert.SerializeObject(data);
+                    if (i == 0) {
+                        <a class="easyui-linkbutton number_atv" onclick="ChangePage(this,'@json')">@(i + 1)</a>
+                    } else {
+                        <a class="easyui-linkbutton" onclick="ChangePage(this,'@json')">@(i + 1)</a>
+                    }
+                }
+            }
+            <!--a class="easyui-linkbutton next" onclick="">下一页</a-->
+        </div>
+        <div class="ctool">
+            <a class="easyui-linkbutton save" onclick="save()">保存</a>
+            <a class="easyui-linkbutton save" onclick="sub()">答题</a>
+        </div>
+        <div>
+            <form class="form" action=" " method=" ">
+                <textarea class="ta1" id="sqlans"></textarea>
+                <textarea class="ta2" id="replyinfo" disabled></textarea>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var nowpqid = 0;
+    var html = "";
+    var anss = new Array(@Model.Count());
+    function sub() {
+        var ans = $('#sqlans').val();
+        ans = ans.replace(new RegExp("select", 'g'), "###");
+        ans = ans.replace(new RegExp("delete", 'g'), "!!!");
+        $('.easyui-linkbutton').linkbutton('disable');
+        $.ajax({
+            url:'@Url.Action("Sub_Ans","Student")',
+            type: 'get',
+            dataType: "json",
+            data: {
+                ans,
+                pqid: this.nowpqid,
+                cost: 0,
+                ecid: '@ViewBag.id'
+            },
+            success: function (r) {
+                $("#replyinfo").val(r.message);
+                $('.easyui-linkbutton').linkbutton('enable');
+                if (r.message == "congratulations") {
+                    $('.save').linkbutton('disable');
+                }
+            },
+            error: function () {
+                $('.easyui-linkbutton').linkbutton('enable');
+            }
+        })
+    }
+    function save() {
+        var ans = $('#sqlans').val();
+        this.anss[$('.number_atv').text() - 1] = ans;
+        ans = ans.replace(new RegExp("select", 'g'), "###");
+        ans = ans.replace(new RegExp("delete", 'g'), "!!!");
+        $('.easyui-linkbutton').linkbutton('disable');
+        $.ajax({
+            url:'@Url.Action("Save_Ans","Student")',
+            type: 'get',
+            datatype: 'text',
+            data: {
+                ans,
+                pqid: this.nowpqid,
+                judge: false
+            },
+            success: function (r) {
+                if (r == "") {
+                    alert("保存成功");
+                } else {
+                    alert(r);
+                }
+                $('.easyui-linkbutton').linkbutton('enable');
+            },
+            error:function(){
+                $('.easyui-linkbutton').linkbutton('enable');
+            }
+        })
+    }
+    function ChangePage(obj, i) {
+        var id = $(obj).text() - 1;
+        if (this.nowpqid != 0) {
+            var ans = $('#sqlans').val();
+            this.anss[$('.number_atv').text() - 1] = ans;
+            $('.easyui-linkbutton').linkbutton('disable');
+            ans = ans.replace(new RegExp("select", 'g'), "###");
+            ans = ans.replace(new RegExp("delete", 'g'), "!!!");
+            $.ajax({
+                url: '@Url.Action("Save_Ans","Student")',
+                type: 'get',
+                datatype: "text",
+                data: {
+                    ans,
+                    pqid: this.nowpqid,
+                    judge: false
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                },
+                success: function (res) {
+                    if(res != ""){
+                        alert("保存错误\n" + res);
+                    }
+                    $('.easyui-linkbutton').linkbutton('enable');
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("Practice_example", "Student")',
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    pqid: this.nowpqid,
+                },
+                success: function (res) {
+                    this.html = "";
+                    for (var i = 0; i < res.count; i++) {
+                        this.html += '<div class="fd">';
+                        this.html += '<span class="label label-warning">' + res.tname[i] + '</span>';
+                        this.html += '<table class="fb_tb table table-striped table-condensed"><thead>';
+                        for (var j = 0; j < res.colnames[i].length; j++) {
+                            this.html += '<td>' + res.colnames[i][j] + '</td>';
+                        }
+                        this.html += '</thead><tbody>';
+                        this.html += '<tr>';
+                        for (var j = 0; j < res.datas[i].length; j++) {
+                            this.html += '<td>' + res.datas[i][j] + '</td>';
+                        }
+                        this.html += '</table><td>';
+                    }
+                    $("[data-toggle='popover']").popover({
+                        html: true,
+                        content: this.html
+                    });
+                }
+            });
+            $("[data-toggle='popover']").popover('hide');
+        }
+        var data = JSON.parse(i.replace(/\n/g, "\\n"));
+        this.nowpqid = data.pqid;
+        $(".number_atv").removeClass("number_atv");
+        $(obj).addClass("number_atv");
+        $("#tit p").html(data.title);
+        $("#back_info div").html("");
+        for (var i = 0; i < data.detail.length; i++) {
+            $("#back_info div").append("<p>" + data.detail[i] + "<p>");
+        }
+        $("#output_info p").html(data.output);
+        if (data.state) {
+            $(".ta1").attr("disabled", true);
+            $(".ta2").val("congratulations!!");
+        } else {
+            $(".ta1").attr("disabled", false);
+            $(".ta2").val("");
+        }
+        if (this.anss[id] == null) {
+            var ans1 = data.stu_ans.replace(new RegExp("##", 'g'), "'");
+            $(".ta1").val(ans1.replace(new RegExp("%#", 'g'), "\""));
+        } else {
+            $(".ta1").val(this.anss[id]);
+        }
+    }
+    $(function () {
+        $(".number_atv").click();
+    })
+</script>

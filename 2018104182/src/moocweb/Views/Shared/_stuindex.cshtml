@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>student</title>
+    <script src="~/jQuery easyUI/jquery.min.js"></script>
+    <script src="~/jQuery content custom scroller/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="~/jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="~/jQuery easyUI/themes/material-teal/easyui.css">
+    <link rel="stylesheet" href="~/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="~/CSS/s_layout.css">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="~/bootstrap-3.3.7-dist/css/bootstrap-theme.css">
+    <script>
+        $.getJSON("/Student/Practice_info", function (result) {
+            $("li ul").html("");
+            $.each(result.pracinfo, function (i, field) {
+                var str = '<div id="_easyui_tree_5" class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon tree-file fa fa-file-text-o"></span><span class="tree-title"><a href="/Stuhome/Practice_info/' + field.ec_id + '">' + field.name + '</a></span></div>';
+                $("li ul:first").append(str);
+            });
+            $.each(result.examinfo, function (i, field) {
+                //var str = '<div id="_easyui_tree_5" class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon tree-file fa fa-file-text-o"></span><span class="tree-title"><a href="/Stuhome/Exam/' + field.ec_id + '">' + field.name + '</a></span></div>'
+                var str = '<div id="_easyui_tree_5" class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon tree-file fa fa-file-text-o"></span><span class="tree-title"><a href="/Stuhome/Exam_explanation/'+ field.ec_id + '">' + field.name + '</a></span></div>'
+                $("li ul:eq(1)").append(str);
+            })
+            $.each(result.examFinishinfo, function (i, field) {
+                var str = '<div id="_easyui_tree_5" class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon tree-file fa fa-file-text-o"></span><span class="tree-title"><a href="/Stuhome/Exam_feedback/' + field.ec_id + '">' + field.name + '</a></span></div>'
+                //var str = '<div id="_easyui_tree_5" class="tree-node"><span class="tree-indent"></span><span class="tree-indent"></span><span class="tree-icon tree-file fa fa-file-text-o"></span><span class="tree-title"><a href="/Stuhome/ExamExplanation">' + field.name + '</a></span></div>'
+                $("li ul:last").append(str);
+            })
+            $.parser.parse();
+        })
+    </script>
+</head>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:60px;padding:10px;background-color: #011935">
+        <div style="width: 300px;margin-top: 5px">
+            <!--<img id="schoolbadge" src="IMG/校徽（白）.png" height="30" width="30">-->
+            <a id="title" href="/Stuhome/Account">数据库在线实验平台</a>
+        </div>
+        <a id="exit" href="/Stuhome/Exit" target="_self"><i class="fa fa-sign-out fa-2x"></i></a>
+    </div>
+    <div data-options="region:'south',border:false" style="height:30px;">
+        <div id="copyRight">
+            版权信息
+        </div>
+    </div>
+    <div data-options="region:'west',split:true" title="<center></center>" style="width:235px;height:80%;">
+        <ul id="treeMenu" class="easyui-tree" data-options="state:'close'">
+            <li iconCls="fa fa-user"><span><a href="/Stuhome/Account">个人信息</a></span></li>
+            <!--li iconCls="fa fa-key"><span><a href="s_retrievepwd.html">修改密码</a></span></li>
+            <li iconCls="fa fa-comments"><span><a href="s_notice.html">通知公告</a></span></li-->
+            <li iconCls="fa fa-pencil">
+                <span><a href="#" style="margin: 0 5px">课后练习</a></span>
+                <ul>
+                    <li></li>
+                </ul>
+            </li>
+            <li iconCls="fa fa-graduation-cap">
+                <span><a href="#" style="margin: 0 5px">测评考试</a></span>
+                <ul>
+                    <li></li>
+                </ul>
+            </li>
+            <li iconCls="fa fa-graduation-cap">
+                <span><a href="#" style="margin: 0 5px">已完成考试</a></span>
+                <ul>
+                    <li></li>
+                </ul>
+            </li>
+            <!--li iconCls="fa fa-bullhorn"><span><a href="s_feedback.html" target="myFrame">答疑解惑</a></span></li-->
+        </ul>
+    </div>
+    <div id="center" data-options="region:'center'" style="background-color:#f2f2f2;width:auto;height:80%;padding: 10px;">
+        @RenderBody()
+    </div>
+</body>
+</html>

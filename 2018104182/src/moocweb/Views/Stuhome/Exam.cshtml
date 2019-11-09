@@ -1,0 +1,475 @@
+﻿@model IEnumerable<moocweb.Models.stupaperques>
+@{
+    ViewBag.Title = "Exam";
+    Layout = "~/Views/Shared/_stuindex.cshtml";
+}
+<script>if ('@ViewBag.isfinish' == 'True') {
+        alert('考试已完成');
+        window.location.href = '@Url.Action("Account", "Stuhome")';
+}
+</script>
+<style>
+.checkbox{
+    display:inline-block;
+}
+.answer {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+.popover{
+    max-width:2000px;
+}
+
+</style>
+<link rel="stylesheet" href="~/CSS/s_new_test3.css">
+<link rel="stylesheet" href="~/CSS/s_new_practice1.css">
+<div class="easyui-panel" style="border: none;width: 100%;height: 100%;">
+    <div class="top">
+        <p>@ViewBag.name</p>
+    </div>
+    <div class="content">
+        @{var m = Model.ToArray();
+            for (int i = 0; i < Model.Count(); i++) {
+                var textareaid = "answer" + i;
+                var divid = "page" + i;
+                var next = i + 1;
+                if (i == 0) {
+                    <div class="left" id="@divid" style="display:block">
+                        <div class="test">
+                            <div class="num">
+                                <p>@next/@Model.Count()</p>
+                            </div>
+                            <p class="ques">@next.@m[i].title</p>
+                            <form action=" " method="post">
+                            
+                                @if (m[i].q_type <= 2) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid" style="border: 1px solid #ccc;">
+                                        <textarea></textarea>
+                                    </div>
+                                } else if (m[i].q_type == 3) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="A" label="A: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans1
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="B" label="B: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="C" label="C: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="D" label="D: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans4
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                } else if (m[i].q_type == 4) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="A" label="A: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans1
+                                                
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="A" label="A:" data-options="labelPosition:'after',labelWidth:30">动态增量备份过程不允许外部事务程序访问数据库
+
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="B" label="B: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="C" label="C: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="D" label="D: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans4
+                                            </div>
+                                            @if (@m[i].ans5 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="E" label="E: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans5
+                                                </div>
+                                            }
+                                            @if (@m[i].ans6 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="F" label="F: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans6
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                } else if (m[i].q_type == 5) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="true" label="对" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="false" label="错" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </form>
+                            <div class="nextBtn">
+                                <button class="easyui-linkbutton" onclick="change(this, @next)">下一题</button>
+                            </div>
+                        </div>
+                    </div>
+                } else if (i == m.Length - 1) {
+                    <div class="left" id="@divid" style="display:none">
+                        <div class="test">
+                            <div class="num">
+                                <p>@next/@Model.Count()</p>
+                            </div>
+                            <p class="ques">@next.@m[i].title</p>
+                            <form action=" " method="post">
+                                @if (m[i].q_type <= 2) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <textarea></textarea>
+                                    </div>
+                                } else if (m[i].q_type == 3) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="A" label="A: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans1
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="B" label="B: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="C" label="C: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="D" label="D: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans4
+                                            </div>
+                                        </div>
+                                    </div>
+                                } else if (m[i].q_type == 4) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="A" label="A: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans1
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="B" label="B: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="C" label="C: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="D" label="D: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans4
+                                            </div>
+                                            @if (@m[i].ans5 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="E" label="E: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans5
+                                                </div>
+                                            }
+                                            @if (@m[i].ans6 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="F" label="F: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans6
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                } else if (m[i].q_type == 5) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="true" label="对" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="false" label="错" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </form>
+                            <div class="nextBtn">
+                                <button class="easyui-linkbutton">没有了</button>
+                            </div>
+                        </div>
+                    </div>
+                } else {
+                    <div class="left" id="@divid" style="display:none">
+                        <div class="test">
+                            <div class="num">
+                                <p>@next/@Model.Count()</p>
+                            </div>
+                            <p class="ques">@next.@m[i].title</p>
+                            <form action=" " method="post">
+                                @if (m[i].q_type <= 2) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <textarea></textarea>
+                                    </div>
+                                } else if (m[i].q_type == 3) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="A" label="A: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans1
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="B" label="B: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="C" label="C: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="sl" value="D" label="D: " data-options="labelPosition:'after',labelWidth:30">@m[i].ans4
+                                            </div>
+                                        </div>
+                                    </div>
+                                } else if (m[i].q_type == 4) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="A" label="A: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans1
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="B" label="B: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans2
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="C" label="C: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans3
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-checkbox" name="ml" value="D" label="D: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans4
+                                            </div>
+                                            @if (@m[i].ans5 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="E" label="E: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans5
+                                                </div>
+                                            }
+                                            @if (@m[i].ans6 != null) {
+                                                <div class="op">
+                                                    <input class="easyui-checkbox" name="ml" value="F" label="F: " data-options="labelPosition:'after',labelWidth: 30">@m[i].ans6
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                } else if (m[i].q_type == 5) {
+                                    <div class="answer" id="@textareaid" pqid="@m[i].pqid">
+                                        <div class="ctt">
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="true" label="对" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                            <div class="op">
+                                                <input class="easyui-radiobutton" name="tf" value="false" label="错" data-options="labelPosition:'after',labelWidth:30">
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </form>
+                            <div class="nextBtn">
+                                <button class="easyui-linkbutton" onclick="change(this, @next)">下一题</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+        <div class="right">
+            <div class="tool">
+                <p class="p1">剩余时间</p>
+                <p id="rest" class="p2">@ViewBag.rest_time</p>
+                <hr class="h">
+                <p class="p3">答题进度：<span>1/@Model.Count()</span></p>
+                <div class="number">
+                    @for (var i = 0; i < Model.Count(); i++) {
+
+                        var bid = "button" + i;
+                        if (i == 0) {
+                            <button id="@bid" class="easyui-linkbutton number_atv" onclick="change(this, @i)">@(i + 1)</button>
+                        } else {
+                            <button id="@bid" class="easyui-linkbutton" onclick="change(this, @i)">@(i + 1)</button>
+                        } 
+                    }
+                </div>
+                <button class="btn btn-warning" title="表数据" data-toggle="popover" data-placement="left">表数据</button>
+                <div class="btn">
+                    @if (ViewBag.rest_time.TotalSeconds == 0) {
+                        <a id="sub" class="easyui-linkbutton" onclick="sub_alert()" disabled>提交试卷</a>
+                    } else {
+                        <a id="sub" class="easyui-linkbutton" onclick="sub_alert()">提交试卷</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        var restime = '@ViewBag.rest_time';
+        var costs = [];
+        var now = 0;
+        var count = parseInt('@Model.Count()');
+        var timeChange = restime;
+        for (var i = 0; i < count; i++) {
+            costs.push(0);
+        }
+
+        function makeDurationToSeconds(time) {
+            var str = time;
+            var arr = str.split(':');
+            var hs = parseInt(arr[0] * 3600);
+            var ms = parseInt(arr[1] * 60);
+            var ss = parseInt(arr[2]);
+            var seconds = hs + ms + ss;
+            return seconds;
+        }
+        function SecondsToDuration(seconds) {
+            var hs = parseInt(seconds / 3600).toString();
+            var ms = parseInt(seconds % 3600 / 60).toString();
+            var ss = parseInt(seconds % 60).toString();
+            var dur = hs + ':' + ms + ':' + ss;
+            return dur;
+        }
+        function change(obj, i) {
+            var j = i + 1;
+            $(".left").fadeOut();
+            $("#page" + i).fadeIn();
+            $(".p3 span").text(j + "/@Model.Count()");
+
+            $(".number_atv").removeClass("number_atv");
+            $(obj).addClass("number_atv");
+
+            var cost = makeDurationToSeconds(timeChange) - makeDurationToSeconds(restime);
+            timeChange = restime;
+            costs[now] += cost;
+            now = i
+            
+            $.ajax({
+                url: '@Url.Action("Practice_example", "Student")',
+                type: 'post',
+                datatype: 'json',
+                data: {
+                    pqid: @Model.ToArray()[0].pqid,
+                },
+                success: function (res) {
+                    this.html = "";
+                    for (var i = 0; i < res.count; i++) {
+                        this.html += '<div class="fd">';
+                        this.html += '<span class="label label-warning">' + res.tname[i] + '</span>';
+                        this.html += '<table class="fb_tb table table-striped table-condensed"><thead>';
+                        for (var j = 0; j < res.colnames[i].length; j++) {
+                            this.html += '<td>' + res.colnames[i][j] + '</td>';
+                        }
+                        this.html += '</thead><tbody>';
+                        this.html += '<tr>';
+                        for (var j = 0; j < res.datas[i].length; j++) {
+                            this.html += '<td>' + res.datas[i][j] + '</td>';
+                        }
+                        this.html += '</table><td>';
+                    }
+                    $("[data-toggle='popover']").popover({
+                        html: true,
+                        content: this.html
+                    });
+                }
+            });
+            $("[data-toggle='popover']").popover('hide');
+        }
+        
+        
+        
+
+
+
+        
+        function sub_alert() {
+            if (window.confirm('确认提交试卷？')) {
+                return sub();
+            } else {
+                return false;
+            }
+        }
+        function timedCount() {
+            var seconds = makeDurationToSeconds(restime);
+            $("#rest").text(restime);
+            if (seconds == 0) {
+                sub();
+                window.location.href = "/Stuhome/Account";
+            }
+            if (seconds > 0) {
+                restime = SecondsToDuration(seconds - 1);
+                setTimeout("timedCount()", 1000);
+            }
+
+        }
+        timedCount();
+        function sub() {
+            var count = parseInt('@Model.Count()');
+            var qtype_ = '@(string.Join(",", Model.Select(x => x.q_type)))';
+            var pqid = [];
+            var anss = [];
+            var qtype = qtype_.split(',');
+            for (var i = 0; i < count; i++) {
+                if (qtype[i] == '1' || qtype[i] == '2') {
+                    var ans = $("#answer" + i + " textarea").val().replace(new RegExp("select", 'g'), "###");
+                    ans = ans.replace(new RegExp("delete", 'g'), "!!!");
+                    anss.push(ans);
+                }
+                else if (qtype[i] == '3') {
+                    var ans = $("#answer" + i + " input[name='sl']:checked").val();
+                    anss.push(ans);
+                }
+                else if (qtype[i] == '4') {
+                    var ans = $("#answer" + i + " input[name='ml']:checked").map(function () { return $(this).val(); }).get().join(',');
+                    anss.push(ans);
+                }
+                else if (qtype[i] == '5') {
+                    var ans = $("#answer" + i + " input[name='tf']:checked").val();
+                    anss.push(ans);
+                }
+                pqid.push(parseInt($("#answer" + i).attr("pqid")));
+            }
+            var ecid = parseInt('@ViewBag.ecid');
+            var cost = makeDurationToSeconds(timeChange) - makeDurationToSeconds(restime);
+            costs[now] += cost;
+            $('.easyui-linkbutton').linkbutton('disable');
+            $.ajax({
+                url: '@Url.Action("Sub_Ans_Exam","Student")',
+                type: 'post',
+                data: {
+                    ecid,
+                    pqid,
+                    anss,
+                    costs,
+
+                },
+                success: function (r) {
+                    if (r == "") {
+                        alert("提交成功");
+                        window.location.href = '@Url.Action("Account","Stuhome")';
+                        restime = '0';
+                    } else {
+                        alert(r);
+                    }
+                    $('.easyui-linkbutton').linkbutton('enable');
+                }
+
+            })
+
+        }
+        var flag = false;
+
+        window.onbeforeunload = function () {
+            var time_less = restime;
+            var ecid = parseInt('@ViewBag.ecid');
+            $.ajax({
+                url: '@Url.Action("Refresh","Student")',
+                type: 'post',
+                data: {
+                    ecid,
+                    time_less,
+                    },
+                success: function (r) {
+                    if (r == "") {
+
+                    } else {
+                        alert(r);
+                    }
+                    $('.easyui-linkbutton').linkbutton('enable');
+                }
+
+            })
+        }
+
+    </script>
+

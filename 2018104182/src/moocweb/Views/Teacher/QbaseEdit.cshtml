@@ -1,0 +1,175 @@
+﻿@model moocweb.Models.qbase_chapter
+@{
+    ViewBag.Title = "QbaseEdit";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_ques1.css">
+<script>
+    function adelete(id, count) {
+        if (count != 0) {
+            alert('该题库尚有习题未删除，请先删除全部习题');
+            return;
+        }
+        $.ajax({
+            url: '@Url.Action("Qbasechapter_Del", "Teacher")',
+            type: 'post',
+            dataType: "json",
+            data: {
+                id: id
+            },
+            success: function (r) {
+                if (r.result == 0) {
+                    alert("删除成功");
+                    $("#questiontb").datagrid('reload');
+                } else {
+                    alert("删除失败\n" + r);
+                }
+            }
+        })
+    }
+    function update(row) {
+        var str = JSON.stringify(row).replace(new RegExp("##", 'g'), "'");
+        row = JSON.parse(str);
+        $('#update_qbchap').window('open');
+        $('#qbchap_name').textbox("setValue", row.chap_name);
+        $('#qbchap_info').textbox("setValue", row.describe);
+        //$('#qbchap_back').textbox("setValue", row.background.id);
+        $('#qbchap_id').val(row.id);
+    }
+    function formatOpen(val, row, index) {
+        return '<a style="color: #1db0b8;text-decoration: none" href="/Teacher/Questions/'+ row.id + '">' + row.chap_name + '</a>';
+    }
+    function formatDelete(val, row, index) {
+        var str = JSON.stringify(row).replace(new RegExp("'", 'g'), "##");
+        return '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick=' + "'update(" + str + ")'>" + '修改' + '</a>' + ' | ' + '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="adelete(' + row.id + ',' + row.q_count + ')">删除</a>';
+        //return '<a style="color: #1db0b8;text-decoration: none" href="#" onclick="adelete(' + row.id + ',' + row.q_count + ')">删除</a>';
+    }
+    function addSuccess(data, status, xhr) {
+        alert("添加成功");
+        $('#append').window('close');
+        $('input').val("");
+    }
+    function addFailed(xhr, status, error) {
+        alert("添加失败");
+    }
+    function addComplete(xhr, status) {
+        $("#questiontb").datagrid("reload");
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+            $('#update_qbchap').window('close');
+        } else {
+            alert("修改失败\n" + data);
+        }
+    }
+    function updateComplete(xhr, status) {
+        $("#questiontb").datagrid("reload");
+    }
+</script>
+<div style="width: 100%;height:100%;">
+    <table id ="questiontb" class="easyui-datagrid" title="<center>@ViewBag.name</center>"
+           data-options="
+                    rownumbers:true,
+                    fit:true,
+                    pagination:true,
+                    singleSelect:true,
+                    url:'/Teacher/Qbasechapter/@ViewBag.id',
+                    method:'post',
+                    striped:true,
+                    toolbar: '#ques1_tb'">
+        <thead>
+        <th data-options="field:'id',align:'center',hidden:true" style="width: 13%">ID</th>
+        <th data-options="field:'back_id',align:'center',hidden:true" style="width: 13%">BACK_ID</th>
+        <th data-options="field:'chap_name',formatter:formatOpen,align:'left'" width="30%">题库名称</th>
+        <th data-options="field:'q_count',align:'left'" width="20%">题目数量</th>
+        <th data-options="field:'back_describe',align:'left'" width="20%">选题场景</th>
+        <th data-options="field:'describe',align:'left'" width="20%">题库描述</th>
+
+        <th data-options="field:'delete',formatter:formatDelete,align:'left'" width="10%">操作</th>
+        </thead>
+    </table>
+    <div id="ques1_tb">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-arrow-left',plain:true" style="float:left;" onclick="javascript: history.back(-1);">返回</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append').window('open')" style="width: 70px;">添加</a>
+        <a href="/Teacher/Background" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" style="width: 70px;">背景</a>
+        <!--<a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-times',plain:true" onclick=" " style="width: 70px;">移除</a>-->
+    </div>
+</div>
+<div id="append" class="easyui-window" title="<center>添加题库集</center>" style="width: 550px;height: 300px"
+     data-options="
+                modal:true,
+                closed:true,
+                draggable:false,
+                minimizable:false,
+                maximizable:false,
+                collapsible:false">
+    @using (Ajax.BeginForm("Add_QbaseChapter", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "addSuccess",
+        OnFailure = "addFailed",
+        OnComplete = "addComplete"
+    })) {
+        //@Html.TextBoxFor(model => model.qbase_set.id, new { @type = "hidden", @Value = @ViewBag.id })
+        @Html.TextBoxFor(model => model.setid, new { @type = "hidden", @Value = @ViewBag.id })
+        <table cellpadding="10px" style="width:400px;margin:10px 75px;">
+            <tr>
+                <td>题库名称</td>
+                <td>@Html.TextBoxFor(model => model.chap_name, new { @id = "cname", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+            </tr>
+            <tr>
+                <td>选择背景</td>
+                <td>@Html.DropDownListFor(model => model.background.id, ViewBag.Boptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "back", @style = "width:100%;" })</td>
+            </tr>
+            <tr>
+                <td>题库描述</td>
+                <td>
+                    @Html.TextAreaFor(model => model.describe, new { @id = "cinfo", @class = "easyui-textbox", @style = "width:100%;" })
+                </td>
+            </tr>
+        </table>
+        <div id="appendbtn">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">添加</button>
+        </div>
+    }
+</div>
+
+<div id="update_qbchap" class="easyui-window" title="<center>修改信息</center>" style="width: 500px;height: 250px;"
+     data-options="
+     modal:true,
+     closed:true,
+     draggable:false,
+     minimizable:false,
+     maximizable:false,
+     collapsible:false">
+    @using (Ajax.BeginForm("Qbasechapter_Update", "Teacher", new AjaxOptions()
+    {
+        HttpMethod = "Post",
+        OnSuccess = "updateSuccess",
+        OnFailure = "updateFailed",
+        OnComplete = "updateComplete"
+    })) {
+        @Html.TextBoxFor(model => model.id, new { @id = "qbchap_id", @type = "hidden" });
+        <table cellpadding="10px" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+            <tr>
+                <td>题库名称</td>
+                <td>@Html.TextBoxFor(model => model.chap_name, new { @id = "qbchap_name", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+            </tr>
+            @*<tr>
+                    <td>选择背景</td>
+                    <td>@Html.DropDownListFor(model => model.background.id, ViewBag.Boptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "back", @style = "width:100%;" })</td>
+                </tr>*@
+            <tr>
+                <td>题库描述</td>
+                <td>
+                    @Html.TextAreaFor(model => model.describe, new { @id = "qbchap_info", @class = "easyui-textbox", @style = "width:100%;" })
+                </td>
+            </tr>
+        </table>
+        <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+            <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">修改</button>
+        </div>
+    }
+</div>
+

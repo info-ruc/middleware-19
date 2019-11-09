@@ -1,0 +1,247 @@
+﻿@model moocweb.Models.teainfo
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_adminindex.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/t_information.css" />
+<script>
+    function adelete(tmp) {
+        var tr = $(tmp).parent().parent().parent();
+        var td = tr.children("td");
+        var id = td.eq(0).text();
+        $.ajax({
+            url: '@Url.Action("Delete","Teacher")',
+            type: 'post',
+            dataType: "json",
+            data: {
+                id: id
+            },
+            success: function (r) {
+                if (r.result == '0') {
+                    alert("删除成功");
+                    $("#infodg").datagrid('reload');
+                } else {
+                    alert("删除失败");
+                }
+            }
+        })
+    }
+    function appendSuccess(data, status, xhr) {
+        alert("默认密码为：123456");
+        $('#append').window('close');
+    }
+    function update(row) {
+        var str = JSON.stringify(row).replace(RegExp("##", 'g'), "'");
+        row = JSON.parse(str);
+        $('#update_account').window('open');
+        $('#num').textbox("setValue", row.tea_user);
+        $('#name').textbox("setValue", row.tea_name);
+        $('#pass').textbox("setValue", row.pass);
+        //$('#level').textbox("setValue", row.tea_level);
+        //$('#school').textbox("setValue", row.college_name);
+        $('#account_id').val(row.id);
+    }
+    function updateSuccess(data, status, xhr) {
+        if (data == "") {
+            alert("修改成功");
+            $('#update_account').window('close');
+        } else {
+            alert("修改失败\n" + data);
+        }
+    }
+
+    function updateComplete(xhr, status) {
+        $("#infodg").datagrid("reload");
+    }
+    function formatDelete(val, row, index) {
+        var str = JSON.stringify(row).replace(RegExp("'", 'g'), "##");
+        //return '<button style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="adelete(this)">' + '删除' + '</a>';
+        return '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick=' + "'update(" + str + ")'>" + '修改' + '</a>' + ' | ' + '<a href="#" style="color: #1db0b8;text-decoration: none;border:none;background:none;" onclick="adelete(this)">删除</a>';
+    }
+    function lasttime(val, row, index) {
+        if (row.lastTime == null) {
+            return "";
+        }
+        var re = /-?\d+/;
+        var m = re.exec(row.lastTime);
+        var end = new Date(parseInt(m[0])).toLocaleDateString();
+        return end;
+    }
+</script>
+<div class="easyui-tabs" data-options="fit:true">
+    <div title="个人信息" style="padding: 10px">
+        <div id="info" class="easyui-panel" data-options="fit:true,border:false">
+            @using (Html.BeginForm("Update", "Teacher", FormMethod.Post, new { id = "ff" })) {
+            <div style="margin-bottom: 20px">
+                @Html.LabelFor(model => model.tea_user, "工号")
+                @Html.TextBoxFor(model => model.tea_user, new { @class = "easyui-textbox", @readonly = "true", Value = Model.tea_user })
+            </div>
+            <div style="margin-bottom: 20px">
+                @Html.LabelFor(model => model.college_name, "学校")
+                @Html.TextBoxFor(model => model.college_name, new { @class = "easyui-textbox", @readonly = "true", Value = Model.college_name })
+            </div>
+            <div style="margin-bottom: 20px">
+                @Html.LabelFor(model => model.tea_level, "级别")
+                @Html.TextBoxFor(model => model.tea_level, new { @class = "easyui-textbox", @readonly = "true", Value = ViewBag.level })
+            </div>
+            <div style="margin-bottom: 20px">
+                @Html.LabelFor(model => model.tea_name, "姓名")
+                @Html.TextBoxFor(model => model.tea_name, new { @class = "easyui-textbox", @required = "true", Value = Model.tea_name })
+            </div>
+            <div style="margin-bottom: 20px">
+                @Html.LabelFor(model => model.pass, "密码")
+                @Html.TextBoxFor(model => model.pass, new { @class = "easyui-textbox", @required = "true", Value = Model.pass })
+            </div>
+            <div id="infobtn">
+                <input style="width:80px;border:1px solid #1db0b8;color:#1db0b8" class="l-btn" type="submit" value="提交" />
+            </div>
+            }
+        </div>
+    </div>
+    @if (ViewBag.lv > 1) {
+        <div title="账号管理" style="padding: 10px">
+            <table id="infodg" class="easyui-datagrid" style="width:100%;height:100%"
+                   data-options="
+                   singleSelect:true,
+                   collapsible:true,
+                   toolbar: '#infotb' ,
+                   url:'/Teacher/Get_teainfo',
+            method:'post',
+            pagination:true,
+            striped:true ">
+            <thead>
+                <tr>
+                    <th data-options="field:'id',align:'center',hidden:true" style="width: 13%">ID</th>
+                    <th data-options="field:'tea_user',align:'center'" style="width: 13%">教师账户</th>
+                    <th data-options="field:'tea_name',align:'center'" style="width: 13%">真实姓名</th>
+                    <th data-options="field:'tea_level',align:'center'" style="width: 13%">用户权限</th>
+                    <th data-options="field:'college_name',align:'center'" style="width: 13%">学校</th>
+                    <th data-options="field:'lastTime',formatter:lasttime,align:'center'" style="width: 18%">最后登录时间</th>
+                    <th data-options="field:'lastIP',align:'center'" style="width: 18%">最后登录IP</th>
+                    <th data-options="field:'delete',formatter:formatDelete,align:'center'" style="width: 10%">操作</th>
+                </tr>
+            </thead>
+            </table>
+            <div id="infotb">
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus',plain:true" onclick="$('#append').window('open')">添加</a>
+            </div>
+            <div id="append" class="easyui-window" title="<center>添加</center>" style="width:600px;height:350px;"
+                 data-options="
+                 modal:true,
+                 draggable:false,
+                 collapsible:false,
+                 minimizable:false,
+                 maximizable:false,
+                 closed:true,
+                 resizable:false ">
+                <div class="easyui-layout" data-options="fit:true">
+                    @using (Ajax.BeginForm("Add", "Teacher", new AjaxOptions() {
+                    HttpMethod = "Post",
+                    OnSuccess = "appendSuccess"
+                })) {
+                        <div data-options="region:'center'" style="padding: 10px">
+                            <table cellpadding="10px">
+                                <tr>
+                                    <td style="width:100px">账号</td>
+                                    <td>@Html.TextBoxFor(model => model.tea_user, new { @class = "easyui-textbox", @required = "required" }) </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:100px">真实姓名</td>
+                                    <td>@Html.TextBoxFor(model => model.tea_name, new { @class = "easyui-textbox", @required = "required" }) </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:100px">学校</td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.college_name, ViewBag.Coptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "school", @style = "width:100%;" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:100px">用户权限</td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.tea_level, ViewBag.Loptions as IEnumerable<SelectListItem>, new { @class = "easyui-combobox", @name = "level", @style = "width:100%;" })
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="tinfosouthbtn" data-options="region:'south',border:false" style="height: 45px">
+                            <button class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o'" onclick="appendSuccess()" type="submit">注册</button>
+                            <a class="easyui-linkbutton" data-options="iconCls:'fa fa-times'" onclick="$('#append').window('close')" style="width: auto">取消</a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div id="resetpass" class="easyui-window" title="<center>重置密码</center>" style="width:400px;height:200px;"
+                 data-options="
+                 modal:true,
+                 draggable:false,
+                 collapsible:false,
+                 minimizable:false,
+                 maximizable:false,
+                 closed:true,
+                 resizable:false ">
+                <div class="easyui-layout" data-options="fit:true">
+                    @using (Ajax.BeginForm("Resetpass", "Teacher", new AjaxOptions()
+                        {
+                            HttpMethod = "Post",
+                            OnSuccess = "updateSuccess",
+                            OnFailure = "updateFailed",
+                            OnComplete = "updateComplete"
+                        })) {
+                        <div data-options="region:'center'" style="padding: 10px">
+                            @Html.TextBoxFor(model => model.id, new { @id = "account_id", @type = "hidden" })
+                            <table cellpadding="10px">
+                                <tr>
+                                    <td style="width:100px">密码</td>
+                                    <td>@Html.TextBoxFor(model => model.pass, new { @Value = "1234", @class = "easyui-textbox", @required = "required" }) </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="tinfosouthbtn" data-options="region:'south',border:false" style="height: 45px">
+                            <button class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o'" type="submit" onclick="$('#resetpass').window('close')" style="width: auto">确认</button>
+
+                        </div>
+                    }
+                </div>
+            </div>
+            <div id="update_account" class="easyui-window" title="<center>修改信息</center>" style="width: 500px;height: 300px;"
+                 data-options="
+                 modal:true,
+                 closed:true,
+                 draggable:false,
+                 minimizable:false,
+                 maximizable:false,
+                 collapsible:false">
+                @using (Ajax.BeginForm("Account_Update", "Teacher", new AjaxOptions()
+                {
+                    HttpMethod = "Post",
+                    OnSuccess = "updateSuccess",
+                    OnFailure = "updateFailed",
+                    OnComplete = "updateComplete"
+                })) {
+                    @Html.TextBoxFor(model => model.id, new { @id = "account_id", @type = "hidden" });
+                    <table cellpadding="10px" style="margin-top: 20px;margin-left: auto;margin-right: auto;">
+                        <tr>
+                            <td>账号</td>
+                            <td>@Html.TextBoxFor(model => model.tea_user, new { @id = "num", @class = "easyui-textbox", @type = "text", @required = "required", @style = "width:100%;" })</td>
+                        </tr>
+                        <tr>
+                            <td>真实姓名</td>
+                            <td>
+                                @Html.TextAreaFor(model => model.tea_name, new { @id = "name", @class = "easyui-textbox", @style = "width:100%;" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="easyui-linkbutton" data-options="iconCls:'fa fa-times'" onclick="$('#resetpass').window('open')">重置密码</td>
+                        </tr>
+                        
+                    </table>
+                    <div id="updatebtn" style="text-align: center;margin-top: 30px;">
+                        <button class="easyui-linkbutton" type="submit" style="width:80px;border:1px solid #1db0b8;color:#1db0b8;">修改</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
+</div>
