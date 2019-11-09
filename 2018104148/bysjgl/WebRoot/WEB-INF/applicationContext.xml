@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/bysjgl?characterEncoding=utf-8"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/sxu/model/TAdmin.hbm.xml</value>
+				<value>com/sxu/model/TTea.hbm.xml</value>
+				<value>com/sxu/model/TStu.hbm.xml</value>
+				<value>com/sxu/model/TDoc.hbm.xml</value>
+				<value>com/sxu/model/TShiti.hbm.xml</value>
+				<value>com/sxu/model/TKeti.hbm.xml</value>
+				<value>com/sxu/model/Xuanti.hbm.xml</value>
+				<value>com/sxu/model/Tongzhi.hbm.xml</value>
+				<value>com/sxu/model/TGonggao.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 后台的登录 -->
+	<bean id="loginService" class="com.sxu.service.loginService">
+		<property name="adminDAO"><ref bean="TAdminDAO" /></property>
+		<property name="stuDAO"><ref bean="TStuDAO" /></property>
+		<property name="teaDAO"><ref bean="TTeaDAO" /></property>
+	</bean>
+
+
+	<bean id="indexAction" class="com.sxu.action.indexAction" scope="prototype">
+
+	</bean>
+
+
+	<bean id="TAdminDAO" class="com.sxu.dao.TAdminDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="adminAction" class="com.sxu.action.adminAction" scope="prototype">
+		<property name="adminDAO"><ref bean="TAdminDAO" /></property>
+	</bean>
+
+
+
+	<bean id="TTeaDAO" class="com.sxu.dao.TTeaDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="teaAction" class="com.sxu.action.teaAction" scope="prototype">
+		<property name="teaDAO"><ref bean="TTeaDAO" /></property>
+	</bean>
+
+
+
+	<bean id="TStuDAO" class="com.sxu.dao.TStuDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="stuAction" class="com.sxu.action.stuAction" scope="prototype">
+		<property name="stuDAO"><ref bean="TStuDAO" /></property>
+	</bean>
+
+
+
+
+
+
+	<bean id="TDocDAO" class="com.sxu.dao.TDocDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="docAction" class="com.sxu.action.docAction" scope="prototype">
+		<property name="docDAO"><ref bean="TDocDAO" /></property>
+	</bean>
+
+
+
+	<bean id="TShitiDAO" class="com.sxu.dao.TShitiDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="shitiAction" class="com.sxu.action.shitiAction" scope="prototype">
+		<property name="shitiDAO"><ref bean="TShitiDAO" /></property>
+		<property name="xuantiDAO"><ref bean="xuantiDAO" /></property>
+	</bean>
+
+
+	<bean id="tketiAction" class="com.sxu.action.TKetiAction" scope="prototype">
+		<property name="tketiDAO"><ref bean="tketiDAO" /></property>
+		<property name="docDAO"><ref bean="TDocDAO" /></property>
+	</bean>
+	<bean id="tketiDAO" class="com.sxu.dao.TKetiDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="xuantiAction" class="com.sxu.action.XuantiAction" scope="prototype">
+		<property name="xuantiDAO"><ref bean="xuantiDAO" /></property>
+		<property name="TKetiDAO"><ref bean="tketiDAO" /></property>
+	</bean>
+	<bean id="xuantiDAO" class="com.sxu.dao.XuantiDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+
+	<bean id="tongzhiAction" class="com.sxu.action.TongzhiAction" scope="prototype">
+		<property name="tongzhiDAO"><ref bean="tongzhiDAO" /></property>
+		<property name="xuantiDAO"><ref bean="xuantiDAO" /></property>
+	</bean>
+	<bean id="tongzhiDAO" class="com.sxu.dao.TongzhiDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	
+	
+	<bean id="TGonggaoDAO" class="com.sxu.dao.TGonggaoDAO">
+		<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+	</bean>
+	<bean id="GonggaoAction" class="com.sxu.action.GonggaoAction" scope="prototype">
+		<property name="gonggaoDAO"><ref bean="TGonggaoDAO" /></property>
+	</bean>
+</beans>

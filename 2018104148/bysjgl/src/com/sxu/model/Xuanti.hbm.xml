@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sxu.model.Xuanti" table="xuanti">
+		<id name="id" type="long">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+
+
+
+		<property name="sid" type="integer">
+			<column name="sid" />
+		</property>
+
+
+		<property name="sname" type="string">
+			<column name="sname" />
+		</property>
+
+
+		<property name="ktid" type="integer">
+			<column name="ktid" />
+		</property>
+
+
+		<property name="ktname" type="string">
+			<column name="ktname" />
+		</property>
+
+
+		<property name="tid" type="integer">
+			<column name="tid" />
+		</property>
+
+
+		<property name="tname" type="string">
+			<column name="tname" />
+		</property>
+
+
+		<property name="shzt" type="string">
+			<column name="shzt" />
+		</property>
+		<property name="ktbg" type="string">
+			<column name="ktbg" />
+		</property>
+		<property name="lunwen" type="string">
+			<column name="lunwen" />
+		</property>
+		<property name="fenshu" type="string">
+			<column name="fenshu" />
+		</property>
+		<property name="jieguo" type="string">
+			<column name="jieguo" />
+		</property>
+		<property name="zqhb" type="string">
+			<column name="zqhb" />
+		</property>
+
+	</class>
+</hibernate-mapping>

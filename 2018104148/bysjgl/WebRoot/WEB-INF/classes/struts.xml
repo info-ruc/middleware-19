@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC   
+     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"   
+     "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+
+<struts>
+	<package name="liu" extends="struts-default">
+		<global-results>
+			<result name="succeed">/common/succeed.jsp</result>
+			<result name="msg">/common/msg.jsp</result>
+		</global-results>
+
+		<action name="upload" class="com.sxu.util.upload" method="upload">
+			<result name="success">/upload/upload_re.jsp</result>
+		</action>
+
+		<action name="index" class="indexAction" method="index">
+			<result name="success">/site/index.jsp</result>
+		</action>
+
+
+
+		<action name="adminAdd" class="adminAction" method="adminAdd">
+		</action>
+		<action name="adminDel" class="adminAction" method="adminDel">
+		</action>
+		<action name="adminManage" class="adminAction" method="adminManage">
+			<result name="success">/admin/admin/adminMana.jsp</result>
+		</action>
+
+
+
+
+
+
+		<action name="stuAdd" class="stuAction" method="stuAdd">
+		</action>
+		<action name="stuMana" class="stuAction" method="stuMana">
+			<result name="success">/admin/stu/stuMana.jsp</result>
+		</action>
+		<action name="stuDel" class="stuAction" method="stuDel">
+		</action>
+		<action name="stuEdit" class="stuAction" method="stuEdit">
+		</action>
+
+
+
+
+		<action name="teaAdd" class="teaAction" method="teaAdd">
+		</action>
+		<action name="teaDel" class="teaAction" method="teaDel">
+		</action>
+		<action name="teaMessage" class="teaAction" method="teaMessage">
+		</action>
+		<action name="teaMana" class="teaAction" method="teaMana">
+			<result name="success">/admin/tea/teaMana.jsp</result>
+		</action>
+		<action name="teaEdit" class="teaAction" method="teaEdit">
+		</action>
+
+
+
+
+
+
+		<action name="docEdit" class="docAction" method="docEdit">
+		</action>
+
+		<action name="docDetailQian" class="docAction" method="docDetailQian">
+			<result name="success">/admin/doc/docEdit.jsp</result>
+		</action>
+
+
+
+
+
+		<action name="shitiAll" class="shitiAction" method="shitiAll">
+			<result name="success">/stu/shiti/shitiMana.jsp</result>
+		</action>
+
+		<action name="shitiAdd" class="shitiAction" method="shitiAdd">
+			<result name="success">/stu/shiti/shitiMana.jsp</result>
+		</action>
+		<action name="shitiDel" class="shitiAction" method="shitiDel">
+		</action>
+		<action name="shitiEdit" class="shitiAction" method="shitiEdit">
+		</action>
+		<action name="shitiMana" class="shitiAction" method="shitiMana">
+			<result name="success">/atea/shiti/shitiMana.jsp</result>
+		</action>
+
+
+		<action name="tketiMana" class="tketiAction" method="tketiMana">
+			<result name="success">/admin/tketi/tketiMana.jsp</result>
+		</action>
+		<action name="tketiAdd" class="tketiAction" method="tketiAdd">
+		</action>
+		<action name="tketiDel" class="tketiAction" method="tketiDel">
+		</action>
+		<action name="tketiDetail" class="tketiAction" method="tketiDetail">
+			<result name="success">/admin/tketi/tketiDetail.jsp</result>
+		</action>
+		<action name="totketiEdit" class="tketiAction" method="totketiEdit">
+			<result name="success">/admin/tketi/tketiEdit.jsp</result>
+		</action>
+		<action name="tketiEdit" class="tketiAction" method="tketiEdit">
+		</action>
+		<action name="tketiAll" class="tketiAction" method="tketiAll">
+			<result name="success">/stu/tketi/tketiAll.jsp</result>
+		</action>
+		<action name="tketiDetailQian" class="tketiAction" method="tketiDetailQian">
+			<result name="success">
+				/stu/tketi/tketiDetailQian.jsp
+			</result>
+		</action>
+
+
+		<action name="xuantiCancel" class="xuantiAction" method="xuantiCancel">
+		</action>
+
+
+
+
+
+
+		<action name="xuantiMana" class="xuantiAction" method="xuantiMana">
+			<result name="success">/admin/xuanti/xuantiMana.jsp</result>
+		</action>
+		<action name="xuantiAdd" class="xuantiAction" method="xuantiAdd">
+		</action>
+		<action name="xuantiDel" class="xuantiAction" method="xuantiDel">
+		</action>
+		<action name="xuantiDetail" class="xuantiAction" method="xuantiDetail">
+			<result name="success">
+				/admin/xuanti/xuantiDetail.jsp
+			</result>
+		</action>
+		<action name="toxuantiEdit" class="xuantiAction" method="toxuantiEdit">
+			<result name="success">/admin/xuanti/xuantiEdit.jsp</result>
+		</action>
+		<action name="xuantiEdit" class="xuantiAction" method="xuantiEdit">
+		</action>
+
+
+		<action name="xuantiMyList" class="xuantiAction" method="xuantiMyList">
+			<result name="success">/stu/tketi/xuantiMy.jsp</result>
+		</action>
+		<action name="xuantiTeaList" class="xuantiAction" method="xuantiTeaList">
+			<result name="success">/atea/xuanti/xuantiAll.jsp</result>
+		</action>
+
+		<action name="shejiList" class="xuantiAction" method="shejiList">
+			<result name="success">/stu/xuanti/shejiAllList.jsp</result>
+		</action>
+
+		<action name="shejiAll" class="xuantiAction" method="shejiAll">
+			<result name="success">
+				/atea/xuanti/shejiAllList.jsp
+			</result>
+		</action>
+
+
+		<action name="shejiDel" class="xuantiAction" method="shejiDel">
+			<result name="success">
+				/atea/xuanti/shejiAllList.jsp
+			</result>
+		</action>
+
+
+
+		<action name="xuantiSave" class="xuantiAction" method="xuantiSave">
+		</action>
+
+		<action name="xuantiQueren" class="xuantiAction" method="xuantiQueren">
+		</action>
+
+		<action name="xuantiQuxiao" class="xuantiAction" method="xuantiQuxiao">
+		</action>
+
+
+		<action name="xuantiDafen" class="xuantiAction" method="xuantiDafen">
+		</action>
+
+
+
+
+		<action name="tongzhiMana" class="tongzhiAction" method="tongzhiMana">
+			<result name="success">
+				/admin/tongzhi/tongzhiMana.jsp
+			</result>
+		</action>
+
+		<action name="tongzhiAll" class="tongzhiAction" method="tongzhiAll">
+			<result name="success">
+				/admin/tongzhi/tongzhiList.jsp
+			</result>
+		</action>
+
+
+		<action name="tongzhiAdd" class="tongzhiAction" method="tongzhiAdd">
+		</action>
+		<action name="tongzhiDel" class="tongzhiAction" method="tongzhiDel">
+		</action>
+
+		<action name="totongzhiEdit" class="tongzhiAction" method="totongzhiEdit">
+			<result name="success">
+				/admin/tongzhi/tongzhiEdit.jsp
+			</result>
+		</action>
+		<action name="tongzhiEdit" class="tongzhiAction" method="tongzhiEdit">
+		</action>
+
+
+		<action name="gonggaoAdd" class="GonggaoAction" method="gonggaoAdd">
+		</action>
+		<action name="gonggaoMana" class="GonggaoAction" method="gonggaoMana">
+			<result name="success">/admin/gonggao/gonggaoMana.jsp</result>
+		</action>
+		<action name="gonggaoDel" class="GonggaoAction" method="gonggaoDel">
+		</action>
+		<action name="gonggaoEdit" class="GonggaoAction" method="gonggaoEdit">
+		</action>
+		<action name="gonggaoAll" class="GonggaoAction" method="gonggaoAll">
+			<result name="success">
+				/admin/gonggao/gonggaoList.jsp
+			</result>
+		</action>
+	</package>
+</struts>

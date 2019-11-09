@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sxu.model.TKeti" table="t_keti">
+		<id name="id" type="integer">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+
+        
+        
+        <property name="ktnd" type="string">
+			<column name="ktnd" />
+		</property>
+         <property name="ktfx" type="string">
+			<column name="ktfx" />
+		</property>
+        
+         <property name="ktyq" type="string">
+			<column name="ktyq" />
+		</property>
+
+        <property name="xxrs" type="integer">
+			<column name="xxrs" />
+		</property>
+		
+		<property name="name" type="string">
+			<column name="name" />
+		</property>
+
+
+		<property name="teaId" type="integer">
+			<column name="tea_id" />
+		</property>
+
+        <property name="yxrs" type="integer">
+			<column name="yxrs" />
+		</property>
+		<property name="teaname" type="string">
+			<column name="teaname" />
+		</property>
+
+	</class>
+</hibernate-mapping>
