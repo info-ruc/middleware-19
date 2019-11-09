@@ -1,0 +1,25 @@
+:focus{
+    outline:none;
+}
+#apd_chap_btn{
+    text-align: right;margin-top:20px;margin-right: 13%;
+}
+#apd_chap_btn a{
+    width: 80px;border: 1px solid #1db0b8;color: #1db0b8;
+}
+#prac_tb{
+    text-align: right;
+}
+#appendbtn_sql{
+    text-align: center;margin-top: 30px
+}
+#appendbtn_sql a{
+    width: 80px;border: 1px solid #1db0b8;color: #1db0b8;
+}
+#apd_chap_btn2{
+    text-align: center;
+    margin-top: 10px;
+}
+#apd_chap_btn2 a{
+    width: 80px;border: 1px solid #1db0b8;color: #1db0b8;
+}

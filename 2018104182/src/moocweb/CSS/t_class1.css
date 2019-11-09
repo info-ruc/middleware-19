@@ -1,0 +1,32 @@
+:focus{
+    outline: none;
+}
+#tb{
+    text-align: right;
+}
+#tb_tb{
+    text-align: right;
+}
+#append_stu table{
+    width: 300px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+}
+#append_stu_ta{
+    width: 300px;
+    height: 70px;
+    border: none;
+    box-shadow: 0 0 20px #C0C0C0;
+    font-size: 13px;
+}
+#append_stu_btn{
+    text-align: center;
+    margin-top: 30px
+}
+#append_stu_btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+

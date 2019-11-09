@@ -1,0 +1,98 @@
+:focus{
+    outline: none;
+}
+#apd_btn{
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 10px;
+}
+#apd_btn a{
+    width: 100px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#apd_btn a:first-child{
+    width:64px;
+    margin-left:20px;
+}
+#questions{
+    margin: 10px auto;
+}
+.ques{
+    margin-left: 10px;
+}
+.answer{
+    width: 95%;
+    height: 40px;
+    margin-bottom: 10px;
+    font-size:14px;
+    border: none;
+    box-shadow: 0 0 20px #C0C0C0;
+}
+.score_btn{
+    width: 30px;
+    float: right;
+    margin-right: 60px;
+    border: none;
+    /*border: 1px solid #1db0b8;*/
+    color: #1db0b8;
+}
+.delete_btn{
+    width: 30px;
+    float: right;;
+    margin-right: 10px;
+    border: none;
+    /*border: 1px solid #1db0b8;*/
+    color: #1db0b8;
+}
+#save_btn{
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 10px
+}
+#save_btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#apd_ques_top{
+    width: 92%;
+    margin: 20px auto 10px auto;
+    text-align: center;
+}
+#apd_ques_dtgd{
+    width: 90%;
+    height: 460px;
+    margin: auto;
+}
+#apd_ques_btm{
+    width: 92%;
+    margin: 10px 0 10px 20px;
+    text-align:left;
+}
+.ques_btm_td{
+    width: 155px;
+}
+#apd_sql{
+    height:30px;
+    text-align: center;
+    margin-top: 10px;
+}
+#apd_sql a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#score_tb{
+    width: 80%;
+    height: 100px;
+    margin: 10px auto 0 auto;
+}
+#score_tb_btn{
+    text-align:center;
+}
+#score_tb_btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}

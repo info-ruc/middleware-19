@@ -1,0 +1,30 @@
+:focus{
+    outline: none;
+}
+#cm_tb{
+    text-align: right;
+}
+#append_class table{
+    width: 300px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#appendbtn{
+    text-align: center;
+    margin-top: 30px;
+}
+#appendbtn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#updatebtn{
+    text-align: center;
+    margin-top: 30px;
+}
+#updatebtn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}

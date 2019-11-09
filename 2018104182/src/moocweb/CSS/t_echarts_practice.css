@@ -1,0 +1,123 @@
+:focus {
+    outline: none;
+}
+
+.content {
+    width: 1360px;
+    height: auto;
+    margin-top: 30px;
+}
+
+#total {
+    width: 500px;
+    height: 500px;
+    float: left;
+    margin: 0 0 30px 30px;
+    border: 1px solid #d7dfe3;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+#score {
+    width: 800px;
+    height: 500px;
+    float: left;
+    margin: 0 0 30px 30px;
+    background: white;
+    border: 1px solid #d7dfe3;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stu {
+    width: 1360px;
+    height: auto;
+    margin-top: 30px;
+}
+
+#stuInfo {
+    width: 1337px;
+    height: 80px;
+    display: inline-block;
+    margin-left: 30px;
+    padding: 10px 40px;
+    background-color: #fff;
+    border: 1px solid #d7dfe3;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stuName {
+    width: 100%;
+    height: auto;
+}
+
+    .stuName p {
+        width: 11%;
+        font-size: 16px;
+        display: inline-block;
+        color: #797979;
+    }
+
+.slt {
+    width: 15%;
+    display: inline-block;
+}
+
+#stuInfo .h {
+    width: 90%;
+    height: 1px;
+    background: #ddd;
+    border: none;
+}
+
+.stuCtt {
+    width: 1360px;
+    height: auto;
+    margin-top: 30px;
+}
+
+#stuScore {
+    width: 600px;
+    height: 420px;
+    float: left;
+    margin-left: 30px;
+    border: 1px solid #d7dfe3;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+#stuGraph {
+    width: 700px;
+    height: 420px;
+    float: left;
+    margin-left: 30px;
+}
+
+#stuQues {
+    width: 700px;
+    height: 50px;
+    padding: 0 40px;
+    background-color: #fff;
+    border: 1px solid #d7dfe3;
+    border-radius: 4px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+#stuQues p {
+        width: 17%;
+        line-height: 50px;
+        font-size: 16px;
+        margin: 0;
+        display: inline-block;
+        color: #797979;
+}
+.quesSlt {
+    width: 20%;
+    display: inline-block;
+}
+
+#stuTime {
+    width: 700px;
+    height: 360px;
+    margin-top: 10px;
+}

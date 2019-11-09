@@ -1,0 +1,26 @@
+:focus{
+    outline: none;
+}
+#notice{
+    width: 80%;
+    height: 500px;
+    margin: 30px auto;
+}
+#n_del_ctt a{
+    width: 80px;
+    margin-top: 10px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#apd_ctt{
+    width: 300px;
+    height: 100px;
+    font-size:14px;
+    border: none;
+    box-shadow: 0 0 20px #C0C0C0;
+}
+#apd_btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}

@@ -1,0 +1,63 @@
+:focus{
+    outline: none;
+}
+p{
+    font-size: 16px;
+}
+.hr{
+    background: #ddd;
+    border: none;
+    height: 1px;
+}
+.mg{
+    margin: 0 10px 20px 10px;
+}
+.number a{
+    width: 28px;
+    float: left;
+    margin: 5px 0 5px 6px;
+    border: none;
+}
+.number a:hover{
+    color: white;
+    background-color: #1db0b8;
+    border: none;
+}
+.number_atv {
+    color: white;
+    background-color: #1db0b8;
+    border: none;
+}
+.number .next{
+    width: auto;
+}
+.ctool a {
+    /*border: 1px solid #1db0b8;*/
+    color: #1db0b8;
+    float: right;
+    margin: 5px 10px 5px 0;
+}
+.form{
+    text-align: center;
+}
+.ta1{
+    width: 98%;
+    height: 400px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 8px;
+    resize: none;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.ta2{
+    width: 98%;
+    height: 140px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 8px;
+    resize: none;
+    font-size: 17px;
+    line-height: 1.5;
+
+}

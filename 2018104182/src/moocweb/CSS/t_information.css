@@ -1,0 +1,37 @@
+#info{
+    padding-top: 40px;
+}
+#ff{
+    text-align: center;
+}
+.easyui-textbox{
+    width: 300px;
+}
+#infobtn{
+    text-align: center;
+    margin-top: 50px;
+}
+#infobtn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#infotb{
+    height: auto;
+    text-align: right;
+}
+:focus{
+    outline: none;
+}
+#append{
+    width: 450px;
+    height: 250px;
+}
+#append table{
+    margin: 10px 50px 10px 50px;
+}
+#tinfosouthbtn{
+    text-align:right;
+    padding:7px 8px 0 0;
+}
+

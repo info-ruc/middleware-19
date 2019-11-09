@@ -1,0 +1,12 @@
+:focus{
+    outline: none;
+}
+.upload{
+    width: 120px;
+    float: right
+}
+/*.upload a{*/
+    /*width: auto;*/
+    /*border: 1px solid #1db0b8;*/
+    /*color: #1db0b8;*/
+/*}*/

@@ -1,0 +1,21 @@
+:focus{
+    outline: none;
+}
+#info{
+    padding-top: 40px;
+}
+#form0{
+    text-align: center;
+}
+.easyui-textbox{
+    width: 300px;
+}
+#btn{
+    margin-top: 50px;
+    text-align: center;
+}
+#btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}

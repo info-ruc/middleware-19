@@ -1,0 +1,125 @@
+:focus{
+    outline:none;
+}
+#appendsql appenddql table tr td a:hover{
+    color: black;
+    background-color: white;
+}
+#ques_type{
+    margin-top: 10px;
+    margin-left: 20px
+}
+#appendsc table{
+    text-align: center;
+}
+#appendbtn_sc{
+    text-align: center;
+    margin-top: 30px
+}
+#appendbtn_sc a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendmc table{
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+#appendbtn_mc{
+    text-align: center;
+    margin-top: 30px
+}
+#appendbtn_mc a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendtf table{
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+#appendbtn_tf{
+    text-align: center;
+    margin-top: 30px;
+}
+#appendbtn_tf a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendfitb table{
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+#appendbtn_fitb{
+    text-align: center;
+    margin-top: 30px
+}
+#appendbtn_fitb a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendsa table{
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+#appendbtn_sa{
+    text-align: center;
+    margin-top: 30px;
+}
+#appendbtn_sa a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendla table{
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+#appendbtn_la{
+    text-align: center;
+    margin-top: 30px
+}
+#appendbtn_la a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendsql table tr td textarea{
+    width: 90%;
+    height: 100px;
+    font-size:14px;
+    border: none;
+    box-shadow: 0 0 20px #C0C0C0;
+}
+#appenddql table tr td textarea {
+    width: 90%;
+    height: 100px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0 0 20px #C0C0C0;
+}
+#appendbtn_sql {
+    text-align: center;
+    margin-top: 30px;
+}
+#appendbtn_sql a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
+#appendbtn_dql {
+    text-align: center;
+    margin-top: 30px;
+}
+#appendbtn_dql a {
+        width: 80px;
+        border: 1px solid #1db0b8;
+        color: #1db0b8;
+}

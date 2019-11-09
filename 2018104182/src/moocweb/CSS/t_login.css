@@ -1,0 +1,62 @@
+:focus{
+    outline: none;
+}
+body{
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+#title{
+    margin:100px auto 0 auto;
+    text-align: center;
+    color: white;
+    font-size: 50px;
+    font-weight: 900;
+    text-shadow: 0px 0px 20px #000000;
+}
+#login{
+    font-weight: bold;
+    margin: 80px auto;
+    box-shadow:0 0 20px #0033CC;
+}
+#form{
+    padding: 10px 60px 10px 60px;
+}
+#loginbtn{
+    padding-top: 13px;
+}
+#loginbtn a{
+    width:100%;height:32px;
+}
+#rtvpwdbtn{
+    padding: 10px 10px 5px 10px;
+    text-align: center
+}
+#rtvpwdbtn a{
+    text-decoration: none;color: #000;
+}
+:focus{
+    outline: none;   /*去掉点击时的虚线*/
+}
+#copyRight{
+    width: 100%;
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+#rtvpwd{
+    width:400px;
+    height: 200px;
+    padding:5px;
+    font-weight: bold;
+}
+#rtvpwd table{
+    margin: 10px 50px 10px 50px;
+}
+#southbtn{
+    text-align:right;padding:5px 0 0;
+}
+#southbtn a{
+    width:100px
+}

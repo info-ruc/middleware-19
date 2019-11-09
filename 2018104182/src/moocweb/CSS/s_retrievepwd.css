@@ -1,0 +1,19 @@
+:focus{
+    outline: none;
+}
+#ff{
+    padding: 50px 100px;
+    text-align: center;
+}
+.easyui-passwordbox{
+    width: 300px;
+}
+#btn{
+    margin-top: 50px;
+    text-align: center;
+}
+#btn a{
+    width: 80px;
+    border: 1px solid #1db0b8;
+    color: #1db0b8;
+}
