@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4477bb8b8bbd4d3cae23a3d34089f55f" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="moocModel.class" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.college_info" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.qbase_chapter" Width="1.5" PointX="7.5" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.qbase_set" Width="1.5" PointX="5.25" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.question" Width="1.5" PointX="9.75" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_class" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_info" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.teacher_class" Width="1.5" PointX="10.5" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.teacher_info" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.user_account" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK__stu_class__class__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__teacher_c__class__236943A5" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__stu_info__colleg__1CBC4616" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__teacher_i__colle__245D67DE" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__qbase_cha__set_i__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__question__chap_i__37A5467C" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__stu_class__stu_i__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="moocModel.FK__teacher_c__tea_i__22751F6C" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="moocModel.NOTICE" Width="1.5" PointX="5.25" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.notice_stu_class" Width="1.5" PointX="7.5" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.class_id_nsc" />
+        <AssociationConnector Association="moocModel.notice_id_nsc" />
+        <AssociationConnector Association="moocModel.notice_tea_id" />
+        <AssociationConnector Association="moocModel.stu_id_nsc" />
+        <EntityTypeShape EntityType="moocModel.teainfo" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.classinfo" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_class_ToTable_1" />
+        <EntityTypeShape EntityType="moocModel.StuClass" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_qbase_set_ToTable" />
+        <EntityTypeShape EntityType="moocModel.background" Width="1.5" PointX="5.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.qbasechapter" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.qbaseset" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK__qbase_cha__back___17036CC0" />
+        <EntityTypeShape EntityType="moocModel.ques" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.ques_judge" Width="1.5" PointX="12" PointY="21.625" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_ques_judge_ToTable" />
+        <EntityTypeShape EntityType="moocModel.teapaper" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.paper" Width="1.5" PointX="5.25" PointY="26.125" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_paper_ToTable" />
+        <EntityTypeShape EntityType="moocModel.paperquestion" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.paper_ques" Width="1.5" PointX="12" PointY="24.375" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK__paper_que__paper__53D770D6" />
+        <AssociationConnector Association="moocModel.FK__paper_que__ques___54CB950F" />
+        <EntityTypeShape EntityType="moocModel.exam" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.exam_class" Width="1.5" PointX="10.5" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.exam_paper" Width="1.5" PointX="7.5" PointY="26.5" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_exam_class_Toclass" />
+        <AssociationConnector Association="moocModel.FK_exam_class_Toexam" />
+        <AssociationConnector Association="moocModel.FK_exam_paper_Toexam" />
+        <AssociationConnector Association="moocModel.FK_exam_paper_Topaper" />
+        <EntityTypeShape EntityType="moocModel.examclass" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.practiceclass" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stuinfo" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stuexam" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stupaperques" Width="1.5" PointX="12.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stupaperques_prac" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_ans_count" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.paper_ques_count" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stupaperques_exam" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.feedback" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.quesanswer" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_ans_log" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_paperques" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
+        <AssociationConnector Association="moocModel.FK_stu_ans_log_Toexam_class" />
+        <AssociationConnector Association="moocModel.FK_qpe_to_pq" />
+        <AssociationConnector Association="moocModel.FK_stu_ans_log_Topaper_ques" />
+        <AssociationConnector Association="moocModel.FK_stu_ans_log_Tostu_info" />
+        <AssociationConnector Association="moocModel.FK_spq_to_stu_info" />
+        <EntityTypeShape EntityType="moocModel.examfeedback" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.stu_ans_score" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.exampaper" Width="1.5" PointX="16.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="moocModel.timeless" Width="1.5" PointX="14.75" PointY="21.625" />
+        <AssociationConnector Association="moocModel.FK_time_exam_class" />
+        <AssociationConnector Association="moocModel.FK_time_stu_info" />
+        <EntityTypeShape EntityType="moocModel.stu_exam_right_answer" Width="1.5" PointX="17.375" PointY="13.75" />
+        <EntityTypeShape EntityType="moocModel.userapply" Width="1.5" PointX="17.375" PointY="18.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
