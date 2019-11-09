@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考试统计情况</title>
+    <script src="jQuery easyUI/jquery.min.js"></script>
+    <script src="jQuery easyUI/jquery.easyui.min.js"></script>
+    <script src="jQuery easyUI/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" href="jQuery easyUI/themes/material-teal/easyui.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+    <script src="echarts/echarts.js"></script>
+    <link rel="stylesheet" href="CSS/t_echarts.css">
+
+</head>
+<body style="background-color:#f2f2f2;">
+    <div class="content">
+        <div id="score"></div>
+        <script>
+            var sChart = echarts.init(document.getElementById('score'));
+            var sOption = {
+                backgroundColor: 'white',
+                title : {
+                    text: '成绩统计',
+                    left: 40,
+                    top: 25,
+                    textStyle:{
+                        fontSize: 23
+                    }
+                },
+                grid: {
+                    height: 430,
+                    width: 'auto',
+                    top: 100
+                },
+                tooltip : {
+                    trigger: 'axis'
+                },
+                legend: {
+                    orient: 'horizontal',
+                    top: 30,
+                    right: 80,
+                    itemGap: 20,
+                    itemWidth: 13,
+                    itemHeight: 13,
+                    data: [
+                        {
+                            name: '0分',
+                            textStyle:{
+                                color: '#b34038'
+                            }
+                        },
+                        {
+                            name: '1-6分',
+                            textStyle:{
+                                color: '#384b5a'
+                            }
+                        },
+                        {
+                            name: '7-10分',
+                            textStyle:{
+                                color: '#6f9fa7'
+                            }
+                        }]
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        name: '题目',
+                        boundaryGap: true,
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid'
+                            }
+                        },
+                        axisTick: {
+                            inside: true
+                        },
+                        splitLine: {
+                            show: false
+                        },
+                        data : ['1', '2', '3', '4', '5', '6', '7','8','9','10']
+                    }
+                ],
+                yAxis : [
+                    {
+                        type: 'value',
+                        name: '人数',
+                        minInterval: 1,
+                        axisTick: {
+                            inside: true
+                        },
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                type: 'dotted'
+                            }
+                        }
+                    }
+                ],
+                series : [{
+                    type: 'bar',
+                    name: '0分',
+                    data: [0,3,2,2,5,6,7,8,2,6]
+
+                },{
+                    type: 'bar',
+                    name: '1-6分',
+                    data: [2,3,4,3,2,2,2,2,3,2]
+
+                },{
+                    type: 'bar',
+                    name: '7-10分',
+                    data: [38,34,34,35,33,32,31,30,35,32]
+                }]
+            };
+            sChart.setOption(sOption);
+        </script>
+        <div id="total"></div>
+        <script>
+            var tChart = echarts.init(document.getElementById('total'));
+            var tOption = {
+                backgroundColor: 'white',
+                title: {
+                    text: '答题情况',
+                    left: 'center',
+                    top: 30,
+                    textStyle:{
+                        fontSize: 23
+                    }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'horizontal',
+                    bottom: 10,
+                    left: 'center',
+                    itemGap: 40,
+                    itemWidth: 13,
+                    itemHeight: 13,
+                    data: [
+                        {
+                            name: '已作答',
+                            textStyle:{
+                                color: '#b34038'
+                            }
+                        },
+                        {
+                            name: '未作答',
+                            textStyle:{
+                                color: '#384b5a'
+                            }
+                        },
+                        {
+                            name: '正在作答',
+                            textStyle:{
+                                color: '#6f9fa7'
+                            }
+                        }]
+                },
+                series: {
+                    type: 'pie',
+                    radius: '60%',
+                    center: ['50%', '50%'],
+                    selectedMode: 'single',
+                    data: [
+                        {name: '已作答',value: 8},
+                        {name: '未作答',value: 5},
+                        {name: '正在作答',value: 20}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            };
+            tChart.setOption(tOption);
+        </script>
+    </div>
+    <div class="stu">
+        <div id="stuInfo">
+            <div class="stuName">
+                <p>请选择学生姓名：</p>
+                <div class="slt">
+                    <select class="easyui-combobox" style="width: 100%; ">
+                        <option value="a">学生1</option>
+                        <option value="b">学生2</option>
+                        <option value="c">学生3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="stuCtt">
+        <div id="stuScore"></div>
+        <script>
+            var ssChart = echarts.init(document.getElementById('stuScore'));
+            var ssOption = {
+                backgroundColor: 'white',
+                title: {
+                    text: '学生1-成绩',
+                    left: 40,
+                    top: 25,
+                    textStyle:{
+                        fontSize: 23
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b} : {c}分'
+                },
+                grid: {
+                    height: 350,
+                    width: 600,
+                    top: 110,
+                    left: 70,
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    name: '题目',
+                    boundaryGap: false,
+                    data: ['第一题','第二题','第三题','第四题','第五题','第六题','第七题','第八题','第九题','第十题']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '分数'
+                },
+                series: [
+                    {
+                        name:'成绩',
+                        type:'line',
+                        data:[10,10,7,8,9,10,7,8,10,9]
+                    }
+                ]
+            };
+            ssChart.setOption(ssOption);
+        </script>
+        <div id="stuTime"></div>
+        <script>
+            var stChart = echarts.init(document.getElementById('stuTime'));
+            var stOption = {
+                backgroundColor: 'white',
+                title: {
+                    text: '学生1-时间',
+                    left: 40,
+                    top: 25,
+                    textStyle:{
+                        fontSize: 23
+                    }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b} : {c}秒'
+                },
+                grid: {
+                    height: 350,
+                    width: 600,
+                    top: 110,
+                    left: 70,
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    name: '题目',
+                    boundaryGap: false,
+                    data: ['第一题','第二题','第三题','第四题','第五题','第六题','第七题','第八题','第九题','第十题']
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '时长(秒)'
+                },
+                series: [
+                    {
+                        name:'时长',
+                        type:'line',
+                        data:[300,400,381,429,483,390,490,379,423,376]
+                    }
+                ]
+            };
+            stChart.setOption(stOption);
+        </script>
+    </div>
+</body>
+</html>
