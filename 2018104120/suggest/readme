@@ -1,0 +1,39 @@
+1、两个app ，一个是user，一个是用力处理创意的sug
+   一个主函数，suggest下的views.py
+    
+2、在提交创意前需要处理一下代码
+    （1）进入user下的view.py中，找selove_sug这个函数注释掉下面两句代码
+        now_last = Sug.objects.all().order_by('-id')[0].id
+        filename = now_last + 1
+     (2) 插入一条创意后在把这两行注释打开即可
+
+3.在 settings.py 中修改数据库配置
+    以下是我自己的设置参数
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'chuangyi',
+            'USER': 'root',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'PASSWORD': 'xiaolong',
+            'CHARSET':'UTF8'
+        }
+    }
+
+4、需要执行模型的迁移,这样数据库中就会生成相应的表格
+    第一、python3 manage.py makemigrations sug
+    第二、python3 manage.py makemigrations user
+    第三、python3 manage.py migrate sug
+    第四、python3 manage.py migrate user
+    第五、python3 manage.py migrate
+
+5、创建超级管理员用户
+    python3 manage.py createsuperuser 回车
+    输入账号、密码、邮箱
+
+    已创建的超级用户，需要自己创建
+    ruogu
+    qaz123456
+
+6、修改下载路径，在user 下的views.py 文件中的 load 函数中修改
