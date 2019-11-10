@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.sxu.model.Tongzhi" table="tongzhi">
+		<id name="id" type="long">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+
+
+
+		<property name="title" type="string">
+			<column name="title" />
+		</property>
+        <property name="uid" type="int">
+			<column name="uid" />
+		</property>
+
+		<property name="contents" type="string">
+			<column name="contents" />
+		</property>
+        <property name="uname" type="string">
+			<column name="uname" />
+		</property>
+ 
+
+	</class>
+</hibernate-mapping>
