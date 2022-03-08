@@ -327,7 +327,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
-			<version>3.11</version>
+			<version>5.2.1</version>
 		</dependency>
 
 <!-- 		<dependency>
