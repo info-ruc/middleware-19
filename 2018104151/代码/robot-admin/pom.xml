@@ -282,7 +282,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.11</version>
+			<version>4.1.1</version>
 		</dependency>
 
 		<!-- <dependency> <groupId>not find</groupId> <artifactId>poi-examples</artifactId> 
